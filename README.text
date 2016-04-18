@@ -11,14 +11,14 @@ More licence information for the project will be added here.
 
 ## The file structure of the project is as follows:
 
-  - __ README.txt        This file you are currently reading.                               <br />
-  - __ Makefile:         The Main make file of the project.                                 <br />
-  - __ TODO.txt          The current ToDo list.                                             <br />
-  - __ doc:              The directory containing documentation files of the project.       <br />
-  - __ inc:              The directory for the include files.                               <br />
-  - __ src:              The directory for the source files.                                <br />
-  - __ lib:              The directory for any librarys and third part source files.        <br />
-  - __ bin:              The binary file that holds the executables built by the make file. <br />
+  - __ README.txt        This file you are currently reading.                               
+  - __ Makefile:         The Main make file of the project.                                 
+  - __ TODO.txt          The current ToDo list.                                             
+  - __ doc:              The directory containing documentation files of the project.       
+  - __ inc:              The directory for the include files.                               
+  - __ src:              The directory for the source files.                                
+  - __ lib:              The directory for any librarys and third part source files.        
+  - __ bin:              The binary file that holds the executables built by the make file. 
 
 ## How to build this project
 More information will be added.
