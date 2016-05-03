@@ -30,19 +30,19 @@ More information will be added.
 Requirements for the project to build and run will be added here
 
 ## Forecasted tasks:
-* Modeling a building of the museum.
-* Modeling room
-* Modeling external environment(nice garden)
-* Modeling the sun
-* Modeling the door to the museum
-* Inside the room there will be figures/objects at every fixed distance next to the walls of the room.
+* Modelling room
 * There will be lights in the room pointing to the objects.
-* There will be texts on top of the objects that shortly describe them.
-* At the center of the room we may have objects also.
-* The environment and each object will be illuminated taking into account all the right sources
+* Modelling a building of the museum.
+* Inside the room there will be figures/objects(glut's) at every fixed distance next to the walls of the room.
+* Windows for the room.
+* Manipulating the objects.
+* Holding objects
+* Wandering the room
+* Collision detection
+* Modelling the door to the museum
+* - Modelling external environment(nice garden)
+* - Modelling the sun
+* - There will be texts on top of the objects that shortly describe them.
+* - At the center of the room we may have objects also.
+* - The environment and each object will be illuminated taking into account all the right sources
 reaching it.
-
-## Operations in the museum.
-* Starting at the main gate of the museum, a user 'moves' towards the museum and enters it.
-* The user wanders the room.
-* Examines the objects at different angles, rotates them, reads the text explaining those objects
