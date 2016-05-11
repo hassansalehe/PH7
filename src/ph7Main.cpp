@@ -20,6 +20,9 @@
 // include the initialization function
 #include "Init.h"
 
+// include the keyboard Keyboard callbacks.
+#include "Keyboard.h"
+
 /**
  * The main function. It initializes the OpenGL library and Glut.
  */
@@ -45,13 +48,12 @@ int main( int argc, char **argv )
     PH7initialize();
 
     // Register keyboard and mouse event functions
-    glutKeyboardFunc( NULL );
-    glutSpecialFunc( NULL );
+    glutKeyboardFunc( KeyboardCallbacks );
+    glutSpecialFunc( KeyboardSpecialKeys );
     glutReshapeFunc( NULL );
     glutMouseFunc( NULL );
-    glutDisplayFunc( NULL );
-    glutIdleFunc( NULL );
-    glutDisplayFunc( NULL );
+    glutIdleFunc( idleRedisplay );
+    glutDisplayFunc( displayMuseum );
 
     // loop indefinitely
     glutMainLoop();

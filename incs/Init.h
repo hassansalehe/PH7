@@ -18,5 +18,7 @@
 #define PH7_INIT
 
 void PH7initialize();
+void displayMuseum();
+void idleRedisplay();
 
 #endif

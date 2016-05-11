@@ -9,25 +9,19 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 //
-//   This is file implements the initialization function of the program.
+// Implements the basic functionalities of an object
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "Init.h"
-#include "Room.h"
+#ifndef OBJECT_CLASS_
+#define OBJECT_CLASS_
 
-Room room;
+class Object {
+public:
+  void initialize();
+  void display();
+  void idle();
+        
+};
 
-void PH7initialize() {
-
-  room.initialize();
-  room.display();
-}
-
-void displayMuseum() {
-  room.display();
-}
-
-void idleRedisplay() {
-  room.idle();
-}
+#endif // end object class

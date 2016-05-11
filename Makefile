@@ -4,9 +4,9 @@
 GLFLGS = -lm -lglut -lGLEW -lGL -lGLU
 
 # list of G++ compiler flags
-CXXFLGS = -g -O2 -Wall
+CXXFLGS = -g -O2 -Wall -std=c++11
 
-MODULES= src/Init.cpp
+MODULES= src/Init.cpp src/Keyboard.cpp
 
 # the path of include files
 INCLUDES= -I./incs -I./libs/Angel/include
