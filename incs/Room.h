@@ -150,6 +150,14 @@ class Room: public Object {
              // RotateZ( Theta[Zaxis] )
                          );
 
+      mat4 scale = Scale( scaleFactor, scaleFactor, scaleFactor );
+      vec3 viewer_pos = vec3( 0.0, 0.0, 2.45 );
+      model_view = ( Translate( -viewer_pos ) * scale * Translate( displacement ) *
+              RotateX( Theta[Xaxis] ) *
+              RotateY( Theta[Yaxis] ) // *
+             // RotateZ( Theta[Zaxis] )
+                         );
+
       glUniformMatrix4fv( ModelView, 1, GL_TRUE, model_view );
       glDrawArrays( GL_TRIANGLES, 0, numVertices );
 
@@ -191,7 +199,5 @@ class Room: public Object {
       delete points;
     }
 };
-
-extern Room room;
 
 #endif // end room

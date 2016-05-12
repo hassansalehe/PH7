@@ -76,6 +76,12 @@ public:
       objects[i]->idle();
   }
 
+  void reshape(int w, int h){
+
+    for(GLuint i = 0; i < objectCount; i++)
+      objects[i]->reshape(w, h);
+  }
+
 
   /**
    * Propagates the rotation angle along y-axis to all the museum
@@ -93,6 +99,16 @@ public:
   void rotateUp(GLfloat delta) {
     for(GLuint i = 0; i < objectCount; i++)
       objects[i]->rotateUp(delta);
+  }
+
+  void zoomOut(GLfloat delta) {
+    for(GLuint i = 0; i < objectCount; i++)
+      objects[i]->zoomOut(delta);
+  }
+
+  void zoomIn(GLfloat delta) {
+    for(GLuint i = 0; i < objectCount; i++)
+      objects[i]->zoomIn(delta);
   }
 };
 

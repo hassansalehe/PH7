@@ -43,11 +43,12 @@ protected:
   color4 * colors;
 
   int vertexIndex;
+  float scaleFactor = 1.0;
 
   // Array of rotation angles (in degrees) for each coordinate axis
   enum { Xaxis = 0, Yaxis = 1, Zaxis = 2, NumAxes = 3 };
   int  Axis = Yaxis;
-  GLfloat  Theta[NumAxes] = { 5.0, 0.0, 0.0 };
+  GLfloat  Theta[NumAxes] = { 20.0, 0.0, 0.0 };
 
   color4 blue = color4( 0.0, 0.0, 1.0, 1.0 );  // blue
   color4 black = color4( 0.0, 0.0, 0.0, 1.0 );  // black
@@ -56,8 +57,25 @@ public:
   virtual void initialize(GLuint program) = 0;
   virtual void display(GLuint program) = 0;
   virtual void idle() = 0;
+
+  void reshape(int w, int h) {
+
+    glViewport( 0, 0, w, h );
+    mat4  projection = Perspective(45.0, (double)w / (double)h, 1.0, 200.0);
+    glUniformMatrix4fv( Projection, 1, GL_TRUE, projection );
+  }
+
   virtual void rotateLeft( GLfloat delta ) = 0;
   virtual void rotateUp(  GLfloat delta ) = 0;
+
+
+  void zoomOut(GLfloat delta) {
+    scaleFactor += delta;
+  }
+
+  void zoomIn(GLfloat delta) {
+    scaleFactor -= delta;
+  }
 
 };
 

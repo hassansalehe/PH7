@@ -14,6 +14,12 @@ void KeyboardCallbacks(unsigned char key, int x, int y){
       hsLog( "I hope you enjoyed using it.\n" );
       exit( 0 );
         break;
+    case 'z':
+      museum.zoomOut(0.01);
+      break;
+    case 'Z':
+      museum.zoomIn(0.01);
+      break;
   }
 }
 

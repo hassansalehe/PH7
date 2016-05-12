@@ -94,8 +94,8 @@ class Roof: public Object {
       Projection = glGetUniformLocation( program, "Projection" );
 
       // Set projection matrix
-      mat4  projection = Ortho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
-      //projection = Perspective( 45.0, 1.0, 0.5, 3.0 );
+      //mat4  projection = Ortho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
+      mat4 projection = Perspective( 45.0, 1.0, 0.5, 3.0 );
       glUniformMatrix4fv( Projection, 1, GL_TRUE, projection );
 
       // Enable hiddden surface removal
@@ -127,6 +127,14 @@ class Roof: public Object {
              // RotateZ( Theta[Zaxis] )
                          );
 
+      mat4 scale = Scale( scaleFactor, scaleFactor, scaleFactor );
+      vec3 viewer_pos = vec3( 0.0, 0.0, 2.45 );
+      model_view = ( Translate( -viewer_pos ) * scale * Translate( displacement ) *
+              RotateX( Theta[Xaxis] ) *
+              RotateY( Theta[Yaxis] ) // *
+             // RotateZ( Theta[Zaxis] )
+                         );
+
       glUniformMatrix4fv( ModelView, 1, GL_TRUE, model_view );
       glDrawArrays( GL_TRIANGLES, 0, numVertices );
 
@@ -145,6 +153,7 @@ class Roof: public Object {
 
       glutPostRedisplay();
     }
+
     void rotateLeft(float delta) {
 
       Theta[Yaxis] += delta;
@@ -168,7 +177,5 @@ class Roof: public Object {
       delete points;
     }
 };
-
-extern Roof roof;
 
 #endif // end room

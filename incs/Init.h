@@ -30,4 +30,6 @@ void displayMuseum();
 // stub for glutIdleFunc
 void idleRedisplay();
 
+void reshapeMuseum(int w, int h);
+
 #endif
