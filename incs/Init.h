@@ -9,16 +9,25 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 //
-// prototype for the initialization function. This function my be too big,
-// deserving a separate cpp file.
+// Defines stubs for the callback functions used by OpenGL and Glut.
+// Their implementations are in Init.cpp
 //
 ///////////////////////////////////////////////////////////////////////////////
 
 #ifndef PH7_INIT
 #define PH7_INIT
 
+#include "Museum.h"
+
+extern Museum museum;
+
+// function for initializing the museum
 void PH7initialize();
+
+// stub for glutDisplayFunc
 void displayMuseum();
+
+// stub for glutIdleFunc
 void idleRedisplay();
 
 #endif

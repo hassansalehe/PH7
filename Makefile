@@ -8,6 +8,9 @@ CXXFLGS = -g -O2 -Wall -std=c++11
 
 MODULES= src/Init.cpp src/Keyboard.cpp
 
+# dependent headers
+HEADERS=./incs/*.h
+
 # the path of include files
 INCLUDES= -I./incs -I./libs/Angel/include
 
@@ -24,8 +27,8 @@ EXEC=ph7Museum
 all: $(EXEC)
 
 # build the final execuatable
-$(EXEC): InitShader.o $(SRC)/ph7Main.cpp $(MODULES)
-	echo "PH7: Initial makefile."
+$(EXEC): InitShader.o $(SRC)/ph7Main.cpp $(MODULES) $(HEADERS)
+	echo "PH7: Building the virtual museum ..."
 	g++ -o $(EXEC) $(INCLUDES) InitShader.o $(SRC)/ph7Main.cpp $(MODULES) $(CXXFLGS) $(GLFLGS)
 
 # compile the init shader, the InitShader code is used as is from Angel

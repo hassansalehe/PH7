@@ -14,12 +14,20 @@ More licence information for the project will be added here.
   - _ README.txt        This file you are currently reading.
   - _ Makefile:         The Main make file of the project.
   - _ TODO.txt          The current ToDo list.
+  -   MuseumFshader.glsl The fragments shader of the museum.
+  - MuseumVshader.glsl   The vertex shader of the museum.
   - _ docs:              The directory containing documentation files of the project.
   - _ incs:              The directory for the include files.
   - _ _ _ _ _ Init.h       The header file for functions implemented in Init.cpp.
+  - _ _ _ _ _ Keyboard.h   The header file for mouse and Keyboard functions.
+  - _ _ _ _ _ Object.h     Contains the base class for all museum objects.
+  - _ _ _ _ _ Roof.h       Implements the roof of the museum.
+  - _ _ _ _ _ Room.h       Implements the room of the museum.
+  - _ _ _ _ _ Museum.h       The header file for functions necessary for rendering all the objects.
   - _ src:               The directory for the source files.
   - _ _ _ _ _ Init.cpp     Source code for initializing the shader programs.
   - _ _ _ _ _ ph7Main.cpp  Source code containing the main function for OpenGL and Glut.
+  -           Keyboard.cpp Implements the mouse and Keyboard events callbacks.
   - _ libs:              The directory for any librarys and third part source files.
   - _ bin:              The binary file that holds the executables built by the make file.
 

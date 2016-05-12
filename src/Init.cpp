@@ -14,20 +14,22 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "Init.h"
-#include "Room.h"
 
-Room room;
+Museum museum;
 
 void PH7initialize() {
-
-  room.initialize();
-  room.display();
+  museum.initialize();
 }
 
 void displayMuseum() {
-  room.display();
+
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+  museum.display();
+
+  glutSwapBuffers();
 }
 
 void idleRedisplay() {
-  room.idle();
+  museum.idle();
 }
