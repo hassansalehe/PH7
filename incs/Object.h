@@ -47,7 +47,7 @@ protected:
   // Array of rotation angles (in degrees) for each coordinate axis
   enum { Xaxis = 0, Yaxis = 1, Zaxis = 2, NumAxes = 3 };
   int  Axis = Yaxis;
-  GLfloat  Theta[NumAxes] = { -5.0, 0.0, 0.0 };
+  GLfloat  Theta[NumAxes] = { 5.0, 0.0, 0.0 };
 
   color4 blue = color4( 0.0, 0.0, 1.0, 1.0 );  // blue
   color4 black = color4( 0.0, 0.0, 0.0, 1.0 );  // black

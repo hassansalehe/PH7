@@ -9,7 +9,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 //
-// This header file holds all the museum objects in form of a tree. 
+// This header file holds all the museum objects in form of a tree.
 // Moreover, it contains all necessary functions to manipulate these objects.
 // See Init.cpp for how the "Museum" class is used.
 //
@@ -24,30 +24,23 @@
 
 // create the museum class
 class Museum {
-  
+
 private:
   Object ** objects;  // pointer to hold objects
   GLuint objectCount; // total number of objects
   GLuint program;     // pointer to program
 
 public:
-  
-  /**
-   * The constructor initializes the museum program
-   * by reading the shaders.
-   */
-  Museum() {
-    // Load shaders and use the resulting shader program
-    program = InitShader( "MuesumVshader.glsl", "MuesumFshader.glsl" );
-  }
-  
-  
+
   /**
    * Initializes the objects of the museum.
-   * Each new museum object is added here. 
+   * Each new museum object is added here.
    */
   void initialize() {
-    
+
+  // Load shaders and use the resulting shader program
+  program = InitShader( "MuseumVshader.glsl", "MuseumFshader.glsl" );
+
   objectCount = 2;
   objects = new Object*[objectCount];
 
@@ -57,13 +50,13 @@ public:
   // initialize the objects
   for(GLuint i = 0; i < objectCount; i++)
     objects[i]->initialize(program);
-  
+
   // display the objects
   for(GLuint i = 0; i < objectCount; i++)
     objects[i]->display(program);
   }
-  
-  
+
+
   /**
    * This stub calls all display functions of the objects
    */
@@ -73,8 +66,8 @@ public:
     for(GLuint i = 0; i < objectCount; i++)
       objects[i]->display(program);
   }
-  
-  
+
+
   /**
    * Launches the idle functions of each object
    */
@@ -82,8 +75,8 @@ public:
     for(GLuint i = 0; i < objectCount; i++)
       objects[i]->idle();
   }
-  
-  
+
+
   /**
    * Propagates the rotation angle along y-axis to all the museum
    * objects.
@@ -92,7 +85,7 @@ public:
     for(GLuint i = 0; i < objectCount; i++)
       objects[i]->rotateLeft(delta);
   }
-  
+
   /**
    * Propagates the rotation angle along x-axis to all the museum
    * objects.
