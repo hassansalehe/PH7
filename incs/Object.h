@@ -48,7 +48,7 @@ protected:
   // Array of rotation angles (in degrees) for each coordinate axis
   enum { Xaxis = 0, Yaxis = 1, Zaxis = 2, NumAxes = 3 };
   int  Axis = Yaxis;
-  GLfloat  Theta[NumAxes] = { 20.0, 0.0, 0.0 };
+  GLfloat  Theta[NumAxes] = { 5.0, 0.0, 0.0 };
   GLfloat  Distance[NumAxes] = { 0.0, 0.0, 0.0 };
 
   color4 blue = color4( 0.0, 0.0, 1.0, 1.0 );  // blue
@@ -56,7 +56,44 @@ protected:
 
 public:
   virtual void initialize(GLuint program) = 0;
-  virtual void display(GLuint program) = 0;
+  void display( GLuint program )
+  {
+    glBindVertexArray( vao );
+    glBindBuffer( GL_ARRAY_BUFFER, buffer );
+
+    // set up vertex arrays
+    //GLuint vPosition = glGetAttribLocation( program, "vPosition" );
+    //glEnableVertexAttribArray( vPosition );
+    //glVertexAttribPointer( vPosition, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0) );
+
+    //GLuint vColor = glGetAttribLocation( program, "vColor" );
+    //glEnableVertexAttribArray( vColor );
+    // glVertexAttribPointer( vColor, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(points_size) );
+
+    //  Generate tha model-view matrix
+    mat4 scale = Scale( scaleFactor, scaleFactor, scaleFactor );
+    const vec3 displacement( Distance[Xaxis], Distance[Yaxis], Distance[Zaxis] );
+    mat4  model_view = ( scale * Translate( displacement ) *
+	    RotateX( Theta[Xaxis] ) *
+	    RotateY( Theta[Yaxis] ) // *
+	    // RotateZ( Theta[Zaxis] )
+			);
+    /* // For perspective projection
+    vec3 viewer_pos = vec3( 0.0, 0.0, 2.45 );
+    model_view = ( Translate( -viewer_pos ) * scale * Translate( displacement ) *
+	    RotateX( Theta[Xaxis] ) *
+	    RotateY( Theta[Yaxis] ) // *
+	    // RotateZ( Theta[Zaxis] )
+			);
+    */
+    glUniformMatrix4fv( ModelView, 1, GL_TRUE, model_view );
+    glDrawArrays( GL_TRIANGLES, 0, numVertices );
+
+    glBindVertexArray( 0 );
+    //glDisableVertexAttribArray(vPosition);
+    //glDisableVertexAttribArray(vColor);
+  }
+
   virtual void idle() = 0;
 
   void reshape(int w, int h) {
@@ -79,12 +116,12 @@ public:
   }
 
   void moveForward(  GLfloat delta ) {
-      printf("moving room\n");
-      if( delta>0 )
-       scaleFactor+=0.02;
-       Distance[Zaxis] += delta;
-       glutPostRedisplay();
-}
+    printf("moving room\n");
+	Distance[Zaxis] += delta;
+	scaleFactor += delta;
+
+	glutPostRedisplay();
+  }
 
 };
 

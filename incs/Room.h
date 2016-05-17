@@ -129,44 +129,9 @@ class Room: public Object {
       glClearColor( 1.0, 1.0, 1.0, 1.0 );
     }
 
-    void display( GLuint program )
-    {
-      glBindVertexArray( vao );
-      glBindBuffer( GL_ARRAY_BUFFER, buffer );
-      // set up vertex arrays
-      //GLuint vPosition = glGetAttribLocation( program, "vPosition" );
-      //glEnableVertexAttribArray( vPosition );
-      //glVertexAttribPointer( vPosition, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0) );
-
-      //GLuint vColor = glGetAttribLocation( program, "vColor" );
-     // glEnableVertexAttribArray( vColor );
-     // glVertexAttribPointer( vColor, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(points_size) );
-
-      //  Generate tha model-view matrix
-      mat4 scale = Scale( scaleFactor, scaleFactor, scaleFactor );
-      const vec3 displacement( 0.0, 0.0, 0.0 );
-      mat4  model_view = ( scale * Translate( displacement ) *
-              RotateX( Theta[Xaxis] ) *
-              RotateY( Theta[Yaxis] ) // *
-             // RotateZ( Theta[Zaxis] )
-                         );
-
-      /* // For Perspective projection
-      vec3 viewer_pos = vec3( 0.0, 0.0, 2.45 );
-      model_view = ( Translate( -viewer_pos ) * scale * Translate( displacement ) *
-              RotateX( Theta[Xaxis] ) *
-              RotateY( Theta[Yaxis] ) // *
-             // RotateZ( Theta[Zaxis] )
-                         );
-      */
-      glUniformMatrix4fv( ModelView, 1, GL_TRUE, model_view );
-      glDrawArrays( GL_TRIANGLES, 0, numVertices );
-
-      glBindVertexArray( 0 );
-      //glDisableVertexAttribArray(vPosition);
-      //glDisableVertexAttribArray(vColor);
-    }
-
+    /**
+	 * The idle function of the room.
+	 */
     void idle( void )
     {
       //Theta[Axis] += 0.1;
