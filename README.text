@@ -32,7 +32,7 @@ More licence information for the project will be added here.
   - _ bin:              The binary file that holds the executables built by the make file.
 
 ## How to build this project
-More information will be added.
+There is a make file at the main directory of the project. To build the project run the command `make`. This produces the executable named `ph7main`. 
 
 ## Prerequisites
 Requirements for the project to build and run will be added here
