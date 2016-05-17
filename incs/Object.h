@@ -49,6 +49,7 @@ protected:
   enum { Xaxis = 0, Yaxis = 1, Zaxis = 2, NumAxes = 3 };
   int  Axis = Yaxis;
   GLfloat  Theta[NumAxes] = { 20.0, 0.0, 0.0 };
+  GLfloat  Distance[NumAxes] = { 0.0, 0.0, 0.0 };
 
   color4 blue = color4( 0.0, 0.0, 1.0, 1.0 );  // blue
   color4 black = color4( 0.0, 0.0, 0.0, 1.0 );  // black
@@ -60,9 +61,9 @@ public:
 
   void reshape(int w, int h) {
 
-    glViewport( 0, 0, w, h );
-    mat4  projection = Perspective(45.0, (double)w / (double)h, 1.0, 200.0);
-    glUniformMatrix4fv( Projection, 1, GL_TRUE, projection );
+    //glViewport( 0, 0, w, h );
+    //mat4  projection = Perspective(45.0, (double)w / (double)h, 1.0, 200.0);
+    //glUniformMatrix4fv( Projection, 1, GL_TRUE, projection );
   }
 
   virtual void rotateLeft( GLfloat delta ) = 0;
@@ -76,6 +77,14 @@ public:
   void zoomIn(GLfloat delta) {
     scaleFactor -= delta;
   }
+
+  void moveForward(  GLfloat delta ) {
+      printf("moving room\n");
+      if( delta>0 )
+       scaleFactor+=0.02;
+       Distance[Zaxis] += delta;
+       glutPostRedisplay();
+}
 
 };
 

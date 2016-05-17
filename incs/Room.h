@@ -143,21 +143,22 @@ class Room: public Object {
      // glVertexAttribPointer( vColor, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(points_size) );
 
       //  Generate tha model-view matrix
+      mat4 scale = Scale( scaleFactor, scaleFactor, scaleFactor );
       const vec3 displacement( 0.0, 0.0, 0.0 );
-      mat4  model_view = ( Scale(1.0, 1.0, 1.0) * Translate( displacement ) *
+      mat4  model_view = ( scale * Translate( displacement ) *
               RotateX( Theta[Xaxis] ) *
               RotateY( Theta[Yaxis] ) // *
              // RotateZ( Theta[Zaxis] )
                          );
 
-      mat4 scale = Scale( scaleFactor, scaleFactor, scaleFactor );
+      /* // For Perspective projection
       vec3 viewer_pos = vec3( 0.0, 0.0, 2.45 );
       model_view = ( Translate( -viewer_pos ) * scale * Translate( displacement ) *
               RotateX( Theta[Xaxis] ) *
               RotateY( Theta[Yaxis] ) // *
              // RotateZ( Theta[Zaxis] )
                          );
-
+      */
       glUniformMatrix4fv( ModelView, 1, GL_TRUE, model_view );
       glDrawArrays( GL_TRIANGLES, 0, numVertices );
 

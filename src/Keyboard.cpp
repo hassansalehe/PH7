@@ -20,6 +20,12 @@ void KeyboardCallbacks(unsigned char key, int x, int y){
     case 'Z':
       museum.zoomIn(0.01);
       break;
+    case 'f': // for moving forward/  backwards
+      museum.moveForward(0.01);
+      break;
+    case 'F':
+      museum.moveForward(-0.01);
+      break;
   }
 }
 

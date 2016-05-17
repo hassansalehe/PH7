@@ -21,6 +21,7 @@
 #include "Object.h"
 #include "Room.h"
 #include "Roof.h"
+#include "Stand1.h"
 
 // create the museum class
 class Museum {
@@ -41,11 +42,12 @@ public:
   // Load shaders and use the resulting shader program
   program = InitShader( "MuseumVshader.glsl", "MuseumFshader.glsl" );
 
-  objectCount = 2;
+  objectCount = 3;
   objects = new Object*[objectCount];
 
   objects[0] = new Room();
   objects[1] = new Roof();
+  objects[2] = new Stand1();
 
   // initialize the objects
   for(GLuint i = 0; i < objectCount; i++)
@@ -109,6 +111,13 @@ public:
   void zoomIn(GLfloat delta) {
     for(GLuint i = 0; i < objectCount; i++)
       objects[i]->zoomIn(delta);
+  }
+  /**
+   * Move the viewer in forward direction in the museum -z Direction
+   */
+  void moveForward(GLfloat delta) {
+    for(GLuint i = 0; i < objectCount; i++)
+      objects[i]->moveForward(delta);
   }
 };
 
