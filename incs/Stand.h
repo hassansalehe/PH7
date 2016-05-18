@@ -9,7 +9,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 //
-// Implements the Stand1 of the museum
+// Implements the Stand of the museum
 //
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -18,7 +18,7 @@
 
 #include "Object.h"
 
-class Stand1: public Object {
+class Stand: public Object {
   private:
     // Vertices of a unit cube centered at origin, sides aligned with axes
     point4 vertices[8] = {
@@ -75,7 +75,7 @@ class Stand1: public Object {
 
   public:
     /**
-     * Initializes the vertices and colors of the empty Stand1 object.
+     * Initializes the vertices and colors of the empty Stand object.
      */
     void initialize(GLuint program) {
       numVertices = 24; //(7 faces)(2 triangles/face)(3 vertices/triangle)
@@ -160,10 +160,10 @@ class Stand1: public Object {
       glutPostRedisplay();
     }
 
-    ~Stand1() {
+    ~Stand() {
       delete colors;
       delete points;
     }
 };
 
-#endif // end Stand1
+#endif // end Stand

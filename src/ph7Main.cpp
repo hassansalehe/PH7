@@ -50,7 +50,7 @@ int main( int argc, char **argv )
     // Register keyboard and mouse event functions
     glutKeyboardFunc( KeyboardCallbacks );
     glutSpecialFunc( KeyboardSpecialKeys );
-    glutReshapeFunc( reshapeMuseum );
+    glutReshapeFunc( NULL /*reshapeMuseum*/ );
     glutMouseFunc( NULL );
     glutIdleFunc( idleRedisplay );
     glutDisplayFunc( displayMuseum );

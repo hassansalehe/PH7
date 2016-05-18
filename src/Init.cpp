@@ -35,5 +35,6 @@ void idleRedisplay() {
 }
 
 void reshapeMuseum(int w, int h) {
-  museum.reshape(w, h);
+  //museum.reshape(w, h);
 }
+

@@ -95,7 +95,7 @@ class Roof: public Object {
 
       // Set projection matrix
       mat4  projection = Ortho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
-      //mat4 projection = Perspective( 45.0, 1.0, 0.5, 3.0 );
+      //projection = Perspective( 45.0, 1.0, 0.5, 3.0 );
       glUniformMatrix4fv( Projection, 1, GL_TRUE, projection );
 
       // Enable hiddden surface removal
@@ -105,9 +105,36 @@ class Roof: public Object {
       glClearColor( 1.0, 1.0, 1.0, 1.0 );
     }
 
-    /**
-	 * The idle function of the roof.
-	 */
+    void display( GLuint program )
+    {
+      glBindVertexArray( vao );
+      glBindBuffer( GL_ARRAY_BUFFER, buffer );
+
+      // set up vertex arrays
+      //GLuint vPosition = glGetAttribLocation( program, "vPosition" );
+      //glEnableVertexAttribArray( vPosition );
+      //glVertexAttribPointer( vPosition, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0) );
+
+      //GLuint vColor = glGetAttribLocation( program, "vColor" );
+      //glEnableVertexAttribArray( vColor );
+     // glVertexAttribPointer( vColor, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(points_size) );
+
+      //  Generate tha model-view matrix
+      const vec3 displacement( 0.0, 0.0, 0.0 );
+      mat4  model_view = ( Scale(1.0, 1.0, 1.0) * Translate( displacement ) *
+              RotateX( Theta[Xaxis] ) *
+              RotateY( Theta[Yaxis] ) // *
+             // RotateZ( Theta[Zaxis] )
+                         );
+
+      glUniformMatrix4fv( ModelView, 1, GL_TRUE, model_view );
+      glDrawArrays( GL_TRIANGLES, 0, numVertices );
+
+      glBindVertexArray( 0 );
+      //glDisableVertexAttribArray(vPosition);
+      //glDisableVertexAttribArray(vColor);
+    }
+
     void idle( void )
     {
       //Theta[Axis] += 0.1;

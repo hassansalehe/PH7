@@ -74,17 +74,17 @@ public:
     mat4 scale = Scale( scaleFactor, scaleFactor, scaleFactor );
     const vec3 displacement( Distance[Xaxis], Distance[Yaxis], Distance[Zaxis] );
     mat4  model_view = ( scale * Translate( displacement ) *
-	    RotateX( Theta[Xaxis] ) *
-	    RotateY( Theta[Yaxis] ) // *
-	    // RotateZ( Theta[Zaxis] )
-			);
+           RotateX( Theta[Xaxis] ) *
+           RotateY( Theta[Yaxis] ) // *
+           // RotateZ( Theta[Zaxis] )
+                       );
     /* // For perspective projection
     vec3 viewer_pos = vec3( 0.0, 0.0, 2.45 );
     model_view = ( Translate( -viewer_pos ) * scale * Translate( displacement ) *
-	    RotateX( Theta[Xaxis] ) *
-	    RotateY( Theta[Yaxis] ) // *
-	    // RotateZ( Theta[Zaxis] )
-			);
+           RotateX( Theta[Xaxis] ) *
+           RotateY( Theta[Yaxis] ) // *
+           // RotateZ( Theta[Zaxis] )
+                       );
     */
     glUniformMatrix4fv( ModelView, 1, GL_TRUE, model_view );
     glDrawArrays( GL_TRIANGLES, 0, numVertices );
@@ -95,17 +95,8 @@ public:
   }
 
   virtual void idle() = 0;
-
-  void reshape(int w, int h) {
-
-    //glViewport( 0, 0, w, h );
-    //mat4  projection = Perspective(45.0, (double)w / (double)h, 1.0, 200.0);
-    //glUniformMatrix4fv( Projection, 1, GL_TRUE, projection );
-  }
-
   virtual void rotateLeft( GLfloat delta ) = 0;
   virtual void rotateUp(  GLfloat delta ) = 0;
-
 
   void zoomOut(GLfloat delta) {
     scaleFactor += delta;
@@ -117,10 +108,10 @@ public:
 
   void moveForward(  GLfloat delta ) {
     printf("moving room\n");
-	Distance[Zaxis] += delta;
-	scaleFactor += delta;
+       Distance[Zaxis] += delta;
+       scaleFactor += delta;
 
-	glutPostRedisplay();
+       glutPostRedisplay();
   }
 
 };

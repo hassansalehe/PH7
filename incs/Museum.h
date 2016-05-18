@@ -21,7 +21,7 @@
 #include "Object.h"
 #include "Room.h"
 #include "Roof.h"
-#include "Stand1.h"
+#include "Stand.h"
 
 // create the museum class
 class Museum {
@@ -47,7 +47,7 @@ public:
 
   objects[0] = new Room();
   objects[1] = new Roof();
-  objects[2] = new Stand1();
+  objects[2] = new Stand();
 
   // initialize the objects
   for(GLuint i = 0; i < objectCount; i++)
@@ -80,10 +80,9 @@ public:
 
   void reshape(int w, int h){
 
-    for(GLuint i = 0; i < objectCount; i++)
-      objects[i]->reshape(w, h);
+    //for(GLuint i = 0; i < objectCount; i++)
+    //  objects[i]->reshape(w, h);
   }
-
 
   /**
    * Propagates the rotation angle along y-axis to all the museum
