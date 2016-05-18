@@ -28,12 +28,6 @@ class Room: public Object {
       point4(  0.5,  0.5,  0.5, 1.0 ), // top right
       point4(  0.5, -0.5,  0.5, 1.0 ), // bottom right
 
-      //rear wall
-      point4( -0.5, -0.5, -0.5, 1.0 ), // bottom left
-      point4( -0.5,  0.5, -0.5, 1.0 ), // top left
-      point4(  0.5,  0.5, -0.5, 1.0 ), // top right
-      point4(  0.5, -0.5, -0.5, 1.0 ), // bottom right
-
       // front door inner vertices
       point4( -0.3, -0.4,  0.5, 1.0 ), // bottom left
       point4( -0.3,  0.4,  0.5, 1.0 ), // top left
@@ -45,6 +39,12 @@ class Room: public Object {
       point4( -0.3,  0.5,  0.5, 1.0 ), // top left
       point4(  0.3,  0.5,  0.5, 1.0 ), // top right
       point4(  0.3, -0.5,  0.5, 1.0 ), // bottom right
+
+      //rear wall
+      point4( -0.5, -0.5, -0.5, 1.0 ), // bottom left
+      point4( -0.5,  0.5, -0.5, 1.0 ), // top left
+      point4(  0.5,  0.5, -0.5, 1.0 ), // top right
+      point4(  0.5, -0.5, -0.5, 1.0 ), // bottom right
 
      /*,
       point4(  -1.0,  -1.0, 1.0, 1.0 ),
@@ -83,17 +83,17 @@ class Room: public Object {
     void colorcube() {
 
       // constructing front wall
-      quad(1, 0, 12, 13);  // left face
-      quad(8, 12, 15, 11); // bottom face
-      quad(14, 15, 3, 2);  // right face
-      quad(13, 9, 10, 14); // top face
+      quad(1, 0, 8, 9);  // left face
+      quad(4, 8, 11, 7); // bottom face
+      quad(10, 11, 3, 2);  // right face
+      quad(9, 5, 6, 10); // top face
 
       // constructing right wall
-      quad( 2, 3, 7, 6 ); // right face
+      quad( 2, 3, 15, 14 ); // right face
 
-      quad( 4, 5, 6, 7 ); // rear
+      quad( 12, 13, 14, 15 ); // rear
 
-      quad( 5, 4, 0, 1 ); // left
+      quad( 13, 12, 0, 1 ); // left
       //quad( 3, 0, 4, 7 ); // floor
       //quad( 6, 5, 1, 2 ); // roof
       //quad( 8, 9, 10, 11 );
