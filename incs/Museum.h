@@ -118,6 +118,16 @@ public:
     for(GLuint i = 0; i < objectCount; i++)
       objects[i]->moveForward(delta);
   }
+
+
+  /**
+   * Function for reseting the museum to its initial
+   * position and orientation
+   */
+  void reset() {
+    for(GLuint i = 0; i < objectCount; i++)
+      objects[i]->reset();
+  }
 };
 
 #endif // end of museum_hpp

@@ -102,10 +102,19 @@ public:
     scaleFactor += delta;
   }
 
+
+  /**
+   * For zooming in the object
+   */
   void zoomIn(GLfloat delta) {
     scaleFactor -= delta;
   }
 
+
+  /**
+   * For moving toward the museum if delta > 0
+   * and moving away if delta < 0
+   */
   void moveForward(  GLfloat delta ) {
     printf("moving room\n");
        Distance[Zaxis] += delta;
@@ -114,6 +123,16 @@ public:
        glutPostRedisplay();
   }
 
+
+  /**
+   * Resets all parameters to defult.
+   */
+  void reset() {
+    scaleFactor = 1.0;
+
+    Theta[Xaxis] = 5.0; Theta[Yaxis] = Theta[Zaxis] = 0.0;
+    Distance[Xaxis] = Distance[Yaxis] = Distance[Zaxis] = 0.0;
+  }
 };
 
 #endif // end object class

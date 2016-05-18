@@ -8,6 +8,7 @@ void KeyboardCallbacks(unsigned char key, int x, int y){
   switch(key) {
     case 'i':
     case 'I':
+      museum.reset();
       break;
     case 'q': // exiting the program
       hsLog( "The program is successfully exiting.\n" );
