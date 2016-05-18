@@ -21,15 +21,32 @@
 class Room: public Object {
   private:
     // Vertices of a unit cube centered at origin, sides aligned with axes
-    point4 vertices[8] = {
-      point4( -0.5, -0.5,  0.5, 1.0 ),
-      point4( -0.5,  0.5,  0.5, 1.0 ),
-      point4(  0.5,  0.5,  0.5, 1.0 ),
-      point4(  0.5, -0.5,  0.5, 1.0 ),
-      point4( -0.5, -0.5, -0.5, 1.0 ),
-      point4( -0.5,  0.5, -0.5, 1.0 ),
-      point4(  0.5,  0.5, -0.5, 1.0 ),
-      point4(  0.5, -0.5, -0.5, 1.0 )/*,
+    point4 vertices[16] = {
+      // front wall
+      point4( -0.5, -0.5,  0.5, 1.0 ), // bottom left
+      point4( -0.5,  0.5,  0.5, 1.0 ), // top left
+      point4(  0.5,  0.5,  0.5, 1.0 ), // top right
+      point4(  0.5, -0.5,  0.5, 1.0 ), // bottom right
+
+      //rear wall
+      point4( -0.5, -0.5, -0.5, 1.0 ), // bottom left
+      point4( -0.5,  0.5, -0.5, 1.0 ), // top left
+      point4(  0.5,  0.5, -0.5, 1.0 ), // top right
+      point4(  0.5, -0.5, -0.5, 1.0 ), // bottom right
+
+      // front door inner vertices
+      point4( -0.3, -0.4,  0.5, 1.0 ), // bottom left
+      point4( -0.3,  0.4,  0.5, 1.0 ), // top left
+      point4(  0.3,  0.4,  0.5, 1.0 ), // top right
+      point4(  0.3, -0.4,  0.5, 1.0 ), // bottom right
+
+      // front door outer vertices
+      point4( -0.3, -0.5,  0.5, 1.0 ), // bottom left
+      point4( -0.3,  0.5,  0.5, 1.0 ), // top left
+      point4(  0.3,  0.5,  0.5, 1.0 ), // top right
+      point4(  0.3, -0.5,  0.5, 1.0 ), // bottom right
+
+     /*,
       point4(  -1.0,  -1.0, 1.0, 1.0 ),
       point4(  1.0,  -1.0, 1.0, 1.0 ),
       point4(  1.0,  -0.4, -1.0, 1.0 ),
@@ -64,9 +81,18 @@ class Room: public Object {
 
     // generate 12 triangles: 36 vertices and 36 colors
     void colorcube() {
-      quad( 1, 0, 3, 2 ); // front wall
-      quad( 2, 3, 7, 6 ); // right wall
+
+      // constructing front wall
+      quad(1, 0, 12, 13);  // left face
+      quad(8, 12, 15, 11); // bottom face
+      quad(14, 15, 3, 2);  // right face
+      quad(13, 9, 10, 14); // top face
+
+      // constructing right wall
+      quad( 2, 3, 7, 6 ); // right face
+
       quad( 4, 5, 6, 7 ); // rear
+
       quad( 5, 4, 0, 1 ); // left
       //quad( 3, 0, 4, 7 ); // floor
       //quad( 6, 5, 1, 2 ); // roof
@@ -78,7 +104,7 @@ class Room: public Object {
      * Initializes the vertices and colors of the empty room object.
      */
     void initialize(GLuint program) {
-      numVertices = 24; //(7 faces)(2 triangles/face)(3 vertices/triangle)
+      numVertices = 42; // (7 faces)(2 triangles/face)(3 vertices/triangle)
       points = new point4[numVertices];
       colors = new color4[numVertices];
 

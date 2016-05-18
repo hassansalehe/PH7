@@ -3,14 +3,14 @@
 #define hsLog printf
 
 void KeyboardCallbacks(unsigned char key, int x, int y){
-  printf("Good key %c\n", key);
-  //room.display();
-  switch(key) {
+
+  switch( key ) {
     case 'i':
     case 'I':
       museum.reset();
       break;
     case 'q': // exiting the program
+    case 'Q':
       hsLog( "The program is successfully exiting.\n" );
       hsLog( "I hope you enjoyed using it.\n" );
       exit( 0 );
@@ -22,10 +22,10 @@ void KeyboardCallbacks(unsigned char key, int x, int y){
       museum.zoomIn(0.01);
       break;
     case 'f': // for moving forward/  backwards
-      museum.moveForward(0.01);
+      museum.moveForward(0.004);
       break;
     case 'F':
-      museum.moveForward(-0.01);
+      museum.moveForward(-0.004);
       break;
   }
 }
