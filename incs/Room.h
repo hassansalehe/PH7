@@ -23,59 +23,54 @@ class Room: public Object {
     // Vertices of a unit cube centered at origin, sides aligned with axes
     point4 vertices[32] = {
       // front wall
-      point4( -0.5, -0.5,  0.5, 1.0 ), // bottom left
-      point4( -0.5,  0.5,  0.5, 1.0 ), // top left
-      point4(  0.5,  0.5,  0.5, 1.0 ), // top right
-      point4(  0.5, -0.5,  0.5, 1.0 ), // bottom right
+      point4( -0.5, -0.5,  0.8, 1.0 ), // bottom left
+      point4( -0.5,  0.5,  0.8, 1.0 ), // top left
+      point4(  0.5,  0.5,  0.8, 1.0 ), // top right
+      point4(  0.5, -0.5,  0.8, 1.0 ), // bottom right
 
       // front door inner vertices
-      point4( -0.3, -0.4,  0.5, 1.0 ), // bottom left
-      point4( -0.3,  0.4,  0.5, 1.0 ), // top left
-      point4(  0.3,  0.4,  0.5, 1.0 ), // top right
-      point4(  0.3, -0.4,  0.5, 1.0 ), // bottom right
+      point4( -0.3, -0.4,  0.8, 1.0 ), // bottom left
+      point4( -0.3,  0.4,  0.8, 1.0 ), // top left
+      point4(  0.3,  0.4,  0.8, 1.0 ), // top right
+      point4(  0.3, -0.4,  0.8, 1.0 ), // bottom right
 
       // front door outer vertices
-      point4( -0.3, -0.5,  0.5, 1.0 ), // bottom left
-      point4( -0.3,  0.5,  0.5, 1.0 ), // top left
-      point4(  0.3,  0.5,  0.5, 1.0 ), // top right
-      point4(  0.3, -0.5,  0.5, 1.0 ), // bottom right
+      point4( -0.3, -0.5,  0.8, 1.0 ), // bottom left
+      point4( -0.3,  0.5,  0.8, 1.0 ), // top left
+      point4(  0.3,  0.5,  0.8, 1.0 ), // top right
+      point4(  0.3, -0.5,  0.8, 1.0 ), // bottom right
 
       //rear wall
-      point4( -0.5,  0.5, -0.5, 1.0 ), // 12 top left
-      point4(  0.5,  0.5, -0.5, 1.0 ), // 13 top right
-      point4(  0.5,  0.4, -0.5, 1.0 ), // 14 top bottom right
-      point4( -0.5,  0.4, -0.5, 1.0 ), // 15 top bottom left
+      point4( -0.5,  0.5, -0.8, 1.0 ), // 12 top left
+      point4(  0.5,  0.5, -0.8, 1.0 ), // 13 top right
+      point4(  0.5,  0.4, -0.8, 1.0 ), // 14 top bottom right
+      point4( -0.5,  0.4, -0.8, 1.0 ), // 15 top bottom left
 
-      point4( -0.5, -0.5, -0.5, 1.0 ), // 16 bottom left
-      point4( -0.5,  0.3, -0.5, 1.0 ), // 17 bottom top left
-      point4(  0.5,  0.3, -0.5, 1.0 ), // 18 bottom top right
-      point4(  0.5, -0.5, -0.5, 1.0 ), // 19 bottom right
+      point4( -0.5, -0.5, -0.8, 1.0 ), // 16 bottom left
+      point4( -0.5,  0.3, -0.8, 1.0 ), // 17 bottom top left
+      point4(  0.5,  0.3, -0.8, 1.0 ), // 18 bottom top right
+      point4(  0.5, -0.5, -0.8, 1.0 ), // 19 bottom right
 
       // left-side wall
-      point4( -0.5,  0.3, -0.5, 1.0), // rear mid-upper
-      point4( -0.5, -0.1, -0.5, 1.0), // rear mid-lower
-      point4( -0.5, -0.1,  0.5, 1.0), // front mid-lower
-      point4( -0.5,  0.3,  0.5, 1.0), // front mid-upper
+      point4( -0.5,  0.3, -0.8, 1.0), // rear mid-upper
+      point4( -0.5,  0.0, -0.8, 1.0), // rear mid-lower
+      point4( -0.5,  0.0,  0.8, 1.0), // front mid-lower
+      point4( -0.5,  0.3,  0.8, 1.0), // front mid-upper
 
       //left side wall middle left face
-      point4( -0.5,  0.3, -0.4, 1.0), // 20
-      point4( -0.5, -0.1, -0.4, 1.0), // 21
+      point4( -0.5,  0.3, -0.6, 1.0), // 20
+      point4( -0.5,  0.0, -0.6, 1.0), // 21
 
       // left side wall middle middle face
       point4( -0.5,  0.3, -0.1, 1.0), // 22
-      point4( -0.5, -0.1, -0.1, 1.0), // 23
+      point4( -0.5,  0.0, -0.1, 1.0), // 23
       point4( -0.5,  0.3,  0.1, 1.0), // 24
-      point4( -0.5, -0.1,  0.1, 1.0), // 25
+      point4( -0.5,  0.0,  0.1, 1.0), // 25
 
       // left side wall middle right face
-      point4( -0.5,  0.3,  0.4, 1.0), // 26
-      point4( -0.5, -0.1,  0.4, 1.0), // 27
+      point4( -0.5,  0.3,  0.6, 1.0), // 26
+      point4( -0.5,  0.0,  0.6, 1.0), // 27
 
-     /*,
-      point4(  -1.0,  -1.0, 1.0, 1.0 ),
-      point4(  1.0,  -1.0, 1.0, 1.0 ),
-      point4(  1.0,  -0.4, -1.0, 1.0 ),
-      point4(  -1.0,  -0.4, -1.0, 1.0 )*/
     };
 
     // RGBA olors

@@ -25,12 +25,12 @@ class Roof: public Object {
   private:
     // Vertices of a unit cube centered at origin, sides aligned with axes
     point4 vertices[6] = {
-      point4( -0.6,  0.45,  0.6, 1.0 ),
-      point4(  0.0,  0.8,  0.6, 1.0 ),
-      point4(  0.0,  0.8, -0.6, 1.0 ),
-      point4( -0.6,  0.45, -0.6, 1.0 ),
-      point4(  0.6,  0.45,  0.6, 1.0 ),
-      point4(  0.6,  0.45, -0.6, 1.0 ),
+      point4( -0.6,  0.45,  0.9, 1.0 ),
+      point4(  0.0,  0.8,  0.9, 1.0 ),
+      point4(  0.0,  0.8, -0.9, 1.0 ),
+      point4( -0.6,  0.45, -0.9, 1.0 ),
+      point4(  0.6,  0.45,  0.9, 1.0 ),
+      point4(  0.6,  0.45, -0.9, 1.0 ),
     };
 
     void quad( int a, int b, int c, int d ) {
@@ -66,7 +66,7 @@ class Roof: public Object {
       point4 fourth; // fourth vertex
 
       int num = 0;
-      for(num = 0; num < 40; num++)
+      for(num = 0; num < 60; num++)
       {
         if( num % 2 ) { // is odd
           third = upper - point4(0.0, 0.0, d, 0.0);
@@ -92,13 +92,13 @@ class Roof: public Object {
     void colorcube() {
 
       // Constructing the left roof
-      point4 lower = point4( -0.6,  0.45,  0.6, 1.0 );
-      point4 upper = point4(  0.0,  0.8,  0.6, 1.0 );
+      point4 lower = point4( -0.6,  0.45,  0.9, 1.0 );
+      point4 upper = point4(  0.0,  0.8,  0.9, 1.0 );
       construct_sheets(lower, upper); // left roof
 
       // Constructing the right roof
-      lower = point4( 0.6,  0.45,  0.6, 1.0 );
-      upper = point4(  0.0,  0.8,  0.6, 1.0 );
+      lower = point4( 0.6,  0.45,  0.9, 1.0 );
+      upper = point4(  0.0,  0.8,  0.9, 1.0 );
       construct_sheets(upper, lower); // right roof
     }
 
@@ -107,7 +107,7 @@ class Roof: public Object {
      * Initializes the vertices and colors of the empty room object.
      */
     void initialize(GLuint program) {
-      numVertices = 720; //(120 faces)(2 triangles/face)(3 vertices/triangle)
+      numVertices = 1080; //(180 faces)(2 triangles/face)(3 vertices/triangle)
       points = new point4[numVertices];
       colors = new color4[numVertices];
 
