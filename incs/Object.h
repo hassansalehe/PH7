@@ -51,8 +51,11 @@ protected:
   GLfloat  Theta[NumAxes] = { 5.0, 0.0, 0.0 };
   GLfloat  Distance[NumAxes] = { 0.0, 0.0, 0.0 };
 
-  color4 blue = color4( 0.0, 0.0, 1.0, 1.0 );  // blue
-  color4 black = color4( 0.0, 0.0, 0.0, 1.0 );  // black
+  color4 blue   = color4( 0.0, 0.0, 1.0, 1.0 );  // blue
+  color4 black  = color4( 0.0, 0.0, 0.0, 1.0 );  // black
+  color4 red    = color4( 1.0, 0.0, 0.0, 1.0 );  // red
+  color4 yellow = color4( 1.0, 1.0, 0.0, 1.0 );  // yellow
+  color4 green  = color4( 0.0, 1.0, 0.0, 1.0 );  // green
 
 public:
   virtual void initialize(GLuint program) = 0;

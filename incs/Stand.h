@@ -23,12 +23,12 @@ class Stand: public Object {
     // Vertices of a unit cube centered at origin, sides aligned with axes
     point4 vertices[8] = {
       point4( -0.4, -0.4, -0.3, 1.0 ),
-      point4( -0.4, -0.3, -0.3, 1.0 ),
-      point4( -0.3, -0.3, -0.3, 1.0 ),
+      point4( -0.4, -0.1, -0.3, 1.0 ),
+      point4( -0.3, -0.1, -0.3, 1.0 ),
       point4( -0.3, -0.4, -0.3, 1.0 ),
       point4( -0.4, -0.4, -0.4, 1.0 ),
-      point4( -0.4, -0.3, -0.4, 1.0 ),
-      point4( -0.3, -0.3, -0.4, 1.0 ),
+      point4( -0.4, -0.1, -0.4, 1.0 ),
+      point4( -0.3, -0.1, -0.4, 1.0 ),
       point4( -0.3, -0.4, -0.4, 1.0 )/*,
       point4(  -1.0,  -1.0, 1.0, 1.0 ),
       point4(  1.0,  -1.0, 1.0, 1.0 ),
@@ -38,7 +38,7 @@ class Stand: public Object {
 
     // RGBA olors
     color4 vertex_colors[8] = {
-      color4( 0.0, 0.0, 0.0, 1.0 ),  // black
+      color4( 0.0, 0.0, 0.0, 1.0 ),  // green
       color4( 1.0, 0.0, 0.0, 1.0 ),  // red
       color4( 1.0, 1.0, 0.0, 1.0 ),  // yellow
       color4( 0.0, 1.0, 0.0, 1.0 ),  // green
@@ -54,22 +54,52 @@ class Stand: public Object {
 
     void quad( int a, int b, int c, int d ) {
       // Initialize colors
-      colors[vertexIndex] = black; points[vertexIndex] = vertices[a]; vertexIndex++;
-      colors[vertexIndex] = black; points[vertexIndex] = vertices[b]; vertexIndex++;
-      colors[vertexIndex] = black; points[vertexIndex] = vertices[c]; vertexIndex++;
-      colors[vertexIndex] = black; points[vertexIndex] = vertices[a]; vertexIndex++;
-      colors[vertexIndex] = black; points[vertexIndex] = vertices[c]; vertexIndex++;
-      colors[vertexIndex] = black; points[vertexIndex] = vertices[d]; vertexIndex++;
+      colors[vertexIndex] = green; points[vertexIndex] = vertices[a]; vertexIndex++;
+      colors[vertexIndex] = green; points[vertexIndex] = vertices[b]; vertexIndex++;
+      colors[vertexIndex] = green; points[vertexIndex] = vertices[c]; vertexIndex++;
+      colors[vertexIndex] = green; points[vertexIndex] = vertices[a]; vertexIndex++;
+      colors[vertexIndex] = green; points[vertexIndex] = vertices[c]; vertexIndex++;
+      colors[vertexIndex] = green; points[vertexIndex] = vertices[d]; vertexIndex++;
     }
 
     // generate 12 triangles: 36 vertices and 36 colors
     void colorcube() {
+
+      int start = vertexIndex;
       quad( 1, 0, 3, 2 ); // front wall
       quad( 2, 3, 7, 6 ); // right wall
       quad( 4, 5, 6, 7 ); // rear
       quad( 5, 4, 0, 1 ); // left
+      quad( 6, 5, 1, 2 ); // roof
+      int end = vertexIndex;
+
+      const vec3 displacement(0.0, 0.0, 0.4);
+      for(int i = start; i < end; i++) {
+        colors[vertexIndex] = green; points[vertexIndex] = Translate (displacement) * points[i]; vertexIndex++;
+      }
+
+      const vec3 displacement2(0.0, 0.0, 0.8);
+      for(int i = start; i < end; i++) {
+        colors[vertexIndex] = green; points[vertexIndex] = Translate (displacement2) * points[i]; vertexIndex++;
+      }
+
+      const vec3 displacement3(0.7, 0.0, 0.0);
+      for(int i = start; i < end; i++) {
+        colors[vertexIndex] = green; points[vertexIndex] = Translate (displacement3) * points[i]; vertexIndex++;
+      }
+
+      const vec3 displacement4(0.7, 0.0, 0.4);
+      for(int i = start; i < end; i++) {
+        colors[vertexIndex] = green; points[vertexIndex] = Translate (displacement4) * points[i]; vertexIndex++;
+      }
+
+      const vec3 displacement5(0.7, 0.0, 0.8);
+      for(int i = start; i < end; i++) {
+        colors[vertexIndex] = green; points[vertexIndex] = Translate (displacement5) * points[i]; vertexIndex++;
+      }
+
       //quad( 3, 0, 4, 7 ); // floor
-      //quad( 6, 5, 1, 2 ); // roof
+
       //quad( 8, 9, 10, 11 );
     }
 
@@ -78,7 +108,7 @@ class Stand: public Object {
      * Initializes the vertices and colors of the empty Stand object.
      */
     void initialize(GLuint program) {
-      numVertices = 24; //(7 faces)(2 triangles/face)(3 vertices/triangle)
+      numVertices = 180; //(30 faces)(2 triangles/face)(3 vertices/triangle)
       points = new point4[numVertices];
       colors = new color4[numVertices];
 
