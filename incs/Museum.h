@@ -22,6 +22,7 @@
 #include "Room.h"
 #include "Roof.h"
 #include "Stand.h"
+#include "Sun.h"
 
 // create the museum class
 class Museum {
@@ -42,12 +43,13 @@ public:
   // Load shaders and use the resulting shader program
   program = InitShader( "MuseumVshader.glsl", "MuseumFshader.glsl" );
 
-  objectCount = 3;
+  objectCount = 4;
   objects = new Object*[objectCount];
 
   objects[0] = new Room();
   objects[1] = new Roof();
   objects[2] = new Stand();
+  objects[3] = new Sun();
 
   // initialize the objects
   for(GLuint i = 0; i < objectCount; i++)
@@ -56,6 +58,11 @@ public:
   // display the objects
   for(GLuint i = 0; i < objectCount; i++)
     objects[i]->display(program);
+
+
+    // set sky blue
+    // Set the state variable "clear color" to clear buffer
+    glClearColor( 0.52941176470588235294, 0.80784313725490196078, 0.98039215686274509804, 1.0 );
   }
 
 

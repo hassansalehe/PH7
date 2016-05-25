@@ -9,20 +9,39 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 //
+//
+///////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//                   COMP 510, Computer Graphics, Spring 2016
+//                              Final project
+//                PH7: A virtual Museum Based on OpenGL and Glut
+//
+//                            (c) 2016 - Hassan & Pirah.
+//            Copying without the authors consent is strictly prohibited.
+//
+///////////////////////////////////////////////////////////////////////////////
+//
 // Implements the roof of the museum
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef ROOF_CLASS
-#define ROOF_CLASS
+#ifndef SUN_CLASS_H
+#define SUN_CLASS_H
 
 #include "Object.h"
 
-class Roof: public Object {
+class Sun: public Object {
   private:
+
+    point4 origin = point4(  0.0,  0.0,  0.0, 1.0 );
+    point4 point1 = point4(  1.0,  0.0,  0.0, 1.0 ); // x, z
+    point4 point2 = point4(  0.5,  0.0,  0.866, 1.0 ); // x, z
+
     // Vertices of a unit cube centered at origin, sides aligned with axes
     point4 vertices[6] = {
-      point4( -0.6,  0.45,  0.9, 1.0 ),
+      point4(  0.0,  0.0,  0.0, 1.0 ),
       point4(  0.0,  0.8,  0.9, 1.0 ),
       point4(  0.0,  0.8, -0.9, 1.0 ),
       point4( -0.6,  0.45, -0.9, 1.0 ),
@@ -40,63 +59,22 @@ class Roof: public Object {
       colors[vertexIndex] = blue; points[vertexIndex] = vertices[d]; vertexIndex++;
     }
 
-    /**
-     * Constructs one face(two triangles) of the roof sheet
-     */
-    void one_face( point4 lower, point4 upper, point4 third, point4 fourth ) {
-
-      colors[vertexIndex] = blue; points[vertexIndex] = lower; vertexIndex++;
-      colors[vertexIndex] = blue; points[vertexIndex] = upper; vertexIndex++;
-      colors[vertexIndex] = blue; points[vertexIndex] = third; vertexIndex++;
-      colors[vertexIndex] = blue; points[vertexIndex] = lower; vertexIndex++;
-      colors[vertexIndex] = blue; points[vertexIndex] = third; vertexIndex++;
-      colors[vertexIndex] = blue; points[vertexIndex] = fourth; vertexIndex++;
-    }
-
-    /**
-     * Constructs the sheets of the roof, with
-     */
-    void construct_sheets(point4 lower, point4 upper) {
-
-      float d = 0.02; // interval
-      point4 third; // third vertex
-      point4 fourth; // fourth vertex
-
-      int num = 0;
-      for(num = 0; num < 60; num++)
-      {
-        if( num % 2 ) { // is odd
-          third = upper - point4(0.0, 0.0, d, 0.0);
-          fourth = lower - point4(0.0, 0.0, d, 0.0);
-
-          one_face(lower, upper, third, fourth);
-
-          lower = fourth; upper = third;
-        }
-        else { // even
-          third = upper - point4(0.0, -d/2, d, 0.0);
-          fourth = lower - point4(0.0, -d/2, d, 0.0);
-          one_face(lower, upper, third, fourth);
-
-          lower -= point4(0.0, 0.0, 2*d, 0.0);
-          upper -= point4(0.0, 0.0, 2*d, 0.0);
-          one_face(fourth, third, upper, lower);
-        }
-      }
-    }
-
     // generate 240 triangles: 720 vertices and 720 colors
     void colorcube() {
+	  const vec3 displacement2( -0.92, 0.92, 0.0 );
+	  color4 sky = color4( 0.52941176470588235294, 0.80784313725490196078, 0.98039215686274509804, 1.0);
+	  color4 suncolor = color4(252.0/255, 212.0/255, 64.0/255);
+	  float angle = 0.0;
+	  for(int i = 0; i < 6; i++) {
+	    colors[vertexIndex] = yellow; // suncolor
+	    points[vertexIndex] =  Translate(displacement2) * RotateX( -45 ) * Scale(0.15, 0.15, 0.15) * RotateY(angle) * origin; vertexIndex++;
+        colors[vertexIndex] = sky;
+        points[vertexIndex] =  Translate(displacement2) * RotateX( -45 ) * Scale(0.2, 0.2, 0.2) * RotateY(angle) * point1; vertexIndex++;
+        colors[vertexIndex] = sky;
+        points[vertexIndex] =  Translate(displacement2) * RotateX( -45 ) * Scale(0.2, 0.2, 0.2) * RotateY(angle) * point2; vertexIndex++;
 
-      // Constructing the left roof
-      point4 lower = point4( -0.6,  0.45,  0.9, 1.0 );
-      point4 upper = point4(  0.0,  0.8,  0.9, 1.0 );
-      construct_sheets(lower, upper); // left roof
-
-      // Constructing the right roof
-      lower = point4( 0.6,  0.45,  0.9, 1.0 );
-      upper = point4(  0.0,  0.8,  0.9, 1.0 );
-      construct_sheets(upper, lower); // right roof
+        angle += 60.0;
+	  }
     }
 
   public:
@@ -104,7 +82,7 @@ class Roof: public Object {
      * Initializes the vertices and colors of the empty room object.
      */
     void initialize(GLuint program) {
-      numVertices = 1080; //(180 faces)(2 triangles/face)(3 vertices/triangle)
+      numVertices = 18; //(3 faces)(2 triangles/face)(3 vertices/triangle)
       points = new point4[numVertices];
       colors = new color4[numVertices];
 
@@ -171,7 +149,8 @@ class Roof: public Object {
 
       //  Generate tha model-view matrix
       const vec3 displacement( 0.0, 0.0, 0.0 );
-      mat4  model_view = ( Scale(1.0, 1.0, 1.0) * Translate( displacement ) *
+      const vec3 displacement2( 0.0, 2.9, 0.0 );
+      mat4  model_view = ( Translate(-displacement2) * Scale(1.0, 1.0, 1.0) * Translate( displacement ) *
               RotateX( Theta[Xaxis] ) *
               RotateY( Theta[Yaxis] ) // *
              // RotateZ( Theta[Zaxis] )
@@ -179,7 +158,6 @@ class Roof: public Object {
 
       glUniformMatrix4fv( ModelView, 1, GL_TRUE, model_view );
       glDrawArrays( GL_TRIANGLES, 0, numVertices );
-
       glBindVertexArray( 0 );
       //glDisableVertexAttribArray(vPosition);
       //glDisableVertexAttribArray(vColor);
@@ -214,10 +192,10 @@ class Roof: public Object {
       glutPostRedisplay();
     }
 
-    ~Roof() {
+    ~Sun() {
       delete colors;
       delete points;
     }
 };
 
-#endif // end room
+#endif // end sun
