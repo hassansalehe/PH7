@@ -28,8 +28,10 @@ all: $(EXEC)
 
 # build the final execuatable
 $(EXEC): InitShader.o rply.o $(SRC)/ph7Main.cpp $(MODULES) $(HEADERS)
-	echo "PH7: Building the virtual museum ..."
+	$(info ============================================== )
+	$(info PH7: Building the virtual museum ...)
 	g++ -o $(EXEC) $(INCLUDES) InitShader.o rply.o $(SRC)/ph7Main.cpp $(MODULES) $(CXXFLGS) $(GLFLGS)
+	$(info ============================================== )
 
 # compile the init shader, the InitShader code is used as is from Angel
 InitShader.o: $(LIBS)/Angel/InitShader.cpp
@@ -38,6 +40,10 @@ InitShader.o: $(LIBS)/Angel/InitShader.cpp
 # compile the rply parser, its code is in libs/rply
 rply.o: $(LIBS)/rply/rply.c
 	gcc -c $(LIBS)/rply/rply.c $(INCLUDES) -o rply.o
+	$(info ============================================== )
+	$(info DOWNLOADING THE SKULL MODEL FILE ...)
+	wget http://people.sc.fsu.edu/~jburkardt/data/ply/skull.ply -O ./incs/objects/skull.ply
+	$(info ============================================== )
 
 # remove object files
 clean:
