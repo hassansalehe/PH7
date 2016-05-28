@@ -23,6 +23,9 @@
 #include "Roof.h"
 #include "Stand.h"
 #include "Sun.h"
+#include "Skull.h"
+//#include "Heptoroid.h"
+#include "Walkman.h"
 
 // create the museum class
 class Museum {
@@ -43,13 +46,15 @@ public:
   // Load shaders and use the resulting shader program
   program = InitShader( "MuseumVshader.glsl", "MuseumFshader.glsl" );
 
-  objectCount = 4;
+  objectCount = 6;
   objects = new Object*[objectCount];
 
   objects[0] = new Room();
   objects[1] = new Roof();
   objects[2] = new Stand();
   objects[3] = new Sun();
+  objects[4] = new Skull();
+  objects[5] = new Walkman();
 
   // initialize the objects
   for(GLuint i = 0; i < objectCount; i++)

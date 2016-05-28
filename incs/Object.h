@@ -29,6 +29,10 @@ typedef vec4  point4;
 
 class Object {
 protected:
+
+  GLuint object_id;
+  GLuint objectID;
+
   // Model-view and projection matrices uniform location
   GLuint  ModelView, Projection;
 
@@ -89,8 +93,14 @@ public:
            // RotateZ( Theta[Zaxis] )
                        );
     */
+
+
+    objectID = glGetUniformLocation( program, "ObjectID" );
+    glUniform1i(objectID, object_id);
+
     glUniformMatrix4fv( ModelView, 1, GL_TRUE, model_view );
     glDrawArrays( GL_TRIANGLES, 0, numVertices );
+
 
     glBindVertexArray( 0 );
     //glDisableVertexAttribArray(vPosition);
@@ -101,7 +111,7 @@ public:
   virtual void rotateLeft( GLfloat delta ) = 0;
   virtual void rotateUp(  GLfloat delta ) = 0;
 
-  void zoomOut(GLfloat delta) {
+  virtual void zoomOut(GLfloat delta) {
     scaleFactor += delta;
   }
 
@@ -109,7 +119,7 @@ public:
   /**
    * For zooming in the object
    */
-  void zoomIn(GLfloat delta) {
+  virtual void zoomIn(GLfloat delta) {
     scaleFactor -= delta;
   }
 
@@ -130,7 +140,7 @@ public:
   /**
    * Resets all parameters to defult.
    */
-  void reset() {
+  virtual void reset() {
     scaleFactor = 1.0;
 
     Theta[Xaxis] = 5.0; Theta[Yaxis] = Theta[Zaxis] = 0.0;
