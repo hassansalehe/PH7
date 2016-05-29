@@ -25,17 +25,21 @@ static color4 color;
 enum V_TYPE{X = 1, Y = 2, Z = 3};
 enum C_TYPE{RED = 702, GREEN = 800, BLUE = 900};
 
+
+/**
+ * Called when each vertex value is read
+ */
 static int vertex_cb(p_ply_argument argument) {
   long axis;
   ply_get_argument_user_data(argument, NULL, &axis);
   switch( axis ) {
     case X:
       point.x = ply_get_argument_value(argument);
-      printf("X %g ", ply_get_argument_value(argument));
+      //printf("X %g ", ply_get_argument_value(argument));
       break;
     case Y:
       point.y = ply_get_argument_value(argument);
-      printf("Y %g ", ply_get_argument_value(argument));
+      //printf("Y %g ", ply_get_argument_value(argument));
       break;
     case Z:
       point.z = ply_get_argument_value(argument);
@@ -45,7 +49,7 @@ static int vertex_cb(p_ply_argument argument) {
       // save the point
       c_points[Vindex] = point;
       (Vindex)++;
-      printf(" Z %g  \n", ply_get_argument_value(argument));
+      //printf(" Z %g  \n", ply_get_argument_value(argument));
       break;
 
   //if (eol) printf("\n");
@@ -54,6 +58,10 @@ static int vertex_cb(p_ply_argument argument) {
   return 1;
 }
 
+
+/**
+ * Called when each vertex color is read
+ */
 static int color_cb(p_ply_argument argument) {
   //long length, value_index;
   long color_type;
@@ -83,6 +91,10 @@ static int color_cb(p_ply_argument argument) {
   return 1;
 }
 
+
+/**
+ * Executed when each face index is read
+ */
 static int face_cb(p_ply_argument argument) {
   long length, value_index;
   ply_get_argument_property(argument, NULL, &length, &value_index);
@@ -95,18 +107,6 @@ static int face_cb(p_ply_argument argument) {
         r_colors[*r_vertexIndex] = c_colors[idx];
         (*r_vertexIndex)++;
         break;
-  }
-
-  switch (value_index) {
-      case 0:
-      case 1:
-          //printf("%g ", ply_get_argument_value(argument));
-          break;
-      case 2:
-          //printf("%g\n", ply_get_argument_value(argument));
-          break;
-      default:
-          break;
   }
   return 1;
 }

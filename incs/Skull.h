@@ -163,13 +163,24 @@ class Skull: public Object {
       glUniform1i(objectID, object_id);
     }
 
+    void calculateModelViewMatrix() {
+      model_view = parent_model_view;
+
+      //  Generate tha model-view matrix
+      mat4 scale = Scale( scaleFactor, scaleFactor, scaleFactor );
+      const vec3 displacement( Distance[Xaxis], Distance[Yaxis], Distance[Zaxis] );
+
+    model_view =  RotateX( Theta[Xaxis] ) * RotateY( Theta[Yaxis] ) * parent_model_view; // * RotateZ( Theta[Zaxis] )
+
+    }
+
     void idle( void )
     {
-      //Theta[Axis] += 0.1;
+      Theta[Axis] += 0.5;
 
-      //if ( Theta[Axis] > 360.0 ) {
-      //    Theta[Axis] -= 360.0;
-      //}
+      if ( Theta[Axis] > 360.0 ) {
+          Theta[Axis] -= 360.0;
+      }
 
       glutPostRedisplay();
     }

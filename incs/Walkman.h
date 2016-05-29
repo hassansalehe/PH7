@@ -219,6 +219,10 @@ class Walkman: public Object {
       glUniform1i(objectID, object_id);
     }
 
+    void calculateModelViewMatrix() {
+      model_view = parent_model_view;
+    }
+
     void idle( void )
     {
       //Theta[Axis] += 0.1;

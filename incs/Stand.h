@@ -159,6 +159,11 @@ class Stand: public Object {
       glClearColor( 1.0, 1.0, 1.0, 1.0 );
     }
 
+
+  void calculateModelViewMatrix() {
+    model_view = parent_model_view;
+  }
+
     /**
 	 * The idle function of the Stand.
 	 */

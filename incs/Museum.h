@@ -18,6 +18,9 @@
 #ifndef MUSEUM_HPP
 #define MUSEUM_HPP
 
+// include queue
+#include <queue>
+
 #include "Object.h"
 #include "Room.h"
 #include "Roof.h"
@@ -27,6 +30,8 @@
 //#include "Heptoroid.h"
 #include "Walkman.h"
 
+using namespace std;
+
 // create the museum class
 class Museum {
 
@@ -35,50 +40,111 @@ private:
   GLuint objectCount; // total number of objects
   GLuint program;     // pointer to program
 
+  // queue to process the object tree
+  queue<Object*> objectQueue;
+
+  // the top object in the tree
+  Object* root;
+
+
+  /**
+   * Callback to construct the objects and the tree
+   * Each new museum object is added here.
+   */
+  void constructObjectTree() {
+
+    // Create objects
+    Object * room    = new Room();
+    Object * roof    = new Roof();
+    Object * stand   = new Stand();
+    Object * sun     = new  Sun();
+    Object * skull   = new Skull();
+    Object * walkman = new Walkman();
+
+    // Construct tree
+    room->appendChild( roof );
+    room->appendChild( stand );
+    room->appendChild( sun );
+
+    stand->appendChild( skull );
+    stand->appendChild( walkman );
+
+    // set root to the room object
+    root = room;
+  }
+
+
+  /**
+   * Callback to initialize the tree objects
+   */
+  void initializeTreeNodes() {
+
+    // put the root in the queue
+    objectQueue.push(root);
+
+    while(! objectQueue.empty() ) {
+      Object * object = objectQueue.front();
+      objectQueue.pop();
+      object->initialize( program );
+      object->pushChildrenToQueue( objectQueue );
+    }
+  }
+
+
+  /**
+   * Callback to display objects in the tree
+   */
+  void displayObjects() {
+
+    Object * object;
+
+    // put the root in the queue
+    objectQueue.push(root);
+
+    while(! objectQueue.empty() ) {
+      object = objectQueue.front();
+      objectQueue.pop();
+
+      object->display( program ); // display
+      object->sendModeViewToChildren();
+
+      object->pushChildrenToQueue( objectQueue );
+    }
+  }
+
+
 public:
 
   /**
    * Initializes the objects of the museum.
-   * Each new museum object is added here.
+   * It calls functions to create the tree nodes(objects)
    */
   void initialize() {
 
-  // Load shaders and use the resulting shader program
-  program = InitShader( "MuseumVshader.glsl", "MuseumFshader.glsl" );
+    // Load shaders and use the resulting shader program
+    program = InitShader( "MuseumVshader.glsl", "MuseumFshader.glsl" );
 
-  objectCount = 6;
-  objects = new Object*[objectCount];
+    objectCount = 0;
+    objects = new Object*[objectCount];
 
-  objects[0] = new Room();
-  objects[1] = new Roof();
-  objects[2] = new Stand();
-  objects[3] = new Sun();
-  objects[4] = new Skull();
-  objects[5] = new Walkman();
-
-  // initialize the objects
-  for(GLuint i = 0; i < objectCount; i++)
-    objects[i]->initialize(program);
-
-  // display the objects
-  for(GLuint i = 0; i < objectCount; i++)
-    objects[i]->display(program);
-
+    constructObjectTree();
+    initializeTreeNodes();
+    displayObjects();
 
     // set sky blue
     // Set the state variable "clear color" to clear buffer
-    glClearColor( 0.52941176470588235294, 0.80784313725490196078, 0.98039215686274509804, 1.0 );
+    glClearColor(
+      0.52941176470588235294,
+      0.80784313725490196078,
+      0.98039215686274509804, 1.0
+    );
   }
-
 
   /**
    * This stub calls all display functions of the objects
    */
   void display() {
-
-    // display the objects
-    for(GLuint i = 0; i < objectCount; i++)
-      objects[i]->display(program);
+    displayObjects();
   }
 
 
@@ -86,8 +152,16 @@ public:
    * Launches the idle functions of each object
    */
   void idle() {
-    for(GLuint i = 0; i < objectCount; i++)
-      objects[i]->idle();
+
+    Object * object;
+    objectQueue.push(root);
+
+    while(! objectQueue.empty() ) {
+      object = objectQueue.front();
+      objectQueue.pop();
+      object->idle(); // call idle of each object
+      object->pushChildrenToQueue( objectQueue );
+    }
   }
 
   void reshape(int w, int h){
@@ -101,8 +175,16 @@ public:
    * objects.
    */
   void rotateLeft(GLfloat delta) {
-    for(GLuint i = 0; i < objectCount; i++)
-      objects[i]->rotateLeft(delta);
+
+    Object * object;
+    objectQueue.push(root);
+
+    while(! objectQueue.empty() ) {
+      object = objectQueue.front();
+      objectQueue.pop();
+      object->rotateLeft( delta ); // rotate
+      object->pushChildrenToQueue( objectQueue );
+    }
   }
 
   /**
@@ -110,25 +192,56 @@ public:
    * objects.
    */
   void rotateUp(GLfloat delta) {
-    for(GLuint i = 0; i < objectCount; i++)
-      objects[i]->rotateUp(delta);
+    Object * object;
+    objectQueue.push(root);
+
+    while(! objectQueue.empty() ) {
+      object = objectQueue.front();
+      objectQueue.pop();
+      object->rotateUp( delta ); // rotate
+      object->pushChildrenToQueue( objectQueue );
+    }
   }
 
   void zoomOut(GLfloat delta) {
-    for(GLuint i = 0; i < objectCount; i++)
-      objects[i]->zoomOut(delta);
+
+    Object * object;
+    objectQueue.push(root);
+
+    while(! objectQueue.empty() ) {
+      object = objectQueue.front();
+      objectQueue.pop();
+      object->zoomOut( delta ); // zoom
+      object->pushChildrenToQueue( objectQueue );
+    }
   }
 
   void zoomIn(GLfloat delta) {
-    for(GLuint i = 0; i < objectCount; i++)
-      objects[i]->zoomIn(delta);
+
+    Object * object;
+    objectQueue.push(root);
+
+    while(! objectQueue.empty() ) {
+      object = objectQueue.front();
+      objectQueue.pop();
+      object->zoomIn( delta ); // zoom
+      object->pushChildrenToQueue( objectQueue );
+    }
   }
   /**
    * Move the viewer in forward direction in the museum -z Direction
    */
   void moveForward(GLfloat delta) {
-    for(GLuint i = 0; i < objectCount; i++)
-      objects[i]->moveForward(delta);
+
+    Object * object;
+    objectQueue.push(root);
+
+    while(! objectQueue.empty() ) {
+      object = objectQueue.front();
+      objectQueue.pop();
+      object->moveForward( delta ); // move
+      object->pushChildrenToQueue( objectQueue );
+    }
   }
 
 
@@ -137,8 +250,16 @@ public:
    * position and orientation
    */
   void reset() {
-    for(GLuint i = 0; i < objectCount; i++)
-      objects[i]->reset();
+
+    Object * object;
+    objectQueue.push(root);
+
+    while(! objectQueue.empty() ) {
+      object = objectQueue.front();
+      objectQueue.pop(); // reset
+      object->reset();
+      object->pushChildrenToQueue( objectQueue );
+    }
   }
 };
 

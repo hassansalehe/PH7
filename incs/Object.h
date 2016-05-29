@@ -22,6 +22,7 @@
 #ifndef OBJECT_CLASS
 #define OBJECT_CLASS
 
+#include <vector>
 #include "Angel.h"
 
 typedef vec4  color4;
@@ -30,11 +31,18 @@ typedef vec4  point4;
 class Object {
 protected:
 
+  // for holding the children of the object
+  vector<Object*> children;
+
   GLuint object_id;
   GLuint objectID;
 
   // Model-view and projection matrices uniform location
   GLuint  ModelView, Projection;
+
+  // model view matrices
+  mat4  model_view = identity();
+  mat4  parent_model_view = identity();
 
   GLuint vao;
   GLuint buffer;
@@ -62,53 +70,94 @@ protected:
   color4 green  = color4( 0.0, 1.0, 0.0, 1.0 );  // green
 
 public:
+
+  /**
+   * appends a child object to this node
+   */
+  void appendChild(Object * child) {
+    children.push_back( child );
+  }
+
+
+  /**
+   * pushes all child nodes to a queue
+   */
+  void pushChildrenToQueue(queue<Object*> & queue) {
+
+    for(Object* childObject : children) {
+      queue.push( childObject );
+    }
+  }
+
+
+  /**
+   * Sends the model view matrix of this object to
+   * to all its child nodes in the object tree
+   */
+  void sendModeViewToChildren() {
+    for(Object* childObject : children) {
+      childObject->getParentModelView( model_view );
+    }
+  }
+
+
+  /**
+   * A function to receive parent matrix
+   */
+  void getParentModelView(mat4 p_model_view ) {
+    parent_model_view = p_model_view;
+  }
+
+
+  /**
+   * Implement this function in an object for
+   * for custom transformations of individual
+   * objects. See the wrong rotation of skull
+   */
+  virtual void calculateModelViewMatrix()  = 0;
+
+
+  /**
+   * For initializing the vertices of an object
+   * and sending them to the GPU
+   */
   virtual void initialize(GLuint program) = 0;
+
+
+  /**
+   * The general display function launched by the Glut
+   */
   void display( GLuint program )
   {
+    // bind vertex array
     glBindVertexArray( vao );
     glBindBuffer( GL_ARRAY_BUFFER, buffer );
 
-    // set up vertex arrays
-    //GLuint vPosition = glGetAttribLocation( program, "vPosition" );
-    //glEnableVertexAttribArray( vPosition );
-    //glVertexAttribPointer( vPosition, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0) );
+    // calculate model view here use this to calculate
+    // custom transformations
+    calculateModelViewMatrix();
 
-    //GLuint vColor = glGetAttribLocation( program, "vColor" );
-    //glEnableVertexAttribArray( vColor );
-    // glVertexAttribPointer( vColor, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(points_size) );
-
-    //  Generate tha model-view matrix
-    mat4 scale = Scale( scaleFactor, scaleFactor, scaleFactor );
-    const vec3 displacement( Distance[Xaxis], Distance[Yaxis], Distance[Zaxis] );
-    mat4  model_view = ( scale * Translate( displacement ) *
-           RotateX( Theta[Xaxis] ) *
-           RotateY( Theta[Yaxis] ) // *
-           // RotateZ( Theta[Zaxis] )
-                       );
-    /* // For perspective projection
-    vec3 viewer_pos = vec3( 0.0, 0.0, 2.45 );
-    model_view = ( Translate( -viewer_pos ) * scale * Translate( displacement ) *
-           RotateX( Theta[Xaxis] ) *
-           RotateY( Theta[Yaxis] ) // *
-           // RotateZ( Theta[Zaxis] )
-                       );
-    */
-
-
+    // send object id
     objectID = glGetUniformLocation( program, "ObjectID" );
     glUniform1i(objectID, object_id);
 
+    // send model view
     glUniformMatrix4fv( ModelView, 1, GL_TRUE, model_view );
     glDrawArrays( GL_TRIANGLES, 0, numVertices );
 
-
+    // release vertex handler
     glBindVertexArray( 0 );
-    //glDisableVertexAttribArray(vPosition);
-    //glDisableVertexAttribArray(vColor);
+
   }
 
+
+  /**
+   * the idle function
+   */
   virtual void idle() = 0;
+
   virtual void rotateLeft( GLfloat delta ) = 0;
+
   virtual void rotateUp(  GLfloat delta ) = 0;
 
   virtual void zoomOut(GLfloat delta) {
