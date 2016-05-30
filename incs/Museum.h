@@ -164,10 +164,21 @@ public:
     }
   }
 
-  void reshape(int w, int h){
 
-    //for(GLuint i = 0; i < objectCount; i++)
-    //  objects[i]->reshape(w, h);
+  /**
+   * The reshape function
+   */
+  void reshape(int w, int h) {
+
+    Object * object;
+    objectQueue.push(root);
+
+    while(! objectQueue.empty() ) {
+      object = objectQueue.front();
+      objectQueue.pop();
+      object->reshape( w, h ); // reshape
+      object->pushChildrenToQueue( objectQueue );
+    }
   }
 
   /**

@@ -150,6 +150,39 @@ public:
 
   }
 
+    /**
+   * The reshape function.
+   */
+  void reshape( int w, int h )
+  {
+    glViewport( 0, 0, w, h );
+
+    mat4  projection;
+
+    //switch(projectionOption) {
+    //   case HS_ORTHOGRAPHIC:
+
+    if (w <= h)
+      projection = Ortho(-1.0, 1.0, -1.0 * (GLfloat) h / (GLfloat) w,
+                         1.0 * (GLfloat) h / (GLfloat) w,
+                         -1.0,
+                         1.0 );
+    else  projection = Ortho(-1.0* (GLfloat) w / (GLfloat) h, 1.0 *
+        (GLfloat) w / (GLfloat) h,
+                             -1.0,
+                             1.0,
+                             -1.0,
+                             1.0);
+    //break;
+    //   case HS_PERSPECTIVE:
+    //      GLfloat aspect = GLfloat(w)/h;
+    //      projection = Perspective( 45.0, aspect, 1.0, -1.0 );
+    //      break;
+    //}
+
+    glUniformMatrix4fv( Projection, 1, GL_TRUE, projection );
+  }
+
 
   /**
    * the idle function
