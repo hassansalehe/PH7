@@ -15,11 +15,14 @@
 #include "PLyParser.h"
 
 class Wheel: public Object {
-  float max_v = 0.0;
+  private:
 
-  public:
-    void initialize(GLuint program) {
+    float max_v = 0.0;
 
+    /**
+     * Reads vertices from Wheel.ply file
+     */
+    void readVertices() {
       Vindex = 0;
       long nvertices, ntriangles;
       p_ply ply = ply_open("incs/objects/wheel.ply", NULL, 0, NULL);
@@ -136,8 +139,21 @@ class Wheel: public Object {
       // reclaim memory
       delete c_colors;
       delete c_points;
+    }
 
-      // populate vertices and colors for the GPU
+  public:
+
+    /**
+     * Initializes the object data and sends to GPU
+     */
+    void initialize(GLuint program) {
+
+      readVertices();
+
+      // Object identifier
+      object_id = 350;
+      objectID = glGetUniformLocation( program, "ObjectID" );
+      glUniform1i(objectID, object_id);
 
       // Create a vertex array object
       glGenVertexArrays( 1, &vao );

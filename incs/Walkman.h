@@ -15,10 +15,13 @@
 #include "PLyParser.h"
 
 class Walkman: public Object {
-  float max_v = 0.0;
+  private:
+    float max_v = 0.0;
 
-  public:
-    void initialize(GLuint program) {
+    /**
+     * Reads vertices from Wheel.ply file
+     */
+    void readVertices() {
 
       Vindex = 0;
       long nvertices, ntriangles;
@@ -171,6 +174,19 @@ class Walkman: public Object {
       delete c_points;
 
       // populate vertices and colors for the GPU
+    }
+
+  public:
+
+    /**
+     * initializes data and sends to GPU
+     */
+    void initialize(GLuint program) {
+
+      readVertices();
+
+      // Object identifier
+      object_id = 360;
 
       // Create a vertex array object
       glGenVertexArrays( 1, &vao );
@@ -212,11 +228,6 @@ class Walkman: public Object {
 
       // Set state variable "clear color" to clear buffer with.
       glClearColor( 1.0, 1.0, 1.0, 1.0 );
-
-      // Object identifier
-      object_id = 123;
-      objectID = glGetUniformLocation( program, "ObjectID" );
-      glUniform1i(objectID, object_id);
     }
 
     void calculateModelViewMatrix() {

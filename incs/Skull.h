@@ -26,10 +26,11 @@
 #include "PLyParser.h"
 
 class Skull: public Object {
-  float max_v = 0.0;
 
-  public:
-    void initialize(GLuint program) {
+  private:
+    float max_v = 0.0;
+
+    void readVertices() {
 
       Vindex = 0;
       long nvertices, ntriangles;
@@ -124,8 +125,11 @@ class Skull: public Object {
       // reclaim memory
       delete c_colors;
       delete c_points;
+    }
+public:
+    void initialize(GLuint program) {
 
-      // populate vertices and colors for the GPU
+      readVertices();
 
       // Object identifier
       object_id = 300;

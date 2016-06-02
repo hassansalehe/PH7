@@ -24,11 +24,11 @@
 #include "PLyParser.h"
 
 class Part: public Object {
-  float max_v = 0.0;
 
-  public:
-    void initialize(GLuint program) {
+  private:
+    float max_v = 0.0;
 
+    void readVertices() {
       Vindex = 0;
       long nvertices, ntriangles;
       p_ply ply = ply_open("incs/objects/part.ply", NULL, 0, NULL);
@@ -114,8 +114,17 @@ class Part: public Object {
 
       // reclaim memory
       delete c_points;
+    }
 
-      // populate vertices and colors for the GPU
+  public:
+    void initialize(GLuint program) {
+
+      readVertices();
+
+      // Object identifier
+      object_id = 340;
+      objectID = glGetUniformLocation( program, "ObjectID" );
+      glUniform1i(objectID, object_id);
 
       // Create a vertex array object
       glGenVertexArrays( 1, &vao );
@@ -178,7 +187,7 @@ class Part: public Object {
     void idle( void )
     {
 //       Theta[Axis] += 0.5;
-// 
+//
 //       if ( Theta[Axis] > 360.0 ) {
 //           Theta[Axis] -= 360.0;
 //       }
