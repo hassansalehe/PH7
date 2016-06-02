@@ -27,9 +27,11 @@
 #include "Stand.h"
 #include "Sun.h"
 #include "Skull.h"
-//#include "Heptoroid.h"
+#include "Part.h"
 #include "Walkman.h"
-
+#include "Wheel.h"
+#include "Airplane.h"
+#include "Lamp.h"
 using namespace std;
 
 // create the museum class
@@ -60,6 +62,10 @@ private:
     Object * sun     = new  Sun();
     Object * skull   = new Skull();
     Object * walkman = new Walkman();
+	Object * part = new Part();
+	Object * wheel = new Wheel();
+	Object * airplane = new Airplane();
+	Object * lamp = new Lamp();
 
     // Construct tree
     room->appendChild( roof );
@@ -68,7 +74,10 @@ private:
 
     stand->appendChild( skull );
     stand->appendChild( walkman );
-
+	stand->appendChild( part );
+	stand->appendChild( wheel);
+	stand->appendChild( airplane);
+	stand->appendChild( lamp);
     // set root to the room object
     root = room;
   }
@@ -187,6 +196,9 @@ public:
    */
   void rotateLeft(GLfloat delta) {
 
+	root->rotateLeft( delta );
+	displayObjects();
+	/*
     Object * object;
     objectQueue.push(root);
 
@@ -196,6 +208,7 @@ public:
       object->rotateLeft( delta ); // rotate
       object->pushChildrenToQueue( objectQueue );
     }
+    */
   }
 
   /**
