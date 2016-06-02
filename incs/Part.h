@@ -10,22 +10,20 @@
 ///////////////////////////////////////////////////////////////////////////////
 //
 // read the vertices
-// read the colors
 // read the face indices
 // put the vertices in vertex array
-// put the colors in color array
 //
 ///////////////////////////////////////////////////////////////////////////////
 
 // Scale the vertices
 // send them to the GPU
-#ifndef HUMAN_SKULL_CLASS
-#define HUMAN_SKULL_CLASS
+#ifndef HUMAN_PART_CLASS
+#define HUMAN_PART_CLASS
 
 #include "Object.h"
 #include "PLyParser.h"
 
-class Skull: public Object {
+class Part: public Object {
   float max_v = 0.0;
 
   public:
@@ -33,7 +31,7 @@ class Skull: public Object {
 
       Vindex = 0;
       long nvertices, ntriangles;
-      p_ply ply = ply_open("incs/objects/skull.ply", NULL, 0, NULL);
+      p_ply ply = ply_open("incs/objects/part.ply", NULL, 0, NULL);
       if (!ply) return; // cant open
       if (!ply_read_header(ply)) return; // cant open
       nvertices =
@@ -41,25 +39,18 @@ class Skull: public Object {
       ply_set_read_cb(ply, "vertex", "y", vertex_cb, NULL, Y);
       ply_set_read_cb(ply, "vertex", "z", vertex_cb, NULL, Z);
 
-      ply_set_read_cb(ply, "vertex", "red", color_cb, NULL, RED);
-      ply_set_read_cb(ply, "vertex", "green", color_cb, NULL, GREEN);
-      ply_set_read_cb(ply, "vertex", "blue", color_cb, NULL, BLUE);
-
       ntriangles = ply_set_read_cb(ply, "face", "vertex_indices", face_cb, NULL, 0);
       printf("%ld\n%ld\n", nvertices, ntriangles);
 
       numVertices = ntriangles * 3; //(180 faces)(2 triangles/face)(3 vertices/triangle)
       points = new point4[numVertices];
-      colors = new color4[numVertices];
 
       r_points = points;
-      r_colors = colors;
       r_vertexIndex = &vertexIndex;
 
       vertexIndex = 0;
 
       c_points = new point4[nvertices];
-      c_colors = new color4[nvertices];
 
       if (!ply_read(ply)) return; // cant open
       ply_close(ply);
@@ -118,40 +109,35 @@ class Skull: public Object {
        float scaleF = 0.00089975 ; // manually calculated
       for(int i = 0; i < vertexIndex; i++)
       {
-        points[i] = Translate(-0.35, 0.0, 0.045) * Scale(scaleF, scaleF, scaleF) * Translate(-displacement) * RotateY(90.0) *   points[i];
+        points[i] = Translate(0.22, -0.07, 0.12) * Scale(scaleF, scaleF, scaleF) * Translate(-displacement) * RotateY(90.0) *   points[i];
       }
 
       // reclaim memory
-      delete c_colors;
       delete c_points;
 
       // populate vertices and colors for the GPU
-
-      // Object identifier
-      object_id = 300;
 
       // Create a vertex array object
       glGenVertexArrays( 1, &vao );
       glBindVertexArray( vao );
 
       points_size = sizeof(point4)*numVertices;
-      colors_size = sizeof(color4)*numVertices;
 
       // Create and initialize a buffer object
       glGenBuffers( 1, &buffer );
       glBindBuffer( GL_ARRAY_BUFFER, buffer );
-      glBufferData( GL_ARRAY_BUFFER, points_size + colors_size, NULL, GL_STATIC_DRAW );
+      glBufferData( GL_ARRAY_BUFFER, points_size, NULL, GL_STATIC_DRAW );
       glBufferSubData( GL_ARRAY_BUFFER, 0, points_size, points );
-      glBufferSubData( GL_ARRAY_BUFFER, points_size, colors_size, colors );
+      //glBufferSubData( GL_ARRAY_BUFFER, points_size, colors_size, colors );
 
       // set up vertex arrays
       GLuint vPosition = glGetAttribLocation( program, "vPosition" );
       glEnableVertexAttribArray( vPosition );
       glVertexAttribPointer( vPosition, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0) );
 
-      GLuint vColor = glGetAttribLocation( program, "vColor" );
-      glEnableVertexAttribArray( vColor );
-      glVertexAttribPointer( vColor, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(points_size) );
+//       GLuint vColor = glGetAttribLocation( program, "vColor" );
+//       glEnableVertexAttribArray( vColor );
+//       glVertexAttribPointer( vColor, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(points_size) );
 
       // Set current program object
       glUseProgram( program );
@@ -170,13 +156,18 @@ class Skull: public Object {
 
       // Set state variable "clear color" to clear buffer with.
       glClearColor( 1.0, 1.0, 1.0, 1.0 );
+
+      // Object identifier
+      object_id = 123;
+      objectID = glGetUniformLocation( program, "ObjectID" );
+      glUniform1i(objectID, object_id);
     }
 
     void calculateModelViewMatrix() {
       model_view = parent_model_view;
 
       //  Generate tha model-view matrix
-      ///mat4 scale = Scale( scaleFactor, scaleFactor, scaleFactor );
+      //mat4 scale = Scale( scaleFactor, scaleFactor, scaleFactor );
       const vec3 displacement( Distance[Xaxis], Distance[Yaxis], Distance[Zaxis] );
 	  model_view =  parent_model_view;
 
@@ -187,7 +178,7 @@ class Skull: public Object {
     void idle( void )
     {
 //       Theta[Axis] += 0.5;
-//
+// 
 //       if ( Theta[Axis] > 360.0 ) {
 //           Theta[Axis] -= 360.0;
 //       }
@@ -212,8 +203,7 @@ class Skull: public Object {
       glutPostRedisplay();
     }
 
-    ~Skull() {
-      delete colors;
+    ~Part() {
       delete points;
     }
 };

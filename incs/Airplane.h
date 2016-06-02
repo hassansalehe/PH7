@@ -1,31 +1,20 @@
-///////////////////////////////////////////////////////////////////////////////
-//
-//                   COMP 510, Computer Graphics, Spring 2016
-//                              Final project
-//                PH7: A virtual Museum Based on OpenGL and Glut
-//
-//                            (c) 2016 - Hassan & Pirah.
-//            Copying without the authors consent is strictly prohibited.
-//
-///////////////////////////////////////////////////////////////////////////////
-//
+
+
 // read the vertices
 // read the colors
 // read the face indices
 // put the vertices in vertex array
 // put the colors in color array
-//
-///////////////////////////////////////////////////////////////////////////////
 
 // Scale the vertices
 // send them to the GPU
-#ifndef HUMAN_SKULL_CLASS
-#define HUMAN_SKULL_CLASS
+#ifndef Airplane_CLASS
+#define Airplane_CLASS
 
 #include "Object.h"
 #include "PLyParser.h"
 
-class Skull: public Object {
+class Airplane: public Object {
   float max_v = 0.0;
 
   public:
@@ -33,17 +22,13 @@ class Skull: public Object {
 
       Vindex = 0;
       long nvertices, ntriangles;
-      p_ply ply = ply_open("incs/objects/skull.ply", NULL, 0, NULL);
+      p_ply ply = ply_open("incs/objects/airoplane.ply", NULL, 0, NULL);
       if (!ply) return; // cant open
       if (!ply_read_header(ply)) return; // cant open
       nvertices =
       ply_set_read_cb(ply, "vertex", "x", vertex_cb, NULL, X);
       ply_set_read_cb(ply, "vertex", "y", vertex_cb, NULL, Y);
       ply_set_read_cb(ply, "vertex", "z", vertex_cb, NULL, Z);
-
-      ply_set_read_cb(ply, "vertex", "red", color_cb, NULL, RED);
-      ply_set_read_cb(ply, "vertex", "green", color_cb, NULL, GREEN);
-      ply_set_read_cb(ply, "vertex", "blue", color_cb, NULL, BLUE);
 
       ntriangles = ply_set_read_cb(ply, "face", "vertex_indices", face_cb, NULL, 0);
       printf("%ld\n%ld\n", nvertices, ntriangles);
@@ -93,6 +78,7 @@ class Skull: public Object {
 
         if(abs(c_points[i].z) > max_v )
           max_v = abs(c_points[i].z);
+
       }
 
       printf("min x %f, max x %f\n", min_x, max_x);
@@ -114,21 +100,44 @@ class Skull: public Object {
       //Distance[Zaxis] = 0.2;
 
 
-       const vec3 displacement(-2 * mid_x, mid_y,  mid_z);
-       float scaleF = 0.00089975 ; // manually calculated
-      for(int i = 0; i < vertexIndex; i++)
+       const vec3 displacement(mid_x, mid_y,  mid_z);
+       float scaleF = 0.00014 ; // manually calculated
+      for(int i = 0; i < numVertices; i++)
       {
-        points[i] = Translate(-0.35, 0.0, 0.045) * Scale(scaleF, scaleF, scaleF) * Translate(-displacement) * RotateY(90.0) *   points[i];
+        points[i] = Translate(-0.35, -0.02, 0.42) * RotateX(120.0) * Scale(scaleF, scaleF, scaleF) * Translate(-displacement)  *   points[i];
+
       }
+
+      // internal part of the Plane
+      for(int i = 0; i < 500; i++) // inner part
+        colors[i] = color4(1.0, 0.5, 0.0); // gray
+
+      for(int i = 500; i < 2000; i++) // inner part
+        //khaki 	#F0E68C 	rgb(240,230,140)
+        colors[i] = color4(0.9, 0.8, 0.5);
+
+
+      for(int i = 2000; i < 2500; i++) // thin metal handle
+         //	Orange-Brown 	#F0F8FF 	rgb(240,248,255)
+        colors[i] = color4(1.0, 0.5, 0.0);
+
+      for(int i = 2500; i < 3000; i++) // inner thin metal handle
+        colors[i] = color4(0.9, 0.9, 0.5);
+
+      for(int i = 3000; i < 3500; i++)
+         //	aliceblue 	#F0F8FF 	rgb(240,248,255)
+        colors[i] = color4(1.0, 0.5, 0.0);
+
+      for(int i = 3500; i < 4000; i++)
+         //	aliceblue 	#F0F8FF 	rgb(240,248,255)
+        colors[i] =color4(0.9, 0.8, 0.5);
+
 
       // reclaim memory
       delete c_colors;
       delete c_points;
 
       // populate vertices and colors for the GPU
-
-      // Object identifier
-      object_id = 300;
 
       // Create a vertex array object
       glGenVertexArrays( 1, &vao );
@@ -170,27 +179,24 @@ class Skull: public Object {
 
       // Set state variable "clear color" to clear buffer with.
       glClearColor( 1.0, 1.0, 1.0, 1.0 );
+
+      // Object identifier
+      object_id = 123;
+      objectID = glGetUniformLocation( program, "ObjectID" );
+      glUniform1i(objectID, object_id);
     }
 
     void calculateModelViewMatrix() {
       model_view = parent_model_view;
-
-      //  Generate tha model-view matrix
-      ///mat4 scale = Scale( scaleFactor, scaleFactor, scaleFactor );
-      const vec3 displacement( Distance[Xaxis], Distance[Yaxis], Distance[Zaxis] );
-	  model_view =  parent_model_view;
-
-   // model_view =  RotateX( Theta[Xaxis] ) * RotateY( Theta[Yaxis] ) * parent_model_view; // * RotateZ( Theta[Zaxis] )
-
     }
 
     void idle( void )
     {
-//       Theta[Axis] += 0.5;
-//
-//       if ( Theta[Axis] > 360.0 ) {
-//           Theta[Axis] -= 360.0;
-//       }
+      //Theta[Axis] += 0.1;
+
+      //if ( Theta[Axis] > 360.0 ) {
+      //    Theta[Axis] -= 360.0;
+      //}
 
       glutPostRedisplay();
     }
@@ -212,10 +218,10 @@ class Skull: public Object {
       glutPostRedisplay();
     }
 
-    ~Skull() {
+    ~Airplane() {
       delete colors;
       delete points;
     }
 };
 
-#endif // end skull
+#endif // end walkman
