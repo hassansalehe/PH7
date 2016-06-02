@@ -104,38 +104,56 @@ class Roof: public Object {
      * Initializes the vertices and colors of the empty room object.
      */
     void initialize(GLuint program) {
+
+      // Object identifier
+      object_id = 200;
+
       numVertices = 1080; //(180 faces)(2 triangles/face)(3 vertices/triangle)
       points = new point4[numVertices];
       colors = new color4[numVertices];
+      normals = new normal3[numVertices];
 
       // quad generates two triangles for each face and assigns colors
       //    to the vertices
       vertexIndex = 0;
       colorcube();
 
+      // compute normals
+      calculateNormals();
+
       // Create a vertex array object
       glGenVertexArrays( 1, &vao );
       glBindVertexArray( vao );
 
-      points_size = sizeof(point4)*numVertices;
-      colors_size = sizeof(color4)*numVertices;
+      points_size =  sizeof(point4) * numVertices;
+      colors_size =  sizeof(color4) * numVertices;
+      normals_size = sizeof(normal3) * numVertices;
 
       // Create and initialize a buffer object
       glGenBuffers( 1, &buffer );
       glBindBuffer( GL_ARRAY_BUFFER, buffer );
-      glBufferData( GL_ARRAY_BUFFER, points_size + colors_size, NULL, GL_STATIC_DRAW );
+      glBufferData( GL_ARRAY_BUFFER, points_size + colors_size + normals_size, NULL, GL_STATIC_DRAW );
       glBufferSubData( GL_ARRAY_BUFFER, 0, points_size, points );
       glBufferSubData( GL_ARRAY_BUFFER, points_size, colors_size, colors );
+      glBufferSubData( GL_ARRAY_BUFFER, points_size + colors_size, normals_size, normals );
 
       // set up vertex arrays
+      size_t size = 0;
       GLuint vPosition = glGetAttribLocation( program, "vPosition" );
       glEnableVertexAttribArray( vPosition );
-      glVertexAttribPointer( vPosition, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0) );
+      glVertexAttribPointer( vPosition, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(size) );
 
+      size += points_size;
       GLuint vColor = glGetAttribLocation( program, "vColor" );
       glEnableVertexAttribArray( vColor );
-      glVertexAttribPointer( vColor, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(points_size) );
+      glVertexAttribPointer( vColor, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(size) );
 
+      size += colors_size;
+      GLuint vNormal = glGetAttribLocation( program, "vNormal" );
+      glEnableVertexAttribArray( vPosition );
+      glVertexAttribPointer( vNormal, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(size) );
+
+      glUniform1f( glGetUniformLocation(program, "Shininess"), 15 );
       // Set current program object
       glUseProgram( program );
 

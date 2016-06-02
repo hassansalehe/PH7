@@ -40,10 +40,6 @@ InitShader.o: $(LIBS)/Angel/InitShader.cpp
 # compile the rply parser, its code is in libs/rply
 rply.o: $(LIBS)/rply/rply.c
 	gcc -c $(LIBS)/rply/rply.c $(INCLUDES) -o rply.o
-	$(info ============================================== )
-	$(info DOWNLOADING THE SKULL MODEL FILE ...)
-	wget http://people.sc.fsu.edu/~jburkardt/data/ply/skull.ply -O ./incs/objects/skull.ply
-	$(info ============================================== )
 
 # remove object files
 clean:

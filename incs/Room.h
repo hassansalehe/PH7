@@ -91,12 +91,12 @@ class Room: public Object {
 
     void quad( int a, int b, int c, int d ) {
       // Initialize colors
-      colors[vertexIndex] = black; points[vertexIndex] = vertices[a]; vertexIndex++;
-      colors[vertexIndex] = black; points[vertexIndex] = vertices[b]; vertexIndex++;
-      colors[vertexIndex] = black; points[vertexIndex] = vertices[c]; vertexIndex++;
-      colors[vertexIndex] = black; points[vertexIndex] = vertices[a]; vertexIndex++;
-      colors[vertexIndex] = black; points[vertexIndex] = vertices[c]; vertexIndex++;
-      colors[vertexIndex] = black; points[vertexIndex] = vertices[d]; vertexIndex++;
+      colors[vertexIndex] = earth; points[vertexIndex] = vertices[a]; vertexIndex++;
+      colors[vertexIndex] = earth; points[vertexIndex] = vertices[b]; vertexIndex++;
+      colors[vertexIndex] = earth; points[vertexIndex] = vertices[c]; vertexIndex++;
+      colors[vertexIndex] = earth; points[vertexIndex] = vertices[a]; vertexIndex++;
+      colors[vertexIndex] = earth; points[vertexIndex] = vertices[c]; vertexIndex++;
+      colors[vertexIndex] = earth; points[vertexIndex] = vertices[d]; vertexIndex++;
     }
 
     // generate 12 triangles: 36 vertices and 36 colors
@@ -158,7 +158,7 @@ class Room: public Object {
       // It is the reflected rotation of the left wall.
       for(; start < end; start++)
       {
-        colors[vertexIndex] = black;
+        colors[vertexIndex] = earth;
         points[vertexIndex] = RotateY(180.0) * points[start];
         vertexIndex++;
       }
@@ -174,14 +174,22 @@ class Room: public Object {
      * Initializes the vertices and colors of the empty room object.
      */
     void initialize(GLuint program) {
+
+      // Object identifier
+      object_id = 100;
+
       numVertices = 126; // (21 faces)(2 triangles/face)(3 vertices/triangle)
       points = new point4[numVertices];
       colors = new color4[numVertices];
+      normals = new normal3[numVertices];
 
       // quad generates two triangles for each face and assigns colors
       //    to the vertices
       vertexIndex = 0;
       colorcube();
+
+      // compute normals
+      calculateNormals();
 
       // Create a vertex array object
       glGenVertexArrays( 1, &vao );
@@ -223,6 +231,7 @@ class Room: public Object {
 
       // Set state variable "clear color" to clear buffer with.
       glClearColor( 1.0, 1.0, 1.0, 1.0 );
+
     }
 
    void calculateModelViewMatrix() {

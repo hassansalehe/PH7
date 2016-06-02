@@ -27,6 +27,16 @@ void KeyboardCallbacks(unsigned char key, int x, int y){
     case 'F':
       museum.moveForward(-0.004);
       break;
+
+    case 'S':
+    case 's':
+      museum.changeShading();
+      break;
+    case 'r':
+    case 'R':
+      museum.changeReflection();
+      break;
+
   }
 }
 

@@ -108,6 +108,10 @@ class Stand: public Object {
      * Initializes the vertices and colors of the empty Stand object.
      */
     void initialize(GLuint program) {
+
+      // Object identifier
+      object_id = 210;
+
       numVertices = 180; //(30 faces)(2 triangles/face)(3 vertices/triangle)
       points = new point4[numVertices];
       colors = new color4[numVertices];

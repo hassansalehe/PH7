@@ -27,6 +27,7 @@
 
 typedef vec4  color4;
 typedef vec4  point4;
+typedef vec3  normal3;
 
 class Object {
 protected:
@@ -40,6 +41,13 @@ protected:
   // Model-view and projection matrices uniform location
   GLuint  ModelView, Projection;
 
+  // for reflection and shading
+  GLuint ReflectionModel;
+  GLuint HS_reflection_model = 300;
+
+  GLuint ShadingModel;
+  GLuint HS_shading_model = 273;
+
   // model view matrices
   mat4  model_view = identity();
   mat4  parent_model_view = identity();
@@ -49,10 +57,12 @@ protected:
 
   size_t points_size;
   size_t colors_size;
+  size_t normals_size;
 
   int numVertices;
   point4 * points;
   color4 * colors;
+  normal3 * normals;
 
   int vertexIndex;
   float scaleFactor = 1.0;
@@ -68,6 +78,7 @@ protected:
   color4 red    = color4( 1.0, 0.0, 0.0, 1.0 );  // red
   color4 yellow = color4( 1.0, 1.0, 0.0, 1.0 );  // yellow
   color4 green  = color4( 0.0, 1.0, 0.0, 1.0 );  // green
+  color4 earth  = color4(125.0/255, 68.0/255, 29.0/255, 1.0 );
 
 public:
 
@@ -117,6 +128,20 @@ public:
   virtual void calculateModelViewMatrix()  = 0;
 
 
+  void changeShading() {
+    HS_shading_model = (HS_shading_model == 273 ? 274: 273);
+    glUniform1i(ShadingModel, HS_shading_model); // send to the shaders(GPU)
+    glutPostRedisplay();
+  }
+
+
+  void changeReflection() {
+    HS_reflection_model = HS_reflection_model == 300? 301 : 300;
+    glUniform1i(ReflectionModel, HS_reflection_model);
+    glutPostRedisplay();
+  }
+
+
   /**
    * For initializing the vertices of an object
    * and sending them to the GPU
@@ -141,16 +166,29 @@ public:
     objectID = glGetUniformLocation( program, "ObjectID" );
     glUniform1i(objectID, object_id);
 
+    // send the shading model (phong vs gouraud)
+    ShadingModel = glGetUniformLocation( program, "HS_shading_model" );
+    glUniform1i( ShadingModel, HS_shading_model );
+
+    // send current reflection model
+    ReflectionModel = glGetUniformLocation( program, "HS_reflection_model" );
+    glUniform1i( ReflectionModel, HS_reflection_model );
+
     // send model view
     glUniformMatrix4fv( ModelView, 1, GL_TRUE, model_view );
     glDrawArrays( GL_TRIANGLES, 0, numVertices );
+
+
+    // reverse the object identifier
+    glUniform1i(objectID, 0);
 
     // release vertex handler
     glBindVertexArray( 0 );
 
   }
 
-    /**
+
+  /**
    * The reshape function.
    */
   void reshape( int w, int h )
@@ -164,15 +202,9 @@ public:
 
     if (w <= h)
       projection = Ortho(-1.0, 1.0, -1.0 * (GLfloat) h / (GLfloat) w,
-                         1.0 * (GLfloat) h / (GLfloat) w,
-                         -1.0,
-                         1.0 );
+                         1.0 * (GLfloat) h / (GLfloat) w, -1.0, 1.0 );
     else  projection = Ortho(-1.0* (GLfloat) w / (GLfloat) h, 1.0 *
-        (GLfloat) w / (GLfloat) h,
-                             -1.0,
-                             1.0,
-                             -1.0,
-                             1.0);
+        (GLfloat) w / (GLfloat) h, -1.0, 1.0, -1.0, 1.0);
     //break;
     //   case HS_PERSPECTIVE:
     //      GLfloat aspect = GLfloat(w)/h;
@@ -227,6 +259,40 @@ public:
 
     Theta[Xaxis] = 5.0; Theta[Yaxis] = Theta[Zaxis] = 0.0;
     Distance[Xaxis] = Distance[Yaxis] = Distance[Zaxis] = 0.0;
+  }
+
+  void calculateNormals() {
+
+    int triangles = numVertices / 3;
+    for(int i = 0; i < triangles; i++) {
+
+      point4 p0 = points[3*i + 0];
+      point4 p1 = points[3*i + 1];
+      point4 p2 = points[3*i + 2];
+
+      normal3 n = normalize( cross((p1-p0), (p2-p0)) );
+
+      normals[3*i + 0] = n;
+      normals[3*i + 1] = n;
+      normals[3*i + 2] = n;
+    }
+
+    // find the average normal of each normal of a point
+    for(int i = 0; i < numVertices; i++) {
+
+      vec3 p = vec3(0.0, 0.0, 0.0);
+      int count = 0;
+
+      for(int j = 0; j < numVertices; j++) {
+        if(points[i] == points[j]) {
+          p += normals[j];
+          count++;
+        }
+      }
+
+      // normalize the sum of neighbor normals
+      normals[i] = normalize( p );
+    }
   }
 };
 

@@ -127,6 +127,9 @@ class Skull: public Object {
 
       // populate vertices and colors for the GPU
 
+      // Object identifier
+      object_id = 300;
+
       // Create a vertex array object
       glGenVertexArrays( 1, &vao );
       glBindVertexArray( vao );
@@ -167,18 +170,13 @@ class Skull: public Object {
 
       // Set state variable "clear color" to clear buffer with.
       glClearColor( 1.0, 1.0, 1.0, 1.0 );
-
-      // Object identifier
-      object_id = 123;
-      objectID = glGetUniformLocation( program, "ObjectID" );
-      glUniform1i(objectID, object_id);
     }
 
     void calculateModelViewMatrix() {
       model_view = parent_model_view;
 
       //  Generate tha model-view matrix
-      mat4 scale = Scale( scaleFactor, scaleFactor, scaleFactor );
+      ///mat4 scale = Scale( scaleFactor, scaleFactor, scaleFactor );
       const vec3 displacement( Distance[Xaxis], Distance[Yaxis], Distance[Zaxis] );
 
     model_view =  RotateX( Theta[Xaxis] ) * RotateY( Theta[Yaxis] ) * parent_model_view; // * RotateZ( Theta[Zaxis] )

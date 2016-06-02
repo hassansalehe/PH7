@@ -12,21 +12,6 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-///////////////////////////////////////////////////////////////////////////////
-//
-//                   COMP 510, Computer Graphics, Spring 2016
-//                              Final project
-//                PH7: A virtual Museum Based on OpenGL and Glut
-//
-//                            (c) 2016 - Hassan & Pirah.
-//            Copying without the authors consent is strictly prohibited.
-//
-///////////////////////////////////////////////////////////////////////////////
-//
-// Implements the roof of the museum
-//
-///////////////////////////////////////////////////////////////////////////////
-
 #ifndef SUN_CLASS_H
 #define SUN_CLASS_H
 
@@ -35,6 +20,13 @@
 class Sun: public Object {
   private:
 
+    // Sun properties
+    color4 position = color4( 2.0, 0.0, 0.0, 0.0 );
+    color4 ambient = color4( 0.2, 0.2, 0.2, 1.0 );
+    color4 diffuse = color4( 1.0, 1.0, 1.0, 1.0 );
+    color4 specular = color4( 1.0, 1.0, 1.0, 1.0 );
+
+    // sun  object vertices
     point4 origin = point4(  0.0,  0.0,  0.0, 1.0 );
     point4 point1 = point4(  1.0,  0.0,  0.0, 1.0 ); // x, z
     point4 point2 = point4(  0.5,  0.0,  0.866, 1.0 ); // x, z
@@ -49,19 +41,9 @@ class Sun: public Object {
       point4(  0.6,  0.45, -0.9, 1.0 ),
     };
 
-    void quad( int a, int b, int c, int d ) {
-      // Initialize colors
-      colors[vertexIndex] = blue; points[vertexIndex] = vertices[a]; vertexIndex++;
-      colors[vertexIndex] = blue; points[vertexIndex] = vertices[b]; vertexIndex++;
-      colors[vertexIndex] = blue; points[vertexIndex] = vertices[c]; vertexIndex++;
-      colors[vertexIndex] = blue; points[vertexIndex] = vertices[a]; vertexIndex++;
-      colors[vertexIndex] = blue; points[vertexIndex] = vertices[c]; vertexIndex++;
-      colors[vertexIndex] = blue; points[vertexIndex] = vertices[d]; vertexIndex++;
-    }
-
     // generate 240 triangles: 720 vertices and 720 colors
     void colorcube() {
-	  const vec3 displacement2( -0.92, 0.92, 0.0 );
+	  const vec3 displacement2( -0.92, 0.92, -0.86 );
 	  color4 sky = color4( 0.52941176470588235294, 0.80784313725490196078, 0.98039215686274509804, 1.0);
 	  //color4 suncolor = color4(252.0/255, 212.0/255, 64.0/255);
 	  float angle = 0.0;
@@ -82,6 +64,10 @@ class Sun: public Object {
      * Initializes the vertices and colors of the empty room object.
      */
     void initialize(GLuint program) {
+
+      // Object identifier
+      object_id = 0;
+
       numVertices = 18; //(3 faces)(2 triangles/face)(3 vertices/triangle)
       points = new point4[numVertices];
       colors = new color4[numVertices];
@@ -126,6 +112,13 @@ class Sun: public Object {
       //projection = Perspective( 45.0, 1.0, 0.5, 3.0 );
       glUniformMatrix4fv( Projection, 1, GL_TRUE, projection );
 
+      // Initialize shader lighting parameters for the sun
+      //void sendSunProperties(GLuint program)
+      glUniform4fv( glGetUniformLocation(program, "sunAmbient"), 1, ambient );
+      glUniform4fv( glGetUniformLocation(program, "sunDiffuse"), 1, diffuse );
+      glUniform4fv( glGetUniformLocation(program, "sunSpecular"), 1, specular );
+      glUniform4fv( glGetUniformLocation(program, "sunPosition"), 1, position );
+
       // Enable hiddden surface removal
       glEnable( GL_DEPTH_TEST );
 
@@ -135,36 +128,14 @@ class Sun: public Object {
 
     void calculateModelViewMatrix() {}
 
-//     void display( GLuint program )
-//     {
-//       glBindVertexArray( vao );
-//       glBindBuffer( GL_ARRAY_BUFFER, buffer );
-//
-//       // set up vertex arrays
-//       //GLuint vPosition = glGetAttribLocation( program, "vPosition" );
-//       //glEnableVertexAttribArray( vPosition );
-//       //glVertexAttribPointer( vPosition, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0) );
-//
-//       //GLuint vColor = glGetAttribLocation( program, "vColor" );
-//       //glEnableVertexAttribArray( vColor );
-//      // glVertexAttribPointer( vColor, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(points_size) );
-//
-//       //  Generate tha model-view matrix
-//       const vec3 displacement( 0.0, 0.0, 0.0 );
-//       const vec3 displacement2( 0.0, 2.9, 0.0 );
-//       model_view = ( Translate(-displacement2) * Scale(1.0, 1.0, 1.0) * Translate( displacement ) *
-//               RotateX( Theta[Xaxis] ) *
-//               RotateY( Theta[Yaxis] ) // *
-//              // RotateZ( Theta[Zaxis] )
-//                          );
-//
-//       glUniformMatrix4fv( ModelView, 1, GL_TRUE, model_view );
-//       glDrawArrays( GL_TRIANGLES, 0, numVertices );
-//       glBindVertexArray( 0 );
-//       //glDisableVertexAttribArray(vPosition);
-//       //glDisableVertexAttribArray(vColor);
-//     }
+    void display( GLuint program ) {
+      printf("I am cool");
+      Object::display( program );
+    }
 
+    /**
+     * The idle function for the sun
+     */
     void idle( void )
     {
       //Theta[Axis] += 0.1;

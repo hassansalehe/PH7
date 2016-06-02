@@ -272,6 +272,14 @@ public:
       object->pushChildrenToQueue( objectQueue );
     }
   }
+
+  void changeShading() {
+    root->changeShading();
+  }
+
+  void changeReflection() {
+    root->changeReflection();
+  }
 };
 
 #endif // end of museum_hpp
