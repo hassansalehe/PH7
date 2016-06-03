@@ -72,12 +72,14 @@ private:
     room->appendChild( stand );
     room->appendChild( sun );
 
+    // children of stand
     stand->appendChild( skull );
     stand->appendChild( walkman );
 	stand->appendChild( part );
-	stand->appendChild( wheel);
-	stand->appendChild( airplane);
-	stand->appendChild( lamp);
+	stand->appendChild( wheel );
+	stand->appendChild( airplane );
+	stand->appendChild( lamp );
+
     // set root to the room object
     root = room;
   }
@@ -292,6 +294,38 @@ public:
 
   void changeReflection() {
     root->changeReflection();
+  }
+
+    /**
+   * Launches the idle functions of each object
+   */
+  void enablePicking() {
+
+    Object * object;
+    objectQueue.push(root);
+
+    while(! objectQueue.empty() ) {
+      object = objectQueue.front();
+      objectQueue.pop();
+      object->enablePicking(); // enable picking
+      object->pushChildrenToQueue( objectQueue );
+    }
+  }
+
+    /**
+   * Launches the idle functions of each object
+   */
+  void disablePicking() {
+
+    Object * object;
+    objectQueue.push(root);
+
+    while(! objectQueue.empty() ) {
+      object = objectQueue.front();
+      objectQueue.pop();
+      object->disablePicking(); // disable picking
+      object->pushChildrenToQueue( objectQueue );
+    }
   }
 };
 

@@ -126,6 +126,10 @@ class Part: public Object {
       objectID = glGetUniformLocation( program, "ObjectID" );
       glUniform1i(objectID, object_id);
 
+      // set picking color
+      isPicking = false;
+      pickingColor = color4(0.0, 0.0, 0.2, 1.0); // (0,0,51)
+
       // Create a vertex array object
       glGenVertexArrays( 1, &vao );
       glBindVertexArray( vao );

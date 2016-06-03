@@ -188,6 +188,10 @@ class Walkman: public Object {
       // Object identifier
       object_id = 360;
 
+      // set picking color
+      isPicking = false;
+      pickingColor = color4(1.0, 1.0, 1.0, 1.0); // (255,255,255)
+
       // Create a vertex array object
       glGenVertexArrays( 1, &vao );
       glBindVertexArray( vao );

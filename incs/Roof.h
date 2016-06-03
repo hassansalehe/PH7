@@ -108,6 +108,10 @@ class Roof: public Object {
       // Object identifier
       object_id = 200;
 
+      // set picking color
+      isPicking = false;
+      pickingColor = color4(0.0, 1.0, 0.0, 1.0); // (0,255,0)
+
       numVertices = 1080; //(180 faces)(2 triangles/face)(3 vertices/triangle)
       points = new point4[numVertices];
       colors = new color4[numVertices];

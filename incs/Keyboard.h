@@ -5,5 +5,6 @@
 
 void KeyboardCallbacks(unsigned char key, int x, int y);
 void KeyboardSpecialKeys( int key, int x, int y );
+void MouseClickCallback( int button, int state, int x, int y );
 
 #endif

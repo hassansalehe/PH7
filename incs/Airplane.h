@@ -145,6 +145,10 @@ class Airplane: public Object {
       // Object identifier
       object_id = 320;
 
+      // set picking color
+      isPicking = false;
+      pickingColor = color4(1.0, 1.0, 0.0, 1.0); // (255,255,0)
+
       // Create a vertex array object
       glGenVertexArrays( 1, &vao );
       glBindVertexArray( vao );

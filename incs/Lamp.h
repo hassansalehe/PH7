@@ -145,8 +145,10 @@ class Lamp: public Object {
 
       // Object identifier
       object_id = 330;
-      objectID = glGetUniformLocation( program, "ObjectID" );
-      glUniform1i(objectID, object_id);
+
+      // set picking color
+      isPicking = false;
+      pickingColor = color4(0.0, 0.2, 0.0, 1.0); // (0,51,0)
 
       // Create a vertex array object
       glGenVertexArrays( 1, &vao );

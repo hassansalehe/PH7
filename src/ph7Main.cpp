@@ -51,7 +51,7 @@ int main( int argc, char **argv )
     glutKeyboardFunc( KeyboardCallbacks );
     glutSpecialFunc( KeyboardSpecialKeys );
     glutReshapeFunc( reshapeMuseum );
-    glutMouseFunc( NULL );
+    glutMouseFunc( MouseClickCallback );
     glutIdleFunc( idleRedisplay );
     glutDisplayFunc( displayMuseum );
 

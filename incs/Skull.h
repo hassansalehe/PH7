@@ -134,6 +134,10 @@ public:
       // Object identifier
       object_id = 300;
 
+      // set picking color
+      isPicking = false;
+      pickingColor = color4(0.2, 0.2, 0.0, 1.0); //(51, 51, 0)
+
       // Create a vertex array object
       glGenVertexArrays( 1, &vao );
       glBindVertexArray( vao );

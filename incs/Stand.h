@@ -112,6 +112,10 @@ class Stand: public Object {
       // Object identifier
       object_id = 210;
 
+      // set picking color
+      isPicking = false;
+      pickingColor = color4(0.0, 0.0, 1.0, 1.0); // (0,0,255)
+
       numVertices = 180; //(30 faces)(2 triangles/face)(3 vertices/triangle)
       points = new point4[numVertices];
       colors = new color4[numVertices];

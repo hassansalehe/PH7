@@ -1,8 +1,12 @@
 // common for my both computers
-#version 130
+#version 400
 
 in vec4 color;
 uniform int ObjectID;
+
+// for object picking
+uniform bool PickingEnabled;
+uniform vec4 pickingColor;
 
 // Properties of sun
 uniform vec4 sunAmbient;
@@ -28,6 +32,10 @@ uniform int HS_shading_model;
 
 void main()
 {
+  if( PickingEnabled ) {
+    gl_FragColor = pickingColor;
+    return;
+  }
 
   if(ObjectID == 100) {
     if ( HS_shading_model == PHONG_SHADING_MODEL ) {
