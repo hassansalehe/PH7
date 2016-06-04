@@ -96,7 +96,7 @@ void main()
       gl_FragColor = color;
     }
   }
-  else if( gl_FrontFacing || ObjectID == 123 )
+  else if( gl_FrontFacing || ObjectID != 100 || ObjectID != 200 )
     gl_FragColor = color;
   else
     gl_FragColor = vec4(1.0, 0.8, 0.8, 0.0);
