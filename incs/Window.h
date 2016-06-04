@@ -238,47 +238,8 @@ class Window: public Object {
       // compute normals
       calculateNormals();
 
-      // Create a vertex array object
-      glGenVertexArrays( 1, &vao );
-      glBindVertexArray( vao );
-
-      points_size = sizeof(point4)*numVertices;
-      colors_size = sizeof(color4)*numVertices;
-
-      // Create and initialize a buffer object
-      glGenBuffers( 1, &buffer );
-      glBindBuffer( GL_ARRAY_BUFFER, buffer );
-      glBufferData( GL_ARRAY_BUFFER, points_size + colors_size, NULL, GL_STATIC_DRAW );
-      glBufferSubData( GL_ARRAY_BUFFER, 0, points_size, points );
-      glBufferSubData( GL_ARRAY_BUFFER, points_size, colors_size, colors );
-
-      // set up vertex arrays
-      GLuint vPosition = glGetAttribLocation( program, "vPosition" );
-      glEnableVertexAttribArray( vPosition );
-      glVertexAttribPointer( vPosition, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0) );
-
-      GLuint vColor = glGetAttribLocation( program, "vColor" );
-      glEnableVertexAttribArray( vColor );
-      glVertexAttribPointer( vColor, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(points_size) );
-
-      // Set current program object
-      glUseProgram( program );
-
-      // Retrieve transformation uniform variable locations
-      ModelView = glGetUniformLocation( program, "ModelView" );
-      Projection = glGetUniformLocation( program, "Projection" );
-
-      // Set projection matrix
-      mat4  projection = Ortho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
-      //projection = Perspective( 45.0, 1.0, 0.5, 3.0 );
-      glUniformMatrix4fv( Projection, 1, GL_TRUE, projection );
-
-      // Enable hiddden surface removal
-      glEnable( GL_DEPTH_TEST );
-
-      // Set state variable "clear color" to clear buffer with.
-      glClearColor( 1.0, 1.0, 1.0, 1.0 );
-
+      shininess = 180;
+      initializeDataBuffers( program );
     }
 
     void calculateModelViewMatrix() {
@@ -335,14 +296,9 @@ class Window: public Object {
 
     void checkIfPicked( unsigned char pixel[4] ) {
       // (0,255,255)
-        if ( pixel[0] == 0 && pixel[1] == 255 && pixel[2] == 255 ) { // Wheel
-          printf("Window selected\n");
-        }
+      if ( pixel[0] == 0 && pixel[1] == 255 && pixel[2] == 255 ) { // Wheel
+        printf("Window selected\n");
       }
-
-    ~Window() {
-      delete colors;
-      delete points;
     }
 };
 

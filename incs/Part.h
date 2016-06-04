@@ -43,6 +43,7 @@ class Part: public Object {
 
       numVertices = ntriangles * 3; //(180 faces)(2 triangles/face)(3 vertices/triangle)
       points = new point4[numVertices];
+      normals = new normal3[numVertices];
 
       r_points = points;
       r_vertexIndex = &vertexIndex;
@@ -119,6 +120,9 @@ class Part: public Object {
     void initialize(GLuint program) {
 
       readVertices();
+
+      // normals
+      calculateNormals();
 
       // Object identifier
       object_id = 340;
@@ -210,10 +214,6 @@ class Part: public Object {
       if ( pixel[0] == 0 && pixel[1] == 0 && pixel[2] == 51 ) { // Part
         printf("Part selected\n");
       }
-    }
-
-    ~Part() {
-      delete points;
     }
 };
 

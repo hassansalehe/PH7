@@ -55,6 +55,8 @@ int main( int argc, char **argv )
     glutIdleFunc( idleRedisplay );
     glutDisplayFunc( displayMuseum );
 
+    glutCloseFunc( ClosingMuseum );
+
     // loop indefinitely
     glutMainLoop();
     return 0;

@@ -135,8 +135,6 @@ public:
 
       readVertices();
 
-
-
       // set picking color
       isPicking = false;
       pickingColor = color4(0.2, 0.2, 0.0, 1.0); //(51, 51, 0)
@@ -145,24 +143,36 @@ public:
       glGenVertexArrays( 1, &vao );
       glBindVertexArray( vao );
 
-      points_size = sizeof(point4)*numVertices;
-      colors_size = sizeof(color4)*numVertices;
+      points_size = sizeof(point4) * numVertices;
+      colors_size = sizeof(color4) * numVertices;
+      normals_size = sizeof(normal3) * numVertices;
 
       // Create and initialize a buffer object
       glGenBuffers( 1, &buffer );
       glBindBuffer( GL_ARRAY_BUFFER, buffer );
-      glBufferData( GL_ARRAY_BUFFER, points_size + colors_size, NULL, GL_STATIC_DRAW );
+      glBufferData( GL_ARRAY_BUFFER, points_size + colors_size + normals_size, NULL, GL_STATIC_DRAW );
       glBufferSubData( GL_ARRAY_BUFFER, 0, points_size, points );
       glBufferSubData( GL_ARRAY_BUFFER, points_size, colors_size, colors );
+      glBufferSubData( GL_ARRAY_BUFFER, points_size + colors_size, normals_size, normals );
 
       // set up vertex arrays
+      size_t size = 0;
       GLuint vPosition = glGetAttribLocation( program, "vPosition" );
       glEnableVertexAttribArray( vPosition );
-      glVertexAttribPointer( vPosition, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0) );
+      glVertexAttribPointer( vPosition, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(size) );
 
+      size += points_size;
       GLuint vColor = glGetAttribLocation( program, "vColor" );
       glEnableVertexAttribArray( vColor );
-      glVertexAttribPointer( vColor, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(points_size) );
+      glVertexAttribPointer( vColor, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(size) );
+
+      size += colors_size;
+      GLuint vNormal = glGetAttribLocation( program, "vNormal" );
+      glEnableVertexAttribArray( vPosition );
+      glVertexAttribPointer( vNormal, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(size) );
+
+      shininess = 120;
+      glUniform1f( glGetUniformLocation(program, "Shininess"), shininess );
 
       // Set current program object
       glUseProgram( program );
@@ -227,11 +237,6 @@ public:
       if ( pixel[0] == 51 && pixel[1] == 51 && pixel[2] == 0 ) { // Skull
         printf("Skull selected\n");
       }
-    }
-
-    ~Skull() {
-      delete colors;
-      delete points;
     }
 };
 

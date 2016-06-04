@@ -51,6 +51,7 @@ class Walkman: public Object {
       numVertices = ntriangles * 3; //(180 faces)(2 triangles/face)(3 vertices/triangle)
       points = new point4[numVertices];
       colors = new color4[numVertices];
+      normals = new normal3[numVertices];
 
       r_points = points;
       r_colors = colors;
@@ -197,6 +198,9 @@ class Walkman: public Object {
 
       readVertices();
 
+      // calculate normals
+      calculateNormals();
+
       // Object identifier
       object_id = 360;
 
@@ -204,46 +208,9 @@ class Walkman: public Object {
       isPicking = false;
       pickingColor = color4(1.0, 1.0, 1.0, 1.0); // (255,255,255)
 
-      // Create a vertex array object
-      glGenVertexArrays( 1, &vao );
-      glBindVertexArray( vao );
+      shininess = 120;
 
-      points_size = sizeof(point4)*numVertices;
-      colors_size = sizeof(color4)*numVertices;
-
-      // Create and initialize a buffer object
-      glGenBuffers( 1, &buffer );
-      glBindBuffer( GL_ARRAY_BUFFER, buffer );
-      glBufferData( GL_ARRAY_BUFFER, points_size + colors_size, NULL, GL_STATIC_DRAW );
-      glBufferSubData( GL_ARRAY_BUFFER, 0, points_size, points );
-      glBufferSubData( GL_ARRAY_BUFFER, points_size, colors_size, colors );
-
-      // set up vertex arrays
-      GLuint vPosition = glGetAttribLocation( program, "vPosition" );
-      glEnableVertexAttribArray( vPosition );
-      glVertexAttribPointer( vPosition, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0) );
-
-      GLuint vColor = glGetAttribLocation( program, "vColor" );
-      glEnableVertexAttribArray( vColor );
-      glVertexAttribPointer( vColor, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(points_size) );
-
-      // Set current program object
-      glUseProgram( program );
-
-      // Retrieve transformation uniform variable locations
-      ModelView = glGetUniformLocation( program, "ModelView" );
-      Projection = glGetUniformLocation( program, "Projection" );
-
-      // Set projection matrix
-      mat4  projection = Ortho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
-      //projection = Perspective( 45.0, 1.0, 0.5, 3.0 );
-      glUniformMatrix4fv( Projection, 1, GL_TRUE, projection );
-
-      // Enable hiddden surface removal
-      glEnable( GL_DEPTH_TEST );
-
-      // Set state variable "clear color" to clear buffer with.
-      glClearColor( 1.0, 1.0, 1.0, 1.0 );
+      initializeDataBuffers( program );
     }
 
     void calculateModelViewMatrix() {
@@ -278,11 +245,6 @@ class Walkman: public Object {
       if ( pixel[0] == 255 && pixel[1] == 255 && pixel[2] == 255 ) { // Walkman
         printf("Walkman selected\n");
       }
-    }
-
-    ~Walkman() {
-      delete colors;
-      delete points;
     }
 };
 

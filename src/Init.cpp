@@ -38,3 +38,7 @@ void reshapeMuseum(int w, int h) {
   museum.reshape(w, h);
 }
 
+void ClosingMuseum () {
+  museum.close();
+}
+

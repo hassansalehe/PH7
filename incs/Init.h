@@ -33,4 +33,7 @@ void idleRedisplay();
 // stub for reshaping the museum after window change
 void reshapeMuseum(int w, int h);
 
+// for calling before the museum terminates
+void ClosingMuseum ();
+
 #endif

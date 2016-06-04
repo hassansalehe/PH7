@@ -172,11 +172,6 @@ class Sun: public Object {
     void checkIfPicked( unsigned char pixel[4] ) {
 
     }
-
-    ~Sun() {
-      delete colors;
-      delete points;
-    }
 };
 
 #endif // end sun

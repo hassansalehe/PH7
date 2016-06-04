@@ -61,9 +61,11 @@ public:
   size_t normals_size;
 
   int numVertices;
-  point4 * points;
-  color4 * colors;
-  normal3 * normals;
+  point4 * points = NULL;
+  color4 * colors = NULL;
+  normal3 * normals = NULL;
+
+  GLfloat shininess = 0.0;
 
   int vertexIndex;
   float scaleFactor = 1.0;
@@ -84,6 +86,61 @@ public:
   // fields for picking
   int isPicking;
   color4 pickingColor;
+
+  void initializeDataBuffers( GLuint program ) {
+
+    // Create a vertex array object
+    glGenVertexArrays( 1, &vao );
+    glBindVertexArray( vao );
+
+    points_size = sizeof(point4) * numVertices;
+    colors_size = sizeof(color4) * numVertices;
+    normals_size = sizeof(normal3) * numVertices;
+
+    // Create and initialize a buffer object
+    glGenBuffers( 1, &buffer );
+    glBindBuffer( GL_ARRAY_BUFFER, buffer );
+    glBufferData( GL_ARRAY_BUFFER, points_size + colors_size + normals_size, NULL, GL_STATIC_DRAW );
+    glBufferSubData( GL_ARRAY_BUFFER, 0, points_size, points );
+    glBufferSubData( GL_ARRAY_BUFFER, points_size, colors_size, colors );
+    glBufferSubData( GL_ARRAY_BUFFER, points_size + colors_size, normals_size, normals );
+
+    // set up vertex arrays
+    size_t size = 0;
+    GLuint vPosition = glGetAttribLocation( program, "vPosition" );
+    glEnableVertexAttribArray( vPosition );
+    glVertexAttribPointer( vPosition, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(size) );
+
+    size += points_size;
+    GLuint vColor = glGetAttribLocation( program, "vColor" );
+    glEnableVertexAttribArray( vColor );
+    glVertexAttribPointer( vColor, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(size) );
+
+    size += colors_size;
+    GLuint vNormal = glGetAttribLocation( program, "vNormal" );
+    glEnableVertexAttribArray( vPosition );
+    glVertexAttribPointer( vNormal, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(size) );
+
+    glUniform1f( glGetUniformLocation(program, "Shininess"), shininess );
+
+    // Set current program object
+    glUseProgram( program );
+
+    // Retrieve transformation uniform variable locations
+    ModelView = glGetUniformLocation( program, "ModelView" );
+    Projection = glGetUniformLocation( program, "Projection" );
+
+    // Set projection matrix
+    mat4  projection = Ortho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
+    //projection = Perspective( 45.0, 1.0, 0.5, 3.0 );
+    glUniformMatrix4fv( Projection, 1, GL_TRUE, projection );
+
+    // Enable hiddden surface removal
+    glEnable( GL_DEPTH_TEST );
+
+    // Set state variable "clear color" to clear buffer with.
+    glClearColor( 1.0, 1.0, 1.0, 1.0 );
+  }
 
 public:
 
@@ -321,6 +378,21 @@ public:
     for(int i=0; i<4; i++) for(int j=0; j<4; j++) c[i][j]=0.0;
     for(int i=0; i<4; i++) c[i][i] = 1.0;
     return c;
+  }
+
+  /**
+   * The destructor to claim memory from dynamically allocated memory
+   */
+  virtual ~Object() {
+
+    if(points)
+      delete points;
+
+    if(colors)
+      delete colors;
+
+    if(normals)
+      delete normals;
   }
 
 };
