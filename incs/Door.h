@@ -194,7 +194,7 @@ class Door: public Object {
 
       // set picking color
       isPicking = false;
-      pickingColor = color4(1.0, 0.0, 0.0, 1.0); // (255,0,0)
+      pickingColor = color4(1.0, 0.0, 1.0, 1.0); // (255,0,255)
 
       numVertices = 84; // (11 faces + 3)(2 triangles/face)(3 vertices/triangle)
       points = new point4[numVertices];
@@ -312,6 +312,14 @@ class Door: public Object {
       }
       glutPostRedisplay();
     }
+
+    void checkIfPicked( unsigned char pixel[4] ) {
+
+      // (255,0,255)
+        if ( pixel[0] == 255 && pixel[1] == 0 && pixel[2] == 255 ) { // Wheel
+          printf("Door selected\n");
+        }
+      }
 
     ~Door() {
       delete colors;

@@ -223,6 +223,12 @@ class Airplane: public Object {
       glutPostRedisplay();
     }
 
+    void checkIfPicked( unsigned char pixel[4] ) {
+      if ( pixel[0] == 255 && pixel[1] == 255 && pixel[2] == 0 ) { // Airplane
+        printf("Airplane selected\n");
+      }
+    }
+
     ~Airplane() {
       delete colors;
       delete points;

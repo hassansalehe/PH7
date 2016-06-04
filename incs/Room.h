@@ -313,6 +313,12 @@ class Room: public Object {
       glutPostRedisplay();
     }
 
+    void checkIfPicked( unsigned char pixel[4] ) {
+      if ( pixel[0] == 255 && pixel[1] == 0 && pixel[2] == 0 ) { // Room
+        printf("Room selected\n");
+      }
+    }
+
     ~Room() {
       delete colors;
       delete points;

@@ -245,6 +245,7 @@ public:
     */
   }
 
+
   /**
    * Propagates the rotation angle along x-axis to all the museum
    * objects.
@@ -261,6 +262,7 @@ public:
     }
   }
 
+
   void zoomOut(GLfloat delta) {
 
     Object * object;
@@ -274,6 +276,7 @@ public:
     }
   }
 
+
   void zoomIn(GLfloat delta) {
 
     Object * object;
@@ -286,6 +289,8 @@ public:
       object->pushChildrenToQueue( objectQueue );
     }
   }
+
+
   /**
    * Move the viewer in forward direction in the museum -z Direction
    */
@@ -320,6 +325,7 @@ public:
     }
   }
 
+
   void changeShading() {
     root->changeShading();
   }
@@ -328,7 +334,25 @@ public:
     root->changeReflection();
   }
 
-    /**
+
+  /**
+   * Broadkcasts the pixel picked
+   */
+  void broadcastSelectedPixel(unsigned char pixel[4]) {
+
+    Object * object;
+    objectQueue.push(root);
+
+    while(! objectQueue.empty() ) {
+      object = objectQueue.front();
+      objectQueue.pop();
+      object->checkIfPicked( pixel ); // check if picking
+      object->pushChildrenToQueue( objectQueue );
+    }
+  }
+
+
+  /**
    * Launches the idle functions of each object
    */
   void enablePicking() {

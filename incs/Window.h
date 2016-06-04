@@ -195,20 +195,20 @@ class Window: public Object {
       // apply transformations
       for(int i = 0; i < vertexIndex; i++)
       {
-        points[i] = 
-        //Translate(displacement) * RotateY(angle) 
+        points[i] =
+        //Translate(displacement) * RotateY(angle)
         initTransform * points[i];
       }
     }
 
   public:
 
-    Window(const point4 displacement, float angle) { 
+    Window(const point4 displacement, float angle) {
       initTransform = Translate(displacement) * RotateY(angle);
     }
-    
+
     Window(const point4 displacement, const vec3 scale) {
-      
+
       initTransform = Translate(displacement) * Scale(scale);
     }
 
@@ -219,11 +219,11 @@ class Window: public Object {
     void initialize(GLuint program) {
 
       // Object identifier
-      object_id = 240;
+      object_id = 250;
 
       // set picking color
       isPicking = false;
-      pickingColor = color4(1.0, 0.0, 0.0, 1.0); // (255,0,0)
+      pickingColor = color4(0.0, 1.0, 1.0, 1.0); // (0,255,255)
 
       numVertices = 168; // (28 faces )(2 triangles/face)(3 vertices/triangle)
       points = new point4[numVertices];
@@ -341,6 +341,13 @@ class Window: public Object {
       }
       glutPostRedisplay();
     }
+
+    void checkIfPicked( unsigned char pixel[4] ) {
+      // (0,255,255)
+        if ( pixel[0] == 0 && pixel[1] == 255 && pixel[2] == 255 ) { // Wheel
+          printf("Window selected\n");
+        }
+      }
 
     ~Window() {
       delete colors;

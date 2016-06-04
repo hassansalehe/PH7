@@ -169,6 +169,10 @@ class Sun: public Object {
       glutPostRedisplay();
     }
 
+    void checkIfPicked( unsigned char pixel[4] ) {
+
+    }
+
     ~Sun() {
       delete colors;
       delete points;

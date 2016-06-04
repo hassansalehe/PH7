@@ -203,6 +203,12 @@ class Stand: public Object {
       glutPostRedisplay();
     }
 
+    void checkIfPicked( unsigned char pixel[4] ) {
+      if (pixel[0] == 0 && pixel[1] == 0 && pixel[2] == 255 ) { // Stand
+        printf("Stand selected\n");
+      }
+    }
+
     ~Stand() {
       delete colors;
       delete points;

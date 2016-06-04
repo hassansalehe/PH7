@@ -95,33 +95,8 @@ void MouseClickCallback( int button, int state, int x, int y ) {
       // read the current pixel's color from the back buffer
       glReadPixels(x, y, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, pixel);
 
-      if ( pixel[0] == 255 && pixel[1] == 0 && pixel[2] == 0 ) { // Room
-        printf("Room selected\n");
-      }
-      else if ( pixel[0] == 0 && pixel[1] == 255 && pixel[2] == 0 ) { // Roof
-        printf("Roof selected\n");
-      }
-      else if (pixel[0] == 0 && pixel[1] == 0 && pixel[2] == 255 ) { // Stand
-        printf("Stand selected\n");
-      }
-      else if ( pixel[0] == 255 && pixel[1] == 255 && pixel[2] == 0 ) { // Airplane
-        printf("Airplane selected\n");
-      }
-      else if ( pixel[0] == 0 && pixel[1] == 51 && pixel[2] == 0 ) { // Lamp
-        printf("Lamp selected\n");
-      }
-      else if ( pixel[0] == 0 && pixel[1] == 0 && pixel[2] == 51 ) { // Part
-        printf("Part selected\n");
-      }
-      else if ( pixel[0] == 51 && pixel[1] == 51 && pixel[2] == 0 ) { // Skull
-        printf("Skull selected\n");
-      }
-      else if ( pixel[0] == 255 && pixel[1] == 255 && pixel[2] == 255 ) { // Walkman
-        printf("Walkman selected\n");
-      }
-      else if ( pixel[0] == 51 && pixel[1] == 0 && pixel[2] == 0 ) { // Wheel
-        printf("Wheel selected\n");
-      }
+      museum.broadcastSelectedPixel( pixel );
+
       //else if(pixel[0] == 0 && pixel[1] == 0 && pixel[2] == 0)
       //  printf("You clicked on edges. Please click on colored cubes.\n");
 

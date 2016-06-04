@@ -240,6 +240,12 @@ class Roof: public Object {
       glutPostRedisplay();
     }
 
+    void checkIfPicked( unsigned char pixel[4] ) {
+      if ( pixel[0] == 0 && pixel[1] == 255 && pixel[2] == 0 ) { // Roof
+        printf("Roof selected\n");
+      }
+    }
+
     ~Roof() {
       delete colors;
       delete points;

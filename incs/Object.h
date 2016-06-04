@@ -49,8 +49,8 @@ protected:
   GLuint HS_shading_model = 273;
 
   // model view matrices
-  mat4  model_view = identity();
-  mat4  parent_model_view = identity();
+  mat4  model_view = Identity();
+  mat4  parent_model_view = Identity();
 
   GLuint vao;
   GLuint buffer;
@@ -303,12 +303,22 @@ public:
     }
   }
 
+  virtual void checkIfPicked( unsigned char pixel[4] ) = 0;
+
   void enablePicking() {
     isPicking = true;
   }
 
   void disablePicking() {
     isPicking = false;
+  }
+
+  inline mat4 Identity()
+  {
+    mat4 c;
+    for(int i=0; i<4; i++) for(int j=0; j<4; j++) c[i][j]=0.0;
+    for(int i=0; i<4; i++) c[i][i] = 1.0;
+    return c;
   }
 
 };

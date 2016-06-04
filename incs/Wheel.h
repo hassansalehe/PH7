@@ -197,11 +197,6 @@ class Wheel: public Object {
 
       // Set state variable "clear color" to clear buffer with.
       glClearColor( 1.0, 1.0, 1.0, 1.0 );
-
-      // Object identifier
-      object_id = 123;
-      objectID = glGetUniformLocation( program, "ObjectID" );
-      glUniform1i(objectID, object_id);
     }
 
     void calculateModelViewMatrix() {
@@ -234,6 +229,13 @@ class Wheel: public Object {
           Theta[Xaxis] -= 360.0;
       }
       glutPostRedisplay();
+    }
+
+
+    void checkIfPicked( unsigned char pixel[4] ) {
+      if ( pixel[0] == 51 && pixel[1] == 0 && pixel[2] == 0 ) { // Wheel
+        printf("Wheel selected\n");
+      }
     }
 
     ~Wheel() {

@@ -224,6 +224,12 @@ class Lamp: public Object {
       glutPostRedisplay();
     }
 
+    void checkIfPicked( unsigned char pixel[4] ) {
+      if ( pixel[0] == 0 && pixel[1] == 51 && pixel[2] == 0 ) { // Lamp
+        printf("Lamp selected\n");
+      }
+    }
+
     ~Lamp() {
       delete colors;
       delete points;

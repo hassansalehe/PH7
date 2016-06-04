@@ -220,6 +220,12 @@ public:
       glutPostRedisplay();
     }
 
+    void checkIfPicked( unsigned char pixel[4] ) {
+      if ( pixel[0] == 51 && pixel[1] == 51 && pixel[2] == 0 ) { // Skull
+        printf("Skull selected\n");
+      }
+    }
+
     ~Skull() {
       delete colors;
       delete points;
