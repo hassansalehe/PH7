@@ -138,6 +138,10 @@ public:
 
     
 
+      // set picking color
+      isPicking = false;
+      pickingColor = color4(0.2, 0.2, 0.0, 1.0); //(51, 51, 0)
+
       // Create a vertex array object
       glGenVertexArrays( 1, &vao );
       glBindVertexArray( vao );
@@ -218,6 +222,12 @@ public:
           Theta[Xaxis] -= 360.0;
       }
       glutPostRedisplay();
+    }
+
+    void checkIfPicked( unsigned char pixel[4] ) {
+      if ( pixel[0] == 51 && pixel[1] == 51 && pixel[2] == 0 ) { // Skull
+        printf("Skull selected\n");
+      }
     }
 
     ~Skull() {

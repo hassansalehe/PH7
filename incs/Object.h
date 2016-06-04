@@ -49,8 +49,8 @@ public:
   GLuint HS_shading_model = 273;
 
   // model view matrices
-  mat4  model_view = identity();
-  mat4  parent_model_view = identity();
+  mat4  model_view = Identity();
+  mat4  parent_model_view = Identity();
 
   GLuint vao;
   GLuint buffer;
@@ -79,6 +79,10 @@ public:
   color4 yellow = color4( 1.0, 1.0, 0.0, 1.0 );  // yellow
   color4 green  = color4( 0.0, 1.0, 0.0, 1.0 );  // green
   color4 earth  = color4(125.0/255, 68.0/255, 29.0/255, 1.0 );
+
+  // fields for picking
+  int isPicking;
+  color4 pickingColor;
 
 public:
 
@@ -163,6 +167,12 @@ public:
     // custom transformations
     calculateModelViewMatrix();
 
+    // Send values for picking
+      GLuint picking = glGetUniformLocation( program, "PickingEnabled" );
+      glUniform1i( picking, isPicking );
+      GLuint uniColor = glGetUniformLocation( program, "pickingColor" );
+      glUniform4fv( uniColor, 1, pickingColor );
+
     // send object id
     objectID = glGetUniformLocation( program, "ObjectID" );
     glUniform1i(objectID, object_id);
@@ -179,13 +189,11 @@ public:
     glUniformMatrix4fv( ModelView, 1, GL_TRUE, model_view );
     glDrawArrays( GL_TRIANGLES, 0, numVertices );
 
-
     // reverse the object identifier
     glUniform1i(objectID, 0);
 
     // release vertex handler
     glBindVertexArray( 0 );
-
   }
 
 
@@ -295,6 +303,25 @@ public:
       normals[i] = normalize( p );
     }
   }
+
+  virtual void checkIfPicked( unsigned char pixel[4] ) = 0;
+
+  void enablePicking() {
+    isPicking = true;
+  }
+
+  void disablePicking() {
+    isPicking = false;
+  }
+
+  inline mat4 Identity()
+  {
+    mat4 c;
+    for(int i=0; i<4; i++) for(int j=0; j<4; j++) c[i][j]=0.0;
+    for(int i=0; i<4; i++) c[i][i] = 1.0;
+    return c;
+  }
+
 };
 
 #endif // end object class

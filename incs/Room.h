@@ -178,6 +178,10 @@ class Room: public Object {
       // Object identifier
       object_id = 100;
 
+      // set picking color
+      isPicking = false;
+      pickingColor = color4(1.0, 0.0, 0.0, 1.0); // (255,0,0)
+
       numVertices = 126; // (21 faces)(2 triangles/face)(3 vertices/triangle)
       points = new point4[numVertices];
       colors = new color4[numVertices];
@@ -309,6 +313,12 @@ class Room: public Object {
           Theta[Xaxis] -= 360.0;
       }
       glutPostRedisplay();
+    }
+
+    void checkIfPicked( unsigned char pixel[4] ) {
+      if ( pixel[0] == 255 && pixel[1] == 0 && pixel[2] == 0 ) { // Room
+        printf("Room selected\n");
+      }
     }
 
     ~Room() {

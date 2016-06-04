@@ -108,6 +108,10 @@ class Roof: public Object {
       // Object identifier
       object_id = 200;
 
+      // set picking color
+      isPicking = false;
+      pickingColor = color4(0.0, 1.0, 0.0, 1.0); // (0,255,0)
+
       numVertices = 1080; //(180 faces)(2 triangles/face)(3 vertices/triangle)
       points = new point4[numVertices];
       colors = new color4[numVertices];
@@ -237,6 +241,12 @@ class Roof: public Object {
           Theta[Xaxis] -= 360.0;
       }
       glutPostRedisplay();
+    }
+
+    void checkIfPicked( unsigned char pixel[4] ) {
+      if ( pixel[0] == 0 && pixel[1] == 255 && pixel[2] == 0 ) { // Roof
+        printf("Roof selected\n");
+      }
     }
 
     ~Roof() {

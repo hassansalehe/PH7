@@ -146,6 +146,10 @@ class Airplane: public Object {
       // Object identifier
       object_id = 320;
 
+      // set picking color
+      isPicking = false;
+      pickingColor = color4(1.0, 1.0, 0.0, 1.0); // (255,255,0)
+
       // Create a vertex array object
       glGenVertexArrays( 1, &vao );
       glBindVertexArray( vao );
@@ -219,6 +223,12 @@ class Airplane: public Object {
 // 	  const vec3 displacement( Distance[Xaxis], Distance[Yaxis], Distance[Zaxis] );
 //       my_model_view=my_model_view*Translate(displacement*RotateY(10)*Translate(-displacement);
 // 	}
+
+    void checkIfPicked( unsigned char pixel[4] ) {
+      if ( pixel[0] == 255 && pixel[1] == 255 && pixel[2] == 0 ) { // Airplane
+        printf("Airplane selected\n");
+      }
+    }
 
     ~Airplane() {
       delete colors;

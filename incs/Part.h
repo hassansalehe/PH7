@@ -124,8 +124,10 @@ class Part: public Object {
 
       // Object identifier
       object_id = 340;
-      objectID = glGetUniformLocation( program, "ObjectID" );
-      glUniform1i(objectID, object_id);
+
+      // set picking color
+      isPicking = false;
+      pickingColor = color4(0.0, 0.0, 0.2, 1.0); // (0,0,51)
 
       // Create a vertex array object
       glGenVertexArrays( 1, &vao );
@@ -167,10 +169,6 @@ class Part: public Object {
       // Set state variable "clear color" to clear buffer with.
       glClearColor( 1.0, 1.0, 1.0, 1.0 );
 
-      // Object identifier
-      object_id = 123;
-      objectID = glGetUniformLocation( program, "ObjectID" );
-      glUniform1i(objectID, object_id);
     }
 
     void calculateModelViewMatrix() {
@@ -208,6 +206,12 @@ class Part: public Object {
           Theta[Xaxis] -= 360.0;
       }
       glutPostRedisplay();
+    }
+
+    void checkIfPicked( unsigned char pixel[4] ) {
+      if ( pixel[0] == 0 && pixel[1] == 0 && pixel[2] == 51 ) { // Part
+        printf("Part selected\n");
+      }
     }
 
     ~Part() {

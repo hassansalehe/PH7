@@ -24,6 +24,8 @@
 #include "Object.h"
 #include "Room.h"
 #include "Roof.h"
+#include "Door.h"
+#include "Window.h"
 #include "Stand.h"
 #include "Sun.h"
 #include "Skull.h"
@@ -32,6 +34,7 @@
 #include "Wheel.h"
 #include "Airplane.h"
 #include "Lamp.h"
+
 using namespace std;
 
 // create the museum class
@@ -58,6 +61,21 @@ private:
     // Create objects
     Object * room    = new Room();
     Object * roof    = new Roof();
+    Object * door    = new Door();
+
+    // right windows
+    Object * rfwindow  = new Window(point4(0.5, 0.1, 0.35, 1.0), 90);
+    Object * rrwindow  = new Window(point4(0.5, 0.1, -0.35, 1.0), 90);
+
+    // left windows
+    Object * lfwindow  = new Window(point4(-0.5, 0.1, 0.35, 1.0), -90);
+    Object * lrwindow  = new Window(point4(-0.5, 0.1, -0.35, 1.0), -90);
+
+    // rear windows
+    Object * reRightwindow  = new Window(point4( 0.3,  0.35, -0.8, 1.0), vec3(0.4, 0.25, 1.0));
+    Object * reMiddlewindow  = new Window(point4(0.0,  0.35, -0.8, 1.0), vec3(0.4, 0.25, 1.0));
+    Object * reLeftwindow  = new Window(point4( -0.3,  0.35, -0.8, 1.0), vec3(0.4, 0.25, 1.0));
+
     Object * stand   = new Stand();
     Object * sun     = new  Sun();
     Object * skull   = new Skull();
@@ -69,15 +87,31 @@ private:
 
     // Construct tree
     room->appendChild( roof );
+    room->appendChild( door );
+
+    // windows
+    room->appendChild( rfwindow ); // right front Window
+    room->appendChild( rrwindow ); // right rear Window
+
+    room->appendChild( lfwindow ); // left front Window
+    room->appendChild( lrwindow ); // left rear Window
+
+    //rear windows
+    room->appendChild( reRightwindow );
+    room->appendChild( reMiddlewindow );
+    room->appendChild( reLeftwindow );
+
     room->appendChild( stand );
     room->appendChild( sun );
 
+    // children of stand
     stand->appendChild( skull );
     stand->appendChild( walkman );
 	stand->appendChild( part );
-	stand->appendChild( wheel);
-	stand->appendChild( airplane);
-	stand->appendChild( lamp);
+	stand->appendChild( wheel );
+	stand->appendChild( airplane );
+	stand->appendChild( lamp );
+
     // set root to the room object
     root = room;
   }
@@ -211,6 +245,7 @@ public:
     */
   }
 
+
   /**
    * Propagates the rotation angle along x-axis to all the museum
    * objects.
@@ -227,6 +262,7 @@ public:
     }
   }
 
+
   void zoomOut(GLfloat delta) {
 
     Object * object;
@@ -240,6 +276,7 @@ public:
     }
   }
 
+
   void zoomIn(GLfloat delta) {
 
     Object * object;
@@ -252,6 +289,8 @@ public:
       object->pushChildrenToQueue( objectQueue );
     }
   }
+
+
   /**
    * Move the viewer in forward direction in the museum -z Direction
    */
@@ -301,12 +340,63 @@ public:
     }
   }
 
+
   void changeShading() {
     root->changeShading();
   }
 
   void changeReflection() {
     root->changeReflection();
+  }
+
+
+  /**
+   * Broadkcasts the pixel picked
+   */
+  void broadcastSelectedPixel(unsigned char pixel[4]) {
+
+    Object * object;
+    objectQueue.push(root);
+
+    while(! objectQueue.empty() ) {
+      object = objectQueue.front();
+      objectQueue.pop();
+      object->checkIfPicked( pixel ); // check if picking
+      object->pushChildrenToQueue( objectQueue );
+    }
+  }
+
+
+  /**
+   * Launches the idle functions of each object
+   */
+  void enablePicking() {
+
+    Object * object;
+    objectQueue.push(root);
+
+    while(! objectQueue.empty() ) {
+      object = objectQueue.front();
+      objectQueue.pop();
+      object->enablePicking(); // enable picking
+      object->pushChildrenToQueue( objectQueue );
+    }
+  }
+
+    /**
+   * Launches the idle functions of each object
+   */
+  void disablePicking() {
+
+    Object * object;
+    objectQueue.push(root);
+
+    while(! objectQueue.empty() ) {
+      object = objectQueue.front();
+      objectQueue.pop();
+      object->disablePicking(); // disable picking
+      object->pushChildrenToQueue( objectQueue );
+    }
   }
 };
 
