@@ -159,7 +159,7 @@ public:
   /**
    * The general display function launched by the Glut
    */
-  void display( GLuint program )
+  virtual void display( GLuint program )
   {
     // bind vertex array
     glBindVertexArray( vao );

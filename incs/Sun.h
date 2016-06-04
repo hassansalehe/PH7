@@ -133,7 +133,6 @@ class Sun: public Object {
     void calculateModelViewMatrix() {}
 
     void display( GLuint program ) {
-      printf("I am cool");
       Object::display( program );
     }
 
