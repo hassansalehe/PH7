@@ -306,7 +306,21 @@ public:
       object->pushChildrenToQueue( objectQueue );
     }
   }
+  /*
+   * Toggle auto rotation
+   */
+  void toggleAuto() {
 
+    Object * object;
+    objectQueue.push(root);
+
+    while(! objectQueue.empty() ) {
+      object = objectQueue.front();
+      objectQueue.pop();
+      object->toggleAuto(); // auto rotate
+      object->pushChildrenToQueue( objectQueue );
+    }
+  }
   /**
    *Function for selecting and rotating object 
    */

@@ -36,10 +36,10 @@ void KeyboardCallbacks(unsigned char key, int x, int y){
     case 'R':
       museum.changeReflection();
       break;
-//     case 'm':
-//     case 'M':
-//       museum.move();
-//       break;
+    case 'a':
+    case 'A':
+      museum.toggleAuto();
+      break;
 
   }
 }

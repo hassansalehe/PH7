@@ -121,27 +121,27 @@ class Lamp: public Object {
 
       // internal part of the Plane
       for(int i = 0; i < numVertices; i++) // inner part
-        colors[i] = color4(1.0, 0,84, 0.0); // gray
+        colors[i] = color4( 1.0, 1.0, 0.0, 1.0 ); // gray
 
       for(int i = 500; i < 2000; i++) // inner part
         //khaki 	#F0E68C 	rgb(240,230,140)
-        colors[i] = color4(0.9, 0.8, 0.5);
+        colors[i] = color4( 1.0, 1.0, 0.0, 1.0 );
 
 
       for(int i = 2000; i < 2500; i++) // thin metal handle
          //	Orange-Brown 	#F0F8FF 	rgb(240,248,255)
-        colors[i] = color4(1.0, 0,84, 0.0);
+        colors[i] = color4( 1.0, 1.0, 0.0, 1.0 );
 
       for(int i = 2500; i < 3000; i++) // inner thin metal handle
-        colors[i] = color4(0.9, 0.9, 0.5);
+        colors[i] = color4( 1.0, 1.0, 0.0, 1.0 );
 
       for(int i = 3000; i < 3500; i++)
          //	aliceblue 	#F0F8FF 	rgb(240,248,255)
-        colors[i] = color4(1.0, 0,84, 0.0);
+        colors[i] = color4( 1.0, 1.0, 0.0, 1.0 );
 
       for(int i = 3500; i < 4000; i++)
          //	aliceblue 	#F0F8FF 	rgb(240,248,255)
-        colors[i] =color4(0.9, 0.8, 0.5);
+        colors[i] =color4( 1.0, 1.0, 0.0, 1.0 );
 
 
       // reclaim memory
@@ -212,9 +212,10 @@ class Lamp: public Object {
 
     void idle( void )
     {
-      my_model_view= my_model_view*Translate(0.35, -0.02, 0.42)*RotateY(0.5)*Translate(-0.35, 0.02, -0.42);
-
-      glutPostRedisplay();
+	  if(autoOnOff!=0)
+		my_model_view= my_model_view*Translate(0.35, -0.02, 0.42)*RotateY(0.5)*Translate(-0.35, 0.02, -0.42);
+	  else
+		glutPostRedisplay();
     }
     void rotateLeft(float delta) {
 
@@ -237,6 +238,7 @@ class Lamp: public Object {
     void checkIfPicked( unsigned char pixel[4] ) {
       if ( pixel[0] == 0 && pixel[1] == 51 && pixel[2] == 0 ) { // Lamp
         printf("Lamp selected\n");
+		my_model_view= my_model_view*Translate(0.35, -0.02, 0.42)*RotateY(30)*Translate(-0.35, 0.02, -0.42);
       }
     }
 

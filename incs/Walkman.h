@@ -252,6 +252,7 @@ class Walkman: public Object {
 
     void idle( void )
     {
+	  if(autoOnOff!=0)
       my_model_view= my_model_view*Translate(0.35, 0.0, -0.36)*RotateY(0.5)*Translate(-0.35, 0.0, 0.36);
 
       glutPostRedisplay();
@@ -277,6 +278,7 @@ class Walkman: public Object {
     void checkIfPicked( unsigned char pixel[4] ) {
       if ( pixel[0] == 255 && pixel[1] == 255 && pixel[2] == 255 ) { // Walkman
         printf("Walkman selected\n");
+		my_model_view= my_model_view*Translate(0.35, 0.0, -0.36)*RotateY(30)*Translate(-0.35, 0.0, 0.36);
       }
     }
 
