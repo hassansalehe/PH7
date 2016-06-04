@@ -24,6 +24,7 @@
 #include "Object.h"
 #include "Room.h"
 #include "Roof.h"
+#include "Door.h"
 #include "Stand.h"
 #include "Sun.h"
 #include "Skull.h"
@@ -32,6 +33,7 @@
 #include "Wheel.h"
 #include "Airplane.h"
 #include "Lamp.h"
+
 using namespace std;
 
 // create the museum class
@@ -58,6 +60,7 @@ private:
     // Create objects
     Object * room    = new Room();
     Object * roof    = new Roof();
+    Object * door    = new Door();
     Object * stand   = new Stand();
     Object * sun     = new  Sun();
     Object * skull   = new Skull();
@@ -69,6 +72,7 @@ private:
 
     // Construct tree
     room->appendChild( roof );
+    room->appendChild( door );
     room->appendChild( stand );
     room->appendChild( sun );
 
