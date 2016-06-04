@@ -25,6 +25,7 @@
 #include "Room.h"
 #include "Roof.h"
 #include "Door.h"
+#include "Window.h"
 #include "Stand.h"
 #include "Sun.h"
 #include "Skull.h"
@@ -61,6 +62,20 @@ private:
     Object * room    = new Room();
     Object * roof    = new Roof();
     Object * door    = new Door();
+
+    // right windows
+    Object * rfwindow  = new Window(point4(0.5, 0.1, 0.35, 1.0), 90);
+    Object * rrwindow  = new Window(point4(0.5, 0.1, -0.35, 1.0), 90);
+
+    // left windows
+    Object * lfwindow  = new Window(point4(-0.5, 0.1, 0.35, 1.0), -90);
+    Object * lrwindow  = new Window(point4(-0.5, 0.1, -0.35, 1.0), -90);
+
+    // rear windows
+    Object * reRightwindow  = new Window(point4( 0.3,  0.35, -0.8, 1.0), vec3(0.4, 0.25, 1.0));
+    Object * reMiddlewindow  = new Window(point4(0.0,  0.35, -0.8, 1.0), vec3(0.4, 0.25, 1.0));
+    Object * reLeftwindow  = new Window(point4( -0.3,  0.35, -0.8, 1.0), vec3(0.4, 0.25, 1.0));
+
     Object * stand   = new Stand();
     Object * sun     = new  Sun();
     Object * skull   = new Skull();
@@ -73,6 +88,19 @@ private:
     // Construct tree
     room->appendChild( roof );
     room->appendChild( door );
+
+    // windows
+    room->appendChild( rfwindow ); // right front Window
+    room->appendChild( rrwindow ); // right rear Window
+
+    room->appendChild( lfwindow ); // left front Window
+    room->appendChild( lrwindow ); // left rear Window
+
+    //rear windows
+    room->appendChild( reRightwindow );
+    room->appendChild( reMiddlewindow );
+    room->appendChild( reLeftwindow );
+
     room->appendChild( stand );
     room->appendChild( sun );
 
