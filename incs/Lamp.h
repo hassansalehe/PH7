@@ -15,6 +15,7 @@
 #include "PLyParser.h"
 
 class Lamp: public Object {
+  mat4 my_model_view= identity();
   private:
     float max_v = 0.0;
 
@@ -189,18 +190,17 @@ class Lamp: public Object {
       // Set state variable "clear color" to clear buffer with.
       glClearColor( 1.0, 1.0, 1.0, 1.0 );
     }
-
+//     void move(){
+// 	  const vec3 displacement( Distance[Xaxis], Distance[Yaxis], Distance[Zaxis] );
+//       my_model_view=my_model_view*Translate(displacement*RotateY(10)*Translate(-displacement);
+// 	}
     void calculateModelViewMatrix() {
-      model_view = parent_model_view;
+       model_view =parent_model_view*my_model_view;
     }
 
     void idle( void )
     {
-      //Theta[Axis] += 0.1;
-
-      //if ( Theta[Axis] > 360.0 ) {
-      //    Theta[Axis] -= 360.0;
-      //}
+      my_model_view= my_model_view*Translate(0.35, -0.02, 0.42)*RotateY(0.5)*Translate(-0.35, 0.02, -0.42);
 
       glutPostRedisplay();
     }

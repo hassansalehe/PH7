@@ -24,6 +24,7 @@
 #include "PLyParser.h"
 
 class Part: public Object {
+  mat4 my_model_view= identity();
 
   private:
     float max_v = 0.0;
@@ -178,7 +179,7 @@ class Part: public Object {
       //  Generate tha model-view matrix
       //mat4 scale = Scale( scaleFactor, scaleFactor, scaleFactor );
       const vec3 displacement( Distance[Xaxis], Distance[Yaxis], Distance[Zaxis] );
-	  model_view =  parent_model_view;
+	  model_view = parent_model_view*my_model_view;
 
    // model_view =  RotateX( Theta[Xaxis] ) * RotateY( Theta[Yaxis] ) * parent_model_view; // * RotateZ( Theta[Zaxis] )
 
@@ -186,14 +187,11 @@ class Part: public Object {
 
     void idle( void )
     {
-//       Theta[Axis] += 0.5;
-//
-//       if ( Theta[Axis] > 360.0 ) {
-//           Theta[Axis] -= 360.0;
-//       }
+     my_model_view= my_model_view*Translate(0.22, -0.07, 0.12)*RotateY(0.5)*Translate(0.22, -0.07, 0.12);
 
       glutPostRedisplay();
     }
+    
     void rotateLeft(float delta) {
 
       Theta[Yaxis] += delta;

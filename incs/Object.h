@@ -34,7 +34,7 @@ protected:
 
   // for holding the children of the object
   vector<Object*> children;
-
+public:
   GLuint object_id;
   GLuint objectID;
 
@@ -126,6 +126,7 @@ public:
    * objects. See the wrong rotation of skull
    */
   virtual void calculateModelViewMatrix()  = 0;
+  //virtual void move();
 
 
   void changeShading() {

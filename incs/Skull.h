@@ -26,7 +26,11 @@
 #include "PLyParser.h"
 
 class Skull: public Object {
-
+  mat4 my_model_view= identity();
+  vec3 displacement_for_rotation;
+  // Object identifier
+  public:
+  int object_id = 300;
   private:
     float max_v = 0.0;
 
@@ -116,6 +120,7 @@ class Skull: public Object {
 
 
        const vec3 displacement(-2 * mid_x, mid_y,  mid_z);
+	   displacement_for_rotation=displacement;
        float scaleF = 0.00089975 ; // manually calculated
       for(int i = 0; i < vertexIndex; i++)
       {
@@ -131,8 +136,7 @@ public:
 
       readVertices();
 
-      // Object identifier
-      object_id = 300;
+    
 
       // Create a vertex array object
       glGenVertexArrays( 1, &vao );
@@ -182,7 +186,7 @@ public:
       //  Generate tha model-view matrix
       ///mat4 scale = Scale( scaleFactor, scaleFactor, scaleFactor );
       const vec3 displacement( Distance[Xaxis], Distance[Yaxis], Distance[Zaxis] );
-	  model_view =  parent_model_view;
+	  model_view =parent_model_view*my_model_view;
 
    // model_view =  RotateX( Theta[Xaxis] ) * RotateY( Theta[Yaxis] ) * parent_model_view; // * RotateZ( Theta[Zaxis] )
 
@@ -190,14 +194,14 @@ public:
 
     void idle( void )
     {
-//       Theta[Axis] += 0.5;
-//
-//       if ( Theta[Axis] > 360.0 ) {
-//           Theta[Axis] -= 360.0;
-//       }
-
+	  my_model_view= my_model_view*Translate(-0.35, 0.0, 0.045)*RotateY(0.5)*Translate(0.35, 0.0, -0.045);
       glutPostRedisplay();
     }
+     // move at small angle
+//     void move(){
+// 	  const vec3 displacement( Distance[Xaxis], Distance[Yaxis], Distance[Zaxis] );
+//       my_model_view=my_model_view*Translate(displacement_for_rotation)*RotateY(10)*Translate(-displacement_for_rotation);
+// 	}
     void rotateLeft(float delta) {
 
       Theta[Yaxis] += delta;

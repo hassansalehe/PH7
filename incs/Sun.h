@@ -146,7 +146,8 @@ class Sun: public Object {
 
       glutPostRedisplay();
     }
-
+//     void move(){
+// 	}
     void rotateLeft(float delta) {
 
       Theta[Yaxis] += delta;

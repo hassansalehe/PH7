@@ -15,6 +15,7 @@
 #include "PLyParser.h"
 
 class Airplane: public Object {
+  mat4 my_model_view= identity();
   float max_v = 0.0;
 
   private:
@@ -188,16 +189,12 @@ class Airplane: public Object {
     }
 
     void calculateModelViewMatrix() {
-      model_view = parent_model_view;
+       model_view =parent_model_view*my_model_view;
     }
 
     void idle( void )
     {
-      //Theta[Axis] += 0.1;
-
-      //if ( Theta[Axis] > 360.0 ) {
-      //    Theta[Axis] -= 360.0;
-      //}
+     my_model_view= my_model_view*Translate(-0.35, -0.02, 0.42)*RotateY(0.5)*Translate(0.35, 0.02, -0.42);
 
       glutPostRedisplay();
     }
@@ -218,6 +215,10 @@ class Airplane: public Object {
       }
       glutPostRedisplay();
     }
+//     void move(){
+// 	  const vec3 displacement( Distance[Xaxis], Distance[Yaxis], Distance[Zaxis] );
+//       my_model_view=my_model_view*Translate(displacement*RotateY(10)*Translate(-displacement);
+// 	}
 
     ~Airplane() {
       delete colors;
