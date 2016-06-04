@@ -126,27 +126,27 @@ class Wheel: public Object {
 
       // internal part of the Wheel
       for(int i = 0; i < 500; i++) // inner part
-        colors[i] = color4(1.0, 0,84, 0.0); // gray
+        colors[i] = color4( 1.0, 1.0, 0.5, 1.0 ); // gray
 
       for(int i = 500; i < 2000; i++) // inner part
         //khaki 	#F0E68C 	rgb(240,230,140)
-        colors[i] = color4(0.9, 0.8, 0.5);
+        colors[i] = color4( 1.0, 1.0, 0.5, 1.0 );
 
 
       for(int i = 2000; i < 2500; i++) // thin metal handle
          //	Orange-Brown 	#F0F8FF 	rgb(240,248,255)
-        colors[i] = color4(1.0, 0,84, 0.0);
+        colors[i] = color4( 1.0, 1.0, 0.5, 1.0 );
 
       for(int i = 2500; i < 3000; i++) // inner thin metal handle
-        colors[i] = color4(0.9, 0.9, 0.5);
+        colors[i] = color4( 1.0, 1.0, 0.5, 1.0 );
 
       for(int i = 3000; i < 3500; i++)
          //	aliceblue 	#F0F8FF 	rgb(240,248,255)
-        colors[i] = color4(1.0, 0,84, 0.0);
+        colors[i] = color4( 1.0, 1.0, 0.5, 1.0 );
 
       for(int i = 3500; i < 4000; i++)
          //	aliceblue 	#F0F8FF 	rgb(240,248,255)
-        colors[i] =color4(0.9, 0.8, 0.5);
+        colors[i] =color4( 1.0, 1.0, 0.5, 1.0 );
 
 
       // reclaim memory
@@ -184,6 +184,7 @@ class Wheel: public Object {
 
     void idle( void )
     {
+	  if(autoOnOff!=0)
       my_model_view= my_model_view*Translate(-0.35, 0.0, -0.36)*RotateY(0.5)*Translate(0.35, 0.0, 0.36);
 
       glutPostRedisplay();
@@ -210,6 +211,7 @@ class Wheel: public Object {
     void checkIfPicked( unsigned char pixel[4] ) {
       if ( pixel[0] == 51 && pixel[1] == 0 && pixel[2] == 0 ) { // Wheel
         printf("Wheel selected\n");
+		my_model_view= my_model_view*Translate(-0.35, 0.0, -0.36)*RotateY(30)*Translate(0.35, 0.0, 0.36);
       }
     }
 };

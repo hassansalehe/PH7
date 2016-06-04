@@ -176,6 +176,7 @@ class Airplane: public Object {
 
     void idle( void )
     {
+	 if(autoOnOff!=0)
      my_model_view= my_model_view*Translate(-0.35, -0.02, 0.42)*RotateY(0.5)*Translate(0.35, 0.02, -0.42);
 
       glutPostRedisplay();
@@ -205,6 +206,7 @@ class Airplane: public Object {
     void checkIfPicked( unsigned char pixel[4] ) {
       if ( pixel[0] == 255 && pixel[1] == 255 && pixel[2] == 0 ) { // Airplane
         printf("Airplane selected\n");
+		my_model_view= my_model_view*Translate(-0.35, -0.02, 0.42)*RotateY(30)*Translate(0.35, 0.02, -0.42);
       }
     }
 };

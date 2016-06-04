@@ -37,6 +37,7 @@ protected:
 public:
   GLuint object_id;
   GLuint objectID;
+  int autoOnOff=0;
 
   // Model-view and projection matrices uniform location
   GLuint  ModelView, Projection;
@@ -315,6 +316,13 @@ public:
        scaleFactor += delta;
 
        glutPostRedisplay();
+  }
+  
+  void toggleAuto(){
+	if(autoOnOff==0)
+	  autoOnOff=1;
+	else
+	  autoOnOff=0;
   }
 
 

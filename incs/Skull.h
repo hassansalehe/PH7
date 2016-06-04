@@ -207,6 +207,7 @@ public:
 
     void idle( void )
     {
+	  if(autoOnOff!=0)
 	  my_model_view= my_model_view*Translate(-0.35, 0.0, 0.045)*RotateY(0.5)*Translate(0.35, 0.0, -0.045);
       glutPostRedisplay();
     }
@@ -236,6 +237,7 @@ public:
     void checkIfPicked( unsigned char pixel[4] ) {
       if ( pixel[0] == 51 && pixel[1] == 51 && pixel[2] == 0 ) { // Skull
         printf("Skull selected\n");
+		my_model_view= my_model_view*Translate(-0.35, 0.0, 0.045)*RotateY(30)*Translate(0.35, 0.0, -0.045);
       }
     }
 };
