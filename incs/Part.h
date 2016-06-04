@@ -24,8 +24,6 @@
 #include "PLyParser.h"
 
 class Part: public Object {
-  mat4 my_model_view= identity();
-
   private:
     float max_v = 0.0;
 
@@ -189,7 +187,7 @@ class Part: public Object {
 
       glutPostRedisplay();
     }
-    
+
     void rotateLeft(float delta) {
 
       Theta[Yaxis] += delta;
