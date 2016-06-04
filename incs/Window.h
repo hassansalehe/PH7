@@ -281,38 +281,26 @@ class Window: public Object {
 
     }
 
-   void calculateModelViewMatrix() {
-     model_view = parent_model_view;
-  }
+    void calculateModelViewMatrix() {
+      model_view = parent_model_view;
+    }
 
-//     void display( GLuint program )
-//     {
-//       glBindVertexArray( vao );
-//       glBindBuffer( GL_ARRAY_BUFFER, buffer );
-//       // set up vertex arrays
-//       //GLuint vPosition = glGetAttribLocation( program, "vPosition" );
-//       //glEnableVertexAttribArray( vPosition );
-//       //glVertexAttribPointer( vPosition, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0) );
-//
-//       //GLuint vColor = glGetAttribLocation( program, "vColor" );
-//      // glEnableVertexAttribArray( vColor );
-//      // glVertexAttribPointer( vColor, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(points_size) );
-//
-//       //  Generate tha model-view matrix
-//       const vec3 displacement( 0.0, 0.0, 0.0 );
-//       model_view = ( Scale(1.0, 1.0, 1.0) * Translate( displacement ) *
-//               RotateX( Theta[Xaxis] ) *
-//               RotateY( Theta[Yaxis] ) // *
-//              // RotateZ( Theta[Zaxis] )
-//                          );
-//
-//       glUniformMatrix4fv( ModelView, 1, GL_TRUE, model_view );
-//       glDrawArrays( GL_TRIANGLES, 0, numVertices );
-//
-//       glBindVertexArray( 0 );
-//       //glDisableVertexAttribArray(vPosition);
-//       //glDisableVertexAttribArray(vColor);
-//     }
+    /**
+     * The general display function launched by the Glut
+     */
+    void display( GLuint program )
+    {
+      glEnable(GL_BLEND);
+      glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+      glBlendEquation(GL_FUNC_ADD);
+      glDepthMask(0); // donit modify depth buffer
+
+      Object::display( program );
+
+      glDisable(GL_BLEND);
+      glDepthMask(1); // you can modify depth buffer
+    }
+
 
     void idle( void )
     {
@@ -324,6 +312,8 @@ class Window: public Object {
 
       glutPostRedisplay();
     }
+
+
     void rotateLeft(float delta) {
 
       Theta[Yaxis] += delta;
@@ -332,6 +322,7 @@ class Window: public Object {
       }
       glutPostRedisplay();
     }
+
 
     void rotateUp(float delta) {
 
