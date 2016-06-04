@@ -1,10 +1,21 @@
-
-
+///////////////////////////////////////////////////////////////////////////////
+//
+//                   COMP 510, Computer Graphics, Spring 2016
+//                              Final project
+//                PH7: A virtual Museum Based on OpenGL and Glut
+//
+//                            (c) 2016 - Hassan & Pirah.
+//            Copying without the authors consent is strictly prohibited.
+//
+///////////////////////////////////////////////////////////////////////////////
+//
+// Implements the Lamp object
 // read the vertices
 // read the colors
 // read the face indices
 // put the vertices in vertex array
 // put the colors in color array
+///////////////////////////////////////////////////////////////////////////////
 
 // Scale the vertices
 // send them to the GPU
@@ -15,7 +26,6 @@
 #include "PLyParser.h"
 
 class Lamp: public Object {
-  mat4 my_model_view= identity();
   private:
     float max_v = 0.0;
 

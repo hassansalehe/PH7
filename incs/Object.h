@@ -49,8 +49,9 @@ public:
   GLuint HS_shading_model = 273;
 
   // model view matrices
-  mat4  model_view = Identity();
-  mat4  parent_model_view = Identity();
+  mat4 model_view        = Identity();
+  mat4 my_model_view     = Identity();
+  mat4 parent_model_view = Identity();
 
   GLuint vao;
   GLuint buffer;

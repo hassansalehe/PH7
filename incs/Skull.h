@@ -26,7 +26,6 @@
 #include "PLyParser.h"
 
 class Skull: public Object {
-  mat4 my_model_view= identity();
   vec3 displacement_for_rotation;
   // Object identifier
   public:
@@ -136,7 +135,7 @@ public:
 
       readVertices();
 
-    
+
 
       // set picking color
       isPicking = false;
