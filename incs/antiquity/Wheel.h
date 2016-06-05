@@ -9,33 +9,36 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 //
-// Implements the Lamp object
+// Implements the wheel object
+//
 // read the vertices
 // read the colors
 // read the face indices
 // put the vertices in vertex array
 // put the colors in color array
+//
 ///////////////////////////////////////////////////////////////////////////////
 
 // Scale the vertices
 // send them to the GPU
-#ifndef Lamp_CLASS
-#define Lamp_CLASS
+#ifndef WHEEL_CLASS
+#define WHEEL_CLASS
 
 #include "Object.h"
 #include "PLyParser.h"
 
-class Lamp: public Object {
+class Wheel: public Object {
   private:
+
     float max_v = 0.0;
 
-    const vec3 toStand = vec3(0.35, -0.01, 0.45);
-
+    /**
+     * Reads vertices from Wheel.ply file
+     */
     void readVertices() {
-
       Vindex = 0;
       long nvertices, ntriangles;
-      p_ply ply = ply_open("incs/objects/lamp.ply", NULL, 0, NULL);
+      p_ply ply = ply_open("incs/antiquity/objects/wheel.ply", NULL, 0, NULL);
       if (!ply) return; // cant open
       if (!ply_read_header(ply)) return; // cant open
       nvertices =
@@ -49,7 +52,6 @@ class Lamp: public Object {
       numVertices = ntriangles * 3; //(180 faces)(2 triangles/face)(3 vertices/triangle)
       points = new point4[numVertices];
       colors = new color4[numVertices];
-      normals = new normal3[numVertices];
 
       r_points = points;
       r_colors = colors;
@@ -115,64 +117,67 @@ class Lamp: public Object {
 
 
        const vec3 displacement(mid_x, mid_y,  mid_z);
-       float scaleF = 0.0003 ; // manually calculated
+       float scaleF = 0.0004 ; // manually calculated
       for(int i = 0; i < numVertices; i++)
       {
-        points[i] = Translate(toStand) * RotateY(90.0) * Scale(scaleF, scaleF, scaleF) * Translate(-displacement)  *   points[i];
+        points[i] = Translate(-0.35, 0.0, -0.36) * RotateZ(90.0) * Scale(scaleF, scaleF, scaleF) * Translate(-displacement)  *   points[i];
+
       }
 
-      // internal part of the Plane
-      for(int i = 0; i < numVertices; i++) // inner part
-        colors[i] = color4( 1.0, 1.0, 0.0, 1.0 ); // gray
+      // internal part of the Wheel
+      for(int i = 0; i < 500; i++) // inner part
+        colors[i] = color4( 1.0, 1.0, 0.5, 1.0 ); // gray
 
       for(int i = 500; i < 2000; i++) // inner part
         //khaki 	#F0E68C 	rgb(240,230,140)
-        colors[i] = color4( 1.0, 1.0, 0.0, 1.0 );
+        colors[i] = color4( 1.0, 1.0, 0.5, 1.0 );
 
 
       for(int i = 2000; i < 2500; i++) // thin metal handle
          //	Orange-Brown 	#F0F8FF 	rgb(240,248,255)
-        colors[i] = color4( 1.0, 1.0, 0.0, 1.0 );
+        colors[i] = color4( 1.0, 1.0, 0.5, 1.0 );
 
       for(int i = 2500; i < 3000; i++) // inner thin metal handle
-        colors[i] = color4( 1.0, 1.0, 0.0, 1.0 );
+        colors[i] = color4( 1.0, 1.0, 0.5, 1.0 );
 
       for(int i = 3000; i < 3500; i++)
          //	aliceblue 	#F0F8FF 	rgb(240,248,255)
-        colors[i] = color4( 1.0, 1.0, 0.0, 1.0 );
+        colors[i] = color4( 1.0, 1.0, 0.5, 1.0 );
 
       for(int i = 3500; i < 4000; i++)
          //	aliceblue 	#F0F8FF 	rgb(240,248,255)
-        colors[i] =color4( 1.0, 1.0, 0.0, 1.0 );
+        colors[i] =color4( 1.0, 1.0, 0.5, 1.0 );
 
 
       // reclaim memory
       delete c_colors;
       delete c_points;
+    }
 
-      }
   public:
+
+    /**
+     * Initializes the object data and sends to GPU
+     */
     void initialize(GLuint program) {
 
-      readVertices(); // parse vertices from file
+      readVertices();
 
-      // normals
+      normals = new normal3[numVertices];
       calculateNormals();
 
       // Object identifier
-      object_id = 330;
+      object_id = 350;
 
       // set picking color
       isPicking = false;
-      pickingColor = color4(0.0, 0.2, 0.0, 1.0); // (0,51,0)
+      pickingColor = color4(0.2, 0.0, 0.0, 1.0); // (51,0,0)
 
-      shininess = 20.0;
+      shininess = 120.0;
       initializeDataBuffers( program );
+
     }
-//     void move(){
-// 	  const vec3 displacement( Distance[Xaxis], Distance[Yaxis], Distance[Zaxis] );
-//       my_model_view=my_model_view*Translate(displacement*RotateY(10)*Translate(-displacement);
-// 	}
+
     void calculateModelViewMatrix() {
        model_view =parent_model_view*my_model_view;
     }
@@ -180,9 +185,9 @@ class Lamp: public Object {
     void idle( void )
     {
 	  if(autoOnOff!=0)
-		my_model_view= my_model_view*Translate( toStand )*RotateY(0.5)*Translate( -toStand );
-	  else
-		glutPostRedisplay();
+      my_model_view= my_model_view*Translate(-0.35, 0.0, -0.36)*RotateY(0.5)*Translate(0.35, 0.0, 0.36);
+
+      glutPostRedisplay();
     }
     void rotateLeft(float delta) {
 
@@ -202,12 +207,13 @@ class Lamp: public Object {
       glutPostRedisplay();
     }
 
+
     void checkIfPicked( unsigned char pixel[4] ) {
-      if ( pixel[0] == 0 && pixel[1] == 51 && pixel[2] == 0 ) { // Lamp
-        printf("Lamp selected\n");
-		my_model_view= my_model_view * Translate(toStand)*RotateY(30) * Translate(-toStand);
+      if ( pixel[0] == 51 && pixel[1] == 0 && pixel[2] == 0 ) { // Wheel
+        printf("Wheel selected\n");
+		my_model_view= my_model_view*Translate(-0.35, 0.0, -0.36)*RotateY(30)*Translate(0.35, 0.0, 0.36);
       }
     }
 };
 
-#endif // end walkman
+#endif // end wheel

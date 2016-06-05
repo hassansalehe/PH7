@@ -21,24 +21,24 @@
 
 // Scale the vertices
 // send them to the GPU
-#ifndef WHEEL_CLASS
-#define WHEEL_CLASS
+#ifndef PART_CLASS
+#define PART_CLASS
 
 #include "Object.h"
 #include "PLyParser.h"
 
-class Wheel: public Object {
+class Part: public Object {
   private:
 
     float max_v = 0.0;
 
     /**
-     * Reads vertices from Wheel.ply file
+     * Reads vertices from part.ply file
      */
     void readVertices() {
       Vindex = 0;
       long nvertices, ntriangles;
-      p_ply ply = ply_open("incs/objects/wheel.ply", NULL, 0, NULL);
+      p_ply ply = ply_open("incs/antiquity/objects/part.ply", NULL, 0, NULL);
       if (!ply) return; // cant open
       if (!ply_read_header(ply)) return; // cant open
       nvertices =
@@ -52,6 +52,7 @@ class Wheel: public Object {
       numVertices = ntriangles * 3; //(180 faces)(2 triangles/face)(3 vertices/triangle)
       points = new point4[numVertices];
       colors = new color4[numVertices];
+      normals = new normal3[numVertices];
 
       r_points = points;
       r_colors = colors;
@@ -60,7 +61,7 @@ class Wheel: public Object {
       vertexIndex = 0;
 
       c_points = new point4[nvertices];
-      c_colors = new color4[nvertices];
+      //c_colors = new color4[nvertices];
 
       if (!ply_read(ply)) return; // cant open
       ply_close(ply);
@@ -120,37 +121,37 @@ class Wheel: public Object {
        float scaleF = 0.0004 ; // manually calculated
       for(int i = 0; i < numVertices; i++)
       {
-        points[i] = Translate(-0.35, 0.0, -0.36) * RotateZ(90.0) * Scale(scaleF, scaleF, scaleF) * Translate(-displacement)  *   points[i];
+        points[i] = Translate(0.35, 0.0, 0.07) * RotateZ(60.0) * Scale(scaleF, scaleF, scaleF) * Translate(-displacement)  *   points[i];
 
       }
 
-      // internal part of the Wheel
+      // internal part of the part
       for(int i = 0; i < 500; i++) // inner part
-        colors[i] = color4( 1.0, 1.0, 0.5, 1.0 ); // gray
+        colors[i] = color4( 0.0, 1.0, 1.0, 1.0 ); // gray
 
       for(int i = 500; i < 2000; i++) // inner part
         //khaki 	#F0E68C 	rgb(240,230,140)
-        colors[i] = color4( 1.0, 1.0, 0.5, 1.0 );
+        colors[i] = color4( 1.0, 0.0, 1.0, 1.0 );
 
 
       for(int i = 2000; i < 2500; i++) // thin metal handle
          //	Orange-Brown 	#F0F8FF 	rgb(240,248,255)
-        colors[i] = color4( 1.0, 1.0, 0.5, 1.0 );
+        colors[i] = color4( 0.0, 1.0, 1.0, 1.0 );
 
       for(int i = 2500; i < 3000; i++) // inner thin metal handle
-        colors[i] = color4( 1.0, 1.0, 0.5, 1.0 );
+        colors[i] = color4( 1.0, 0.0, 1.0, 1.0 );
 
-      for(int i = 3000; i < 3500; i++)
-         //	aliceblue 	#F0F8FF 	rgb(240,248,255)
-        colors[i] = color4( 1.0, 1.0, 0.5, 1.0 );
-
-      for(int i = 3500; i < 4000; i++)
-         //	aliceblue 	#F0F8FF 	rgb(240,248,255)
-        colors[i] =color4( 1.0, 1.0, 0.5, 1.0 );
+//       for(int i = 3000; i < 3500; i++)
+//          //	aliceblue 	#F0F8FF 	rgb(240,248,255)
+//         colors[i] = color4(1.0, 0,84, 0.0);
+//
+//       for(int i = 3500; i < 4000; i++)
+//          //	aliceblue 	#F0F8FF 	rgb(240,248,255)
+//         colors[i] =color4(0.9, 0.8, 0.5);
 
 
       // reclaim memory
-      delete c_colors;
+      //delete c_colors;
       delete c_points;
     }
 
@@ -163,7 +164,7 @@ class Wheel: public Object {
 
       readVertices();
 
-      normals = new normal3[numVertices];
+      // normals
       calculateNormals();
 
       // Object identifier
@@ -173,9 +174,46 @@ class Wheel: public Object {
       isPicking = false;
       pickingColor = color4(0.2, 0.0, 0.0, 1.0); // (51,0,0)
 
-      shininess = 120.0;
-      initializeDataBuffers( program );
+      // Create a vertex array object
+      glGenVertexArrays( 1, &vao );
+      glBindVertexArray( vao );
 
+      points_size = sizeof(point4)*numVertices;
+      colors_size = sizeof(color4)*numVertices;
+
+      // Create and initialize a buffer object
+      glGenBuffers( 1, &buffer );
+      glBindBuffer( GL_ARRAY_BUFFER, buffer );
+      glBufferData( GL_ARRAY_BUFFER, points_size + colors_size, NULL, GL_STATIC_DRAW );
+      glBufferSubData( GL_ARRAY_BUFFER, 0, points_size, points );
+      glBufferSubData( GL_ARRAY_BUFFER, points_size, colors_size, colors );
+
+      // set up vertex arrays
+      GLuint vPosition = glGetAttribLocation( program, "vPosition" );
+      glEnableVertexAttribArray( vPosition );
+      glVertexAttribPointer( vPosition, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0) );
+
+      GLuint vColor = glGetAttribLocation( program, "vColor" );
+      glEnableVertexAttribArray( vColor );
+      glVertexAttribPointer( vColor, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(points_size) );
+
+      // Set current program object
+      glUseProgram( program );
+
+      // Retrieve transformation uniform variable locations
+      ModelView = glGetUniformLocation( program, "ModelView" );
+      Projection = glGetUniformLocation( program, "Projection" );
+
+      // Set projection matrix
+      mat4  projection = Ortho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
+      //projection = Perspective( 45.0, 1.0, 0.5, 3.0 );
+      glUniformMatrix4fv( Projection, 1, GL_TRUE, projection );
+
+      // Enable hiddden surface removal
+      glEnable( GL_DEPTH_TEST );
+
+      // Set state variable "clear color" to clear buffer with.
+      glClearColor( 1.0, 1.0, 1.0, 1.0 );
     }
 
     void calculateModelViewMatrix() {
@@ -184,9 +222,9 @@ class Wheel: public Object {
 
     void idle( void )
     {
-	  if(autoOnOff!=0)
-      my_model_view= my_model_view*Translate(-0.35, 0.0, -0.36)*RotateY(0.5)*Translate(0.35, 0.0, 0.36);
-
+	  if(autoOnOff!=0){
+      my_model_view= my_model_view*Translate(0.35, 0.0, 0.07)*RotateY(0.5)*Translate(-0.35, 0.0, -0.07);
+	  }
       glutPostRedisplay();
     }
     void rotateLeft(float delta) {
@@ -209,11 +247,11 @@ class Wheel: public Object {
 
 
     void checkIfPicked( unsigned char pixel[4] ) {
-      if ( pixel[0] == 51 && pixel[1] == 0 && pixel[2] == 0 ) { // Wheel
-        printf("Wheel selected\n");
-		my_model_view= my_model_view*Translate(-0.35, 0.0, -0.36)*RotateY(30)*Translate(0.35, 0.0, 0.36);
+      if ( pixel[0] == 51 && pixel[1] == 0 && pixel[2] == 0 ) { // part
+        printf("Part selected\n");
+		my_model_view= my_model_view*Translate(0.35, 0.0, 0.07)*RotateY(30)*Translate(-0.35, 0.0, -0.07);
       }
     }
 };
 
-#endif // end wheel
+#endif // end walkman

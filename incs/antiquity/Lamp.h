@@ -9,8 +9,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 //
-// Implements the Walkman object
-//
+// Implements the Lamp object
 // read the vertices
 // read the colors
 // read the face indices
@@ -20,24 +19,23 @@
 
 // Scale the vertices
 // send them to the GPU
-#ifndef WALKMAN_CLASS
-#define WALKMAN_CLASS
+#ifndef Lamp_CLASS
+#define Lamp_CLASS
 
 #include "Object.h"
 #include "PLyParser.h"
 
-class Walkman: public Object {
+class Lamp: public Object {
   private:
     float max_v = 0.0;
 
-    /**
-     * Reads vertices from Wheel.ply file
-     */
+    const vec3 toStand = vec3(0.35, -0.01, 0.45);
+
     void readVertices() {
 
       Vindex = 0;
       long nvertices, ntriangles;
-      p_ply ply = ply_open("incs/objects/walkman.ply", NULL, 0, NULL);
+      p_ply ply = ply_open("incs/antiquity/objects/lamp.ply", NULL, 0, NULL);
       if (!ply) return; // cant open
       if (!ply_read_header(ply)) return; // cant open
       nvertices =
@@ -117,102 +115,64 @@ class Walkman: public Object {
 
 
        const vec3 displacement(mid_x, mid_y,  mid_z);
-       float scaleF = 0.0004 ; // manually calculated
+       float scaleF = 0.0003 ; // manually calculated
       for(int i = 0; i < numVertices; i++)
       {
-        points[i] = Translate(0.35, 0.0, -0.36) * RotateY(-90.0) * Scale(scaleF, scaleF, scaleF) * Translate(-displacement)  *   points[i];
-
+        points[i] = Translate(toStand) * RotateY(90.0) * Scale(scaleF, scaleF, scaleF) * Translate(-displacement)  *   points[i];
       }
 
-      // internal part of the walkman
-      for(int i = 0; i < 1000; i++) // inner part
-        colors[i] = color4(0.5, 0.5, 0.5); // gray
+      // internal part of the Plane
+      for(int i = 0; i < numVertices; i++) // inner part
+        colors[i] = color4( 1.0, 1.0, 0.0, 1.0 ); // gray
 
-      for(int i = 1000; i < 2000; i++) // inner part
+      for(int i = 500; i < 2000; i++) // inner part
         //khaki 	#F0E68C 	rgb(240,230,140)
-        colors[i] = color4(0.9375, 0.8984375, 0.546875);
+        colors[i] = color4( 1.0, 1.0, 0.0, 1.0 );
 
 
       for(int i = 2000; i < 2500; i++) // thin metal handle
+         //	Orange-Brown 	#F0F8FF 	rgb(240,248,255)
+        colors[i] = color4( 1.0, 1.0, 0.0, 1.0 );
+
+      for(int i = 2500; i < 3000; i++) // inner thin metal handle
+        colors[i] = color4( 1.0, 1.0, 0.0, 1.0 );
+
+      for(int i = 3000; i < 3500; i++)
          //	aliceblue 	#F0F8FF 	rgb(240,248,255)
-        colors[i] = color4(0.9375, 0.96875, 1.0);
+        colors[i] = color4( 1.0, 1.0, 0.0, 1.0 );
 
-      for(int i = 2500; i < 3500; i++) // inner thin metal handle
-        colors[i] = black;
-
-      for(int i = 3500; i < 3600; i++)
+      for(int i = 3500; i < 4000; i++)
          //	aliceblue 	#F0F8FF 	rgb(240,248,255)
-        colors[i] = red;
+        colors[i] =color4( 1.0, 1.0, 0.0, 1.0 );
 
-      for(int i = 3600; i < 3700; i++)
-         //	aliceblue 	#F0F8FF 	rgb(240,248,255)
-        colors[i] = green;
-
-        for(int i = 3700; i < 3870; i++) // other part of earphone
-         //	aliceblue 	#F0F8FF 	rgb(240,248,255)
-        colors[i] = black;
-
-        for(int i = 3870; i < 3978; i++) // other part of earphone
-         //	aliceblue 	#F0F8FF 	rgb(240,248,255)
-        colors[i] = red;
-
-      for(int i = 3978; i < 4080; i++) // other part of earphone
-         //	aliceblue 	#F0F8FF 	rgb(240,248,255)
-        colors[i] = green;
-
-      for(int i = 4080; i < 4650; i++) // other part of earphone
-         //	aliceblue 	#F0F8FF 	rgb(240,248,255)
-        colors[i] = black;
-
-      for(int i = 4650; i < 7800; i++) // buttons
-         //	aliceblue 	#F0F8FF 	rgb(240,248,255)
-        colors[i] = color4(1.0, 0.75, 0.00);
-
-      for(int i = 7800; i < 9700; i++) // buttons
-         //	aliceblue 	#F0F8FF 	rgb(240,248,255)
-        colors[i] = color4(0.75, 0.75, 0.75); // silver front
-
-      for(int i = 9700; i < 9970; i++) // other part of the wman
-        colors[i] = color4(0.5, 0.5, 0.5);
-
-      for(int i = 9970; i < 12000; i++) // buttons
-        colors[i] = color4(0.75, 0.75, 0.75); // silver front
-
-      // internal part of the walkman
-      for(int i = 12000; i < numVertices; i++) // inner part
-        colors[i] = color4(0.5, 0.5, 0.5); // gray
 
       // reclaim memory
       delete c_colors;
       delete c_points;
 
-      // populate vertices and colors for the GPU
-    }
-
+      }
   public:
-
-    /**
-     * initializes data and sends to GPU
-     */
     void initialize(GLuint program) {
 
-      readVertices();
+      readVertices(); // parse vertices from file
 
-      // calculate normals
+      // normals
       calculateNormals();
 
       // Object identifier
-      object_id = 360;
+      object_id = 330;
 
       // set picking color
       isPicking = false;
-      pickingColor = color4(1.0, 1.0, 1.0, 1.0); // (255,255,255)
+      pickingColor = color4(0.0, 0.2, 0.0, 1.0); // (0,51,0)
 
-      shininess = 120;
-
+      shininess = 20.0;
       initializeDataBuffers( program );
     }
-
+//     void move(){
+// 	  const vec3 displacement( Distance[Xaxis], Distance[Yaxis], Distance[Zaxis] );
+//       my_model_view=my_model_view*Translate(displacement*RotateY(10)*Translate(-displacement);
+// 	}
     void calculateModelViewMatrix() {
        model_view =parent_model_view*my_model_view;
     }
@@ -220,9 +180,9 @@ class Walkman: public Object {
     void idle( void )
     {
 	  if(autoOnOff!=0)
-      my_model_view= my_model_view*Translate(0.35, 0.0, -0.36)*RotateY(0.5)*Translate(-0.35, 0.0, 0.36);
-
-      glutPostRedisplay();
+		my_model_view= my_model_view*Translate( toStand )*RotateY(0.5)*Translate( -toStand );
+	  else
+		glutPostRedisplay();
     }
     void rotateLeft(float delta) {
 
@@ -243,9 +203,9 @@ class Walkman: public Object {
     }
 
     void checkIfPicked( unsigned char pixel[4] ) {
-      if ( pixel[0] == 255 && pixel[1] == 255 && pixel[2] == 255 ) { // Walkman
-        printf("Walkman selected\n");
-		my_model_view= my_model_view*Translate(0.35, 0.0, -0.36)*RotateY(30)*Translate(-0.35, 0.0, 0.36);
+      if ( pixel[0] == 0 && pixel[1] == 51 && pixel[2] == 0 ) { // Lamp
+        printf("Lamp selected\n");
+		my_model_view= my_model_view * Translate(toStand)*RotateY(30) * Translate(-toStand);
       }
     }
 };

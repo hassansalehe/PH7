@@ -9,10 +9,10 @@ CXXFLGS = -g -O2 -Wall -std=c++11
 MODULES= src/Init.cpp src/Keyboard.cpp
 
 # dependent headers
-HEADERS=./incs/*.h
+HEADERS=./incs/*.h ./incs/antiquity/*.h ./incs/room/*.h
 
 # the path of include files
-INCLUDES= -I./incs -I./libs/Angel/include -I./libs/rply
+INCLUDES= -I./incs -I./incs/room -I./incs/antiquity -I./libs/Angel/include -I./libs/rply
 
 # path  to sources
 SRC=src
