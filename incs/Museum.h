@@ -24,7 +24,7 @@
 #include "Object.h"
 #include "Room.h"
 #include "Roof.h"
-#include "Door.h"
+#include "DoorFrame.h"
 #include "Wframe.h"
 #include "Stand.h"
 #include "Sun.h"
@@ -63,7 +63,7 @@ private:
     // Create objects
     Object * room    = new Room();
     Object * roof    = new Roof();
-    Object * door    = new Door();
+    Object * door    = new DoorFrame();
     Object * volume  = new Cube();
 
     // right windows

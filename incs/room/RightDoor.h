@@ -13,13 +13,17 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef DOOR_CLASS
-#define DOOR_CLASS
+#ifndef RIGHT_DOOR_CLASS
+#define RIGHT_DOOR_CLASS
 
 #include "Object.h"
 
-class Door: public Object {
+class RightDoor: public Object {
   private:
+
+    bool amISelected = false;
+    float rotationAngle = 0.0;
+    bool isOpen = false;
 
     // indices for individual rotation of parts of the door
     int handle_start_index = 0;
@@ -27,69 +31,41 @@ class Door: public Object {
 
     int door_left_start_index = 0;
     int door_left_end = 0;
-    float rotationAngle = 120.0;
 
     int door_right_end = 0;
 
-    /**
-     * Function for animating opening of the door
-     */
-    void windowAOpenAnimation() {
+    // centre of rotation of left door
+    const vec3 fp = vec3( -0.27, 0.0, 0.81 );
 
-      if(rotationAngle > 180.0)
-        return;
+    const vec3 fp2 = vec3( 0.27, 0.0, 0.81 );
 
-      // centre of rotation of left door
-      const point4 fp( -0.27, 0.0, 0.81, 1.0 );
-
-      // left left
-      for(int i = door_left_start_index; i < door_left_end; i++) {
-        points[i] = Translate(fp) * RotateY(rotationAngle) * Translate(-fp) * points[i];
-      }
-
-      // handle
-      const point4 fp2( 0.27, 0.0, 0.81, 1.0 );
-      for(int i = handle_start_index; i < handle_end; i++) {
-        points[i] = Translate(fp2) * RotateY( -rotationAngle) * Translate(-fp2) * points[i];
-      }
-
-      // right door
-      for(int i = door_left_end; i < door_right_end; i++) {
-        points[i] = Translate(fp2) * RotateY( -rotationAngle ) * Translate(-fp2) * points[i];
-      }
-      rotationAngle += 5;
-
-
-      //glutPostRedisplay();
-      //glutTimerFunc(1, windowAOpenAnimation, p);
-    }
     // Vertices of a unit cube centered at origin, sides aligned with axes
     point4 vertices[22] = {
 
       // front door frame outer vertices
-      point4( -0.3,  0.4,  0.8, 1.0 ), // top left (A)
-      point4( -0.3, -0.4,  0.8, 1.0 ), // bottom left (B)
-      point4(  0.3, -0.4,  0.8, 1.0 ), // bottom right (C)
-      point4(  0.3,  0.4,  0.8, 1.0 ), // top right (D)
+      point4(  0.0,   0.38,  0.8, 1.0 ), // top left (A)
+      point4(  0.0,  -0.38,  0.8, 1.0 ), // bottom left (B)
+      point4(  0.28, -0.38,  0.8, 1.0 ), // bottom right (C)
+      point4(  0.28,  0.38,  0.8, 1.0 ), // top right (D)
 
       // front door frame middle vertices
-      point4( -0.28,  0.38,  0.82, 1.0 ), // top left (E)
-      point4( -0.28, -0.38,  0.82, 1.0 ), // bottom left (F)
-      point4(  0.28, -0.38,  0.82, 1.0 ), // bottom right (G)
-      point4(  0.28,  0.38,  0.82, 1.0 ), // top right (H)
+      point4(  0.01,  0.37,  0.82, 1.0 ), // top left (E)
+      point4(  0.01, -0.37,  0.82, 1.0 ), // bottom left (F)
+      point4(  0.27, -0.37,  0.82, 1.0 ), // bottom right (G)
+      point4(  0.27,  0.37,  0.82, 1.0 ), // top right (H)
 
       // front door frame inner vertices
-      point4( -0.27,  0.37,  0.81, 1.0 ), // top left (I)
-      point4( -0.27, -0.37,  0.81, 1.0 ), // bottom left (J)
-      point4(  0.27, -0.37,  0.81, 1.0 ), // bottom right (K)
-      point4(  0.27,  0.37,  0.81, 1.0 ), // top right (L)
+      point4(  0.02,  0.36,  0.81, 1.0 ), // top left (I)
+      point4(  0.02, -0.36,  0.81, 1.0 ), // bottom left (J)
+      point4(  0.26, -0.36,  0.81, 1.0 ), // bottom right (K)
+      point4(  0.26,  0.36,  0.81, 1.0 ), // top right (L)
 
 
       // front door middle separetor vertices
-      point4( -0.01,  0.37,  0.81, 1.0 ), // top left (M)
-      point4( -0.01, -0.37,  0.81, 1.0 ), // bottom left (N)
-      point4(  0.01, -0.37,  0.81, 1.0 ), // bottom right (O)
-      point4(  0.01,  0.37,  0.81, 1.0 ), // top right (P)
+      point4( -0.01,  0.375,  0.81, 1.0 ), // top left (M)
+      point4( -0.01, -0.375,  0.81, 1.0 ), // bottom left (N)
+      point4(  0.01, -0.375,  0.81, 1.0 ), // bottom right (O)
+      point4(  0.01,  0.375,  0.81, 1.0 ), // top right (P)
 
       // Vertices for the handle
       point4( -0.015, 0.1,   0.82, 1.0 ), // top left (A')
@@ -161,7 +137,6 @@ class Door: public Object {
 
       // Constructing the left part of the door
       int start = vertexIndex;
-      quad(8, 9, 13, 12);
       door_left_end = vertexIndex;
 
       // Constructing the right part of the door
@@ -180,7 +155,6 @@ class Door: public Object {
       quad(16, 20, 21, 16);
       handle_end = vertexIndex;
 
-      windowAOpenAnimation();
     }
 
   public:
@@ -215,7 +189,9 @@ class Door: public Object {
     }
 
     void calculateModelViewMatrix() {
-      model_view = parent_model_view;
+      if(amISelected )
+        my_model_view = Translate(fp2) * RotateY( -rotationAngle) * Translate(-fp2);
+      model_view = parent_model_view * my_model_view ;
     }
 
 
@@ -226,6 +202,24 @@ class Door: public Object {
       //if ( Theta[Axis] > 360.0 ) {
       //    Theta[Axis] -= 360.0;
       //}
+      if( amISelected ) {
+        if( !isOpen ) // not open
+          rotationAngle += 1.0;
+        else
+          rotationAngle -= 1.0;
+
+        if(rotationAngle > 135)
+        {
+          amISelected = false;
+          rotationAngle = 0.0;
+          isOpen = true;
+        }
+        else if (rotationAngle < 0) {
+          rotationAngle = 0.0;
+          amISelected = false;
+          isOpen = false;
+        }
+      }
 
       glutPostRedisplay();
     }
@@ -250,8 +244,14 @@ class Door: public Object {
     void checkIfPicked( unsigned char pixel[4] ) {
 
       // (255,0,255)
-      if ( pixel[0] == 255 && pixel[1] == 0 && pixel[2] == 255 ) { // Wheel
+      if ( pixel[0] == 255 && pixel[1] == 0 && pixel[2] == 255 ) { // Door
         printf("Door selected\n");
+        amISelected = true;
+
+        if( isOpen ) // if the door is already open
+          rotationAngle = 135;
+        else
+          rotationAngle = 0;
       }
    }
 };
