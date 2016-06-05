@@ -61,7 +61,7 @@ class Part: public Object {
       vertexIndex = 0;
 
       c_points = new point4[nvertices];
-      c_colors = new color4[nvertices];
+      //c_colors = new color4[nvertices];
 
       if (!ply_read(ply)) return; // cant open
       ply_close(ply);
@@ -151,7 +151,7 @@ class Part: public Object {
 
 
       // reclaim memory
-      delete c_colors;
+      //delete c_colors;
       delete c_points;
     }
 
