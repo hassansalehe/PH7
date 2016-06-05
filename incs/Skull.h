@@ -145,7 +145,6 @@ public:
 
       points_size = sizeof(point4) * numVertices;
       colors_size = sizeof(color4) * numVertices;
-      normals_size = sizeof(normal3) * numVertices;
 
       // Create and initialize a buffer object
       glGenBuffers( 1, &buffer );
@@ -153,7 +152,6 @@ public:
       glBufferData( GL_ARRAY_BUFFER, points_size + colors_size + normals_size, NULL, GL_STATIC_DRAW );
       glBufferSubData( GL_ARRAY_BUFFER, 0, points_size, points );
       glBufferSubData( GL_ARRAY_BUFFER, points_size, colors_size, colors );
-      glBufferSubData( GL_ARRAY_BUFFER, points_size + colors_size, normals_size, normals );
 
       // set up vertex arrays
       size_t size = 0;
@@ -165,11 +163,6 @@ public:
       GLuint vColor = glGetAttribLocation( program, "vColor" );
       glEnableVertexAttribArray( vColor );
       glVertexAttribPointer( vColor, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(size) );
-
-      size += colors_size;
-      GLuint vNormal = glGetAttribLocation( program, "vNormal" );
-      glEnableVertexAttribArray( vPosition );
-      glVertexAttribPointer( vNormal, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(size) );
 
       shininess = 120;
       glUniform1f( glGetUniformLocation(program, "Shininess"), shininess );
