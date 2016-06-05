@@ -4,9 +4,10 @@
 in vec4 vPosition;
 in vec4 vColor;
 in vec3 vNormal;
+in vec2 vTexture;
 
 out vec4 color;
-
+out vec2 UV;
 uniform mat4 ModelView;
 uniform mat4 Projection;
 
@@ -14,6 +15,7 @@ uniform int ObjectID;
 
 // for object picking
 uniform bool PickingEnabled;
+uniform int texture;
 uniform vec4 pickingColor;
 
 // Properties of the sun
@@ -50,6 +52,7 @@ void main()
     color = pickingColor;
     return;
   }
+ 
 
   if(ObjectID == 100) {
     if ( HS_shading_model == PHONG_SHADING_MODEL ) {
@@ -111,6 +114,9 @@ void main()
       color = color + ambient + diffuse + specular;
       color.a = 1.0;
     }
+  }
+   if(texture==1){
+   UV=vTexture;
   }
   else
     color = vColor;

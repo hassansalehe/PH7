@@ -24,6 +24,7 @@
 #include "Object.h"
 #include "Room.h"
 #include "Roof.h"
+#include "Header.h"
 #include "Door.h"
 #include "Window.h"
 #include "Stand.h"
@@ -62,6 +63,7 @@ private:
     Object * room    = new Room();
     Object * roof    = new Roof();
     Object * door    = new Door();
+	Object * header  = new Header();
 
     // right windows
     Object * rfwindow  = new Window(point4(0.5, 0.1, 0.35, 1.0), 90);
@@ -88,7 +90,7 @@ private:
     // Construct tree
     room->appendChild( roof );
     room->appendChild( door );
-
+	room->appendChild( header );
     // windows
     room->appendChild( rfwindow ); // right front Window
     room->appendChild( rrwindow ); // right rear Window
