@@ -35,11 +35,11 @@ $(EXEC): InitShader.o rply.o $(SRC)/ph7Main.cpp $(MODULES) $(HEADERS)
 
 # compile the init shader, the InitShader code is used as is from Angel
 InitShader.o: $(LIBS)/Angel/InitShader.cpp
-	g++ -c -Wall $(LIBS)/Angel/InitShader.cpp $(INCLUDES) -o InitShader.o
+	g++ -c -g -Wall $(LIBS)/Angel/InitShader.cpp $(INCLUDES) -o InitShader.o
 
 # compile the rply parser, its code is in libs/rply
 rply.o: $(LIBS)/rply/rply.c
-	gcc -c $(LIBS)/rply/rply.c $(INCLUDES) -o rply.o
+	gcc -c -g $(LIBS)/rply/rply.c $(INCLUDES) -o rply.o
 
 # remove object files
 clean:

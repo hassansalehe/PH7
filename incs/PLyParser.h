@@ -1,3 +1,19 @@
+///////////////////////////////////////////////////////////////////////////////
+//
+//                   COMP 510, Computer Graphics, Spring 2016
+//                              Final project
+//                PH7: A virtual Museum Based on OpenGL and Glut
+//
+//                            (c) 2016 - Hassan & Pirah.
+//            Copying without the authors consent is strictly prohibited.
+//
+//            For copyright notices of the RPLY library refer to libs/rply/LICENSE
+//
+///////////////////////////////////////////////////////////////////////////////
+//
+// Implements implements functions for parsing the ply object files
+//
+///////////////////////////////////////////////////////////////////////////////
 #ifndef PLS_PARSER_HPP
 #define PLS_PARSER_HPP
 
