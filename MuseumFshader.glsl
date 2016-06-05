@@ -3,9 +3,17 @@
 
 in vec4 color;
 uniform int ObjectID;
+// Interpolated values from the vertex shaders
+in vec2 UV;
+
+
+// Values that stay constant for the whole mesh.
+uniform sampler2D myTextureSampler;
+
 
 // for object picking
 uniform bool PickingEnabled;
+uniform int texture;
 uniform vec4 pickingColor;
 
 // Properties of sun
@@ -32,10 +40,12 @@ uniform int HS_shading_model;
 
 void main()
 {
+
   if( PickingEnabled ) {
     gl_FragColor = pickingColor;
     return;
   }
+  
 
   if(ObjectID == 100) {
     if ( HS_shading_model == PHONG_SHADING_MODEL ) {
@@ -98,8 +108,12 @@ void main()
   }
   else if( gl_FrontFacing || ObjectID != 100 || ObjectID != 200 )
     gl_FragColor = color;
+  
   else
     gl_FragColor = vec4(1.0, 0.8, 0.8, 0.0);
 //    gl_FragColor = vec4(0.556863, 0.137255, 0.137255, 1.0);
+  if(texture==1){
+	gl_FragColor= texture2D( myTextureSampler, UV );
+	}
 }
 

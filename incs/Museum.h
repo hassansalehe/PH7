@@ -25,6 +25,7 @@
 #include "Room.h"
 #include "Roof.h"
 #include "DoorFrame.h"
+#include "Header.h"
 #include "Wframe.h"
 #include "Stand.h"
 #include "Sun.h"
@@ -61,10 +62,11 @@ private:
   void constructObjectTree() {
 
     // Create objects
-    Object * room    = new Room();
-    Object * roof    = new Roof();
-    Object * door    = new DoorFrame();
-    Object * volume  = new Cube();
+    Object * room       = new Room();
+    Object * roof       = new Roof();
+    Object * doorframe  = new DoorFrame();
+    Object * frontUpper  = new Header();
+    Object * rearUpper  = new Cube();
 
     // right windows
     Object * rfwindow  = new WindowFrame(point4(0.5, 0.1, 0.35, 1.0), 90);
@@ -83,15 +85,16 @@ private:
     Object * sun     = new  Sun();
     Object * skull   = new Skull();
     Object * walkman = new Walkman();
-	Object * part = new Part();
-	Object * wheel = new Wheel();
-	Object * airplane = new Airplane();
-	Object * lamp = new Lamp();
+    Object * part = new Part();
+    Object * wheel = new Wheel();
+    Object * airplane = new Airplane();
+    Object * lamp = new Lamp();
 
     // Construct tree
     room->appendChild( roof );
-    room->appendChild( door );
-    room->appendChild( volume );
+    room->appendChild( doorframe );
+    room->appendChild( frontUpper );
+    room->appendChild( rearUpper );
 
     // windows
     room->appendChild( rfwindow ); // right front WindowFrame
