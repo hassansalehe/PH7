@@ -37,7 +37,7 @@ class Skull: public Object {
 
       Vindex = 0;
       long nvertices, ntriangles;
-      p_ply ply = ply_open("incs/objects/skull.ply", NULL, 0, NULL);
+      p_ply ply = ply_open("incs/antiquity/objects/skull.ply", NULL, 0, NULL);
       if (!ply) return; // cant open
       if (!ply_read_header(ply)) return; // cant open
       nvertices =

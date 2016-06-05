@@ -26,7 +26,7 @@
 #include "Roof.h"
 #include "Header.h"
 #include "Door.h"
-#include "Window.h"
+#include "Wframe.h"
 #include "Stand.h"
 #include "Sun.h"
 #include "Skull.h"
@@ -35,6 +35,8 @@
 #include "Wheel.h"
 #include "Airplane.h"
 #include "Lamp.h"
+
+#include "RearUpperFace.h"
 
 using namespace std;
 
@@ -63,20 +65,21 @@ private:
     Object * room    = new Room();
     Object * roof    = new Roof();
     Object * door    = new Door();
-	Object * header  = new Header();
+	Object * frontUpper  = new Header();
+    Object * rearUpper  = new Cube();
 
     // right windows
-    Object * rfwindow  = new Window(point4(0.5, 0.1, 0.35, 1.0), 90);
-    Object * rrwindow  = new Window(point4(0.5, 0.1, -0.35, 1.0), 90);
+    Object * rfwindow  = new WindowFrame(point4(0.5, 0.1, 0.35, 1.0), 90);
+    Object * rrwindow  = new WindowFrame(point4(0.5, 0.1, -0.35, 1.0), 90);
 
     // left windows
-    Object * lfwindow  = new Window(point4(-0.5, 0.1, 0.35, 1.0), -90);
-    Object * lrwindow  = new Window(point4(-0.5, 0.1, -0.35, 1.0), -90);
+    Object * lfwindow  = new WindowFrame(point4(-0.5, 0.1, 0.35, 1.0), -90);
+    Object * lrwindow  = new WindowFrame(point4(-0.5, 0.1, -0.35, 1.0), -90);
 
     // rear windows
-    Object * reRightwindow  = new Window(point4( 0.3,  0.35, -0.8, 1.0), vec3(0.4, 0.25, 1.0));
-    Object * reMiddlewindow  = new Window(point4(0.0,  0.35, -0.8, 1.0), vec3(0.4, 0.25, 1.0));
-    Object * reLeftwindow  = new Window(point4( -0.3,  0.35, -0.8, 1.0), vec3(0.4, 0.25, 1.0));
+    Object * reRightwindow  = new WindowFrame(point4( 0.3,  0.33, -0.8, 1.0), vec3(0.4, 0.35, 1.0));
+    Object * reMiddlewindow  = new WindowFrame(point4(0.0,  0.33, -0.8, 1.0), vec3(0.4, 0.35, 1.0));
+    Object * reLeftwindow  = new WindowFrame(point4( -0.3,  0.33, -0.8, 1.0), vec3(0.4, 0.35, 1.0));
 
     Object * stand   = new Stand();
     Object * sun     = new  Sun();
@@ -90,13 +93,15 @@ private:
     // Construct tree
     room->appendChild( roof );
     room->appendChild( door );
-	room->appendChild( header );
-    // windows
-    room->appendChild( rfwindow ); // right front Window
-    room->appendChild( rrwindow ); // right rear Window
+	room->appendChild( frontUpper );
+    room->appendChild( rearUpper );
 
-    room->appendChild( lfwindow ); // left front Window
-    room->appendChild( lrwindow ); // left rear Window
+    // windows
+    room->appendChild( rfwindow ); // right front WindowFrame
+    room->appendChild( rrwindow ); // right rear WindowFrame
+
+    room->appendChild( lfwindow ); // left front WindowFrame
+    room->appendChild( lrwindow ); // left rear WindowFrame
 
     //rear windows
     room->appendChild( reRightwindow );

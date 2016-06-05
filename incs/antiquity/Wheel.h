@@ -38,7 +38,7 @@ class Wheel: public Object {
     void readVertices() {
       Vindex = 0;
       long nvertices, ntriangles;
-      p_ply ply = ply_open("incs/objects/wheel.ply", NULL, 0, NULL);
+      p_ply ply = ply_open("incs/antiquity/objects/wheel.ply", NULL, 0, NULL);
       if (!ply) return; // cant open
       if (!ply_read_header(ply)) return; // cant open
       nvertices =

@@ -65,42 +65,43 @@ class Window: public Object {
       //glutPostRedisplay();
       //glutTimerFunc(1, windowAOpenAnimation, p);
     }
+
     // Vertices of a unit cube centered at origin, sides aligned with axes
     point4 vertices[22] = {
 
       // front window frame outer vertices
       point4( -0.25,  0.2,  0.0, 1.0 ), // top left (A)
-      point4( -0.25, -0.2,  0.0, 1.0 ), // bottom left (B)
-      point4(  0.25, -0.2,  0.0, 1.0 ), // bottom right (C)
+      point4( -0.25, -0.1,  0.0, 1.0 ), // bottom left (B)
+      point4(  0.25, -0.1,  0.0, 1.0 ), // bottom right (C)
       point4(  0.25,  0.2,  0.0, 1.0 ), // top right (D)
 
       // front window frame middle vertices
       point4( -0.24,  0.19,  0.02, 1.0 ), // top left (E)
-      point4( -0.24, -0.19,  0.02, 1.0 ), // bottom left (F)
-      point4(  0.24, -0.19,  0.02, 1.0 ), // bottom right (G)
+      point4( -0.24, -0.09,  0.02, 1.0 ), // bottom left (F)
+      point4(  0.24, -0.09,  0.02, 1.0 ), // bottom right (G)
       point4(  0.24,  0.19,  0.02, 1.0 ), // top right (H)
 
       // front window frame inner vertices
       point4( -0.23,  0.18,  0.01, 1.0 ), // top left (I)
-      point4( -0.23, -0.18,  0.01, 1.0 ), // bottom left (J)
-      point4(  0.23, -0.18,  0.01, 1.0 ), // bottom right (K)
+      point4( -0.23, -0.08,  0.01, 1.0 ), // bottom left (J)
+      point4(  0.23, -0.08,  0.01, 1.0 ), // bottom right (K)
       point4(  0.23,  0.18,  0.01, 1.0 ), // top right (L)
 
 
       // front window middle separetor vertices
-      point4( -0.01,  0.18,  0.01, 1.0 ), // top left (M)
-      point4( -0.01, -0.18,  0.01, 1.0 ), // bottom left (N)
-      point4(  0.01, -0.18,  0.01, 1.0 ), // bottom right (O)
-      point4(  0.01,  0.18,  0.01, 1.0 ), // top right (P)
+      point4( -0.005,  0.18,  0.01, 1.0 ), // top left (M)
+      point4( -0.005, -0.08,  0.01, 1.0 ), // bottom left (N)
+      point4(  0.005, -0.08,  0.01, 1.0 ), // bottom right (O)
+      point4(  0.005,  0.18,  0.01, 1.0 ), // top right (P)
 
       // Vertices for the handle
       point4( -0.015, 0.1,   0.02, 1.0 ), // top left (A')
       point4( -0.015, 0.095, 0.02, 1.0 ), // bottom left (B')
       point4(  0.0,   0.09, 0.015, 1.0 ), // bottom (C')
 
-      point4(  0.05,  0.095,  0.02, 1.0 ), // bottom right (D')
-      point4(  0.05,  0.1,    0.02, 1.0 ), // top right (E')
-      point4(  0.0,    0.11, 0.015, 1.0 ), // top (F')
+      point4(  0.05,  0.095, 0.02, 1.0 ), // bottom right (D')
+      point4(  0.05,  0.1,   0.02, 1.0 ), // top right (E')
+      point4(  0.0,   0.11,  0.015, 1.0 ), // top (F')
     };
 
     // RGBA olors
@@ -132,17 +133,18 @@ class Window: public Object {
 
     };
 
-    void quad( int a, int b, int c, int d ) {
+    void front(int a, int b, int c, int d) {
 
-      int start = vertexIndex;
-      // Initialize colors
+       // Initialize colors
       colors[vertexIndex] = vertex_colors[a]; points[vertexIndex] = vertices[a]; vertexIndex++;
       colors[vertexIndex] = vertex_colors[b]; points[vertexIndex] = vertices[b]; vertexIndex++;
       colors[vertexIndex] = vertex_colors[c]; points[vertexIndex] = vertices[c]; vertexIndex++;
       colors[vertexIndex] = vertex_colors[a]; points[vertexIndex] = vertices[a]; vertexIndex++;
       colors[vertexIndex] = vertex_colors[c]; points[vertexIndex] = vertices[c]; vertexIndex++;
       colors[vertexIndex] = vertex_colors[d]; points[vertexIndex] = vertices[d]; vertexIndex++;
+    }
 
+    void back(int a, int b, int c, int d, int start) {
       // creates triangles on the other part
       colors[vertexIndex] = vertex_colors[a]; points[vertexIndex] = RotateY(180) * points[start++]; vertexIndex++;
       colors[vertexIndex] = vertex_colors[b]; points[vertexIndex] = RotateY(180) * points[start++]; vertexIndex++;
@@ -152,20 +154,16 @@ class Window: public Object {
       colors[vertexIndex] = vertex_colors[d]; points[vertexIndex] = RotateY(180) * points[start++]; vertexIndex++;
     }
 
+    void quad( int a, int b, int c, int d ) {
+
+      int start = vertexIndex;
+
+      front( a, b, c, d );
+      back( a, b, c, d, start );
+    }
+
     // generate 12 triangles: 36 vertices and 36 colors
     void colorcube() {
-
-      // Constructing window frame
-      quad(0, 1, 5, 4);  // left face
-      quad(1, 2, 6, 5); // bottom face
-      quad(2, 3, 7, 6);  // right face
-      quad(0, 4, 7, 3); // top face
-
-      // middle faces
-      quad(4, 5, 9, 8);
-      quad(9, 5, 6, 10);
-      quad(10, 6, 7, 11);
-      quad(4, 8, 11, 7);
 
       window_left_start_index = vertexIndex;
       // Constructing the middle separetor
@@ -187,9 +185,9 @@ class Window: public Object {
 
       // Construct the handle
       handle_start_index = vertexIndex;
-      quad(16,17, 19, 20);
-      quad(17, 18, 19, 17);
-      quad(16, 20, 21, 16);
+      front(16,17, 19, 20);
+      front(17, 18, 19, 17);
+      front(16, 20, 21, 16);
       handle_end = vertexIndex;
 
       // apply transformations

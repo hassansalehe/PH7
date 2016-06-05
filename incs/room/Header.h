@@ -26,13 +26,13 @@ class Header: public Object {
       // front wall
       point4( -0.5,  0.5,  0.8, 1.0 ), // bottom left
       point4(  0.5,  0.5,  0.8, 1.0 ), // bottom right
-      point4(  0.0,  0.8,  0.8, 1.0 ) // Top 
+      point4(  0.0,  0.8,  0.8, 1.0 ) // Top
     };
 	vec2 tex_coords[3]={
 						vec2(1.0,  1.0),
 						vec2( 0.0,  0.0),
 						vec2(0.0,  1.0)
-	  
+
 	};
 
     void quad() {
@@ -41,10 +41,11 @@ class Header: public Object {
       colors[vertexIndex] = earth; points[vertexIndex] = vertices[1]; vertexIndex++;
       colors[vertexIndex] = green; points[vertexIndex] = vertices[2]; vertexIndex++;
     }
-  void drawLogo(){
+  void drawLogo() {
+
 	 // GLuint Texture= loadBMP_custom("libs/logo.bmp");
 	  // Data read from the header of the BMP file
-	  unsigned char header[54]; // Each BMP file begins by a 54-bytes header	
+	  unsigned char header[54]; // Each BMP file begins by a 54-bytes header
 	  unsigned int dataPos;     // Position in the file where the actual data begins
 	  unsigned int width, height;
 	  unsigned int imageSize;   // = width*height*3
@@ -53,26 +54,32 @@ class Header: public Object {
 	  // Open the file
 	  FILE * file = fopen("libs/logo.bmp","rb");
 	  if (!file)
-		printf("Image could not be opened\n"); 
+		printf("Image could not be opened\n");
 	  if ( fread(header, 1, 54, file)!=54 ) // If not 54 bytes read : problem
 		  printf("Not a correct BMP file\n");
-		  
+
 	  if ( header[0]!='B' || header[1]!='M' )
 		printf("Not a correct BMP file\n");
+
 	  dataPos    = *(int*)&(header[0x0A]);
 	  imageSize  = *(int*)&(header[0x22]);
 	  width      = *(int*)&(header[0x12]);
 	  height     = *(int*)&(header[0x16]);
+
 	  // Some BMP files are misformatted, guess missing information
 	  if (imageSize==0)    imageSize=width*height*3; // 3 : one byte for each Red, Green and Blue component
 	  if (dataPos==0)      dataPos=54; // The BMP header is done that way
+
 	  // Create a buffer
 	  data = new unsigned char [imageSize];
+
 	  // Read the actual data from the file into the buffer
 	  fread(data,1,imageSize,file);
-	//Everything is in memory now, the file can be closed
+
+	  //Everything is in memory now, the file can be closed
 	  fclose(file);
-      // Create one OpenGL texture
+
+	  // Create one OpenGL texture
 	  GLuint textureID;
 	  glGenTextures(1, &textureID);
 
@@ -86,10 +93,11 @@ class Header: public Object {
 	  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
   }
-	
-	void initializeDataBuffers( GLuint program ){
-	  drawLogo();// setting texture mapping data
-	  // Create a vertex array object
+
+  void initializeDataBuffers( GLuint program ){
+	drawLogo();// setting texture mapping data
+
+	// Create a vertex array object
     glGenVertexArrays( 1, &vao );
     glBindVertexArray( vao );
 
@@ -141,12 +149,8 @@ class Header: public Object {
 
     // Set state variable "clear color" to clear buffer with.
     glClearColor( 1.0, 1.0, 1.0, 1.0 );
-	}
-	
-	
+  }
 
-    // generate 12 triangles: 36 vertices and 36 colors
-    
   public:
     /**
      * Initializes the vertices and colors of the empty header object.
@@ -177,10 +181,10 @@ class Header: public Object {
     }
 
    void calculateModelViewMatrix() {
-	 
-	 
-	 
-	 
+
+
+
+
 
     //  Generate tha model-view matrix
 //     mat4 scale = Scale( scaleFactor, scaleFactor, scaleFactor );
@@ -208,8 +212,8 @@ class Header: public Object {
      glUniform1i( TextureFlag, 0 );
     }
 
-  
-  
+
+
 //     void display( GLuint program )
 //     {
 //       glBindVertexArray( vao );

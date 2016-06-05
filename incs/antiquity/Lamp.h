@@ -29,11 +29,13 @@ class Lamp: public Object {
   private:
     float max_v = 0.0;
 
+    const vec3 toStand = vec3(0.35, -0.01, 0.45);
+
     void readVertices() {
 
       Vindex = 0;
       long nvertices, ntriangles;
-      p_ply ply = ply_open("incs/objects/lamp.ply", NULL, 0, NULL);
+      p_ply ply = ply_open("incs/antiquity/objects/lamp.ply", NULL, 0, NULL);
       if (!ply) return; // cant open
       if (!ply_read_header(ply)) return; // cant open
       nvertices =
@@ -116,8 +118,7 @@ class Lamp: public Object {
        float scaleF = 0.0003 ; // manually calculated
       for(int i = 0; i < numVertices; i++)
       {
-        points[i] = Translate(0.35, -0.02, 0.42) * RotateY(90.0) * Scale(scaleF, scaleF, scaleF) * Translate(-displacement)  *   points[i];
-
+        points[i] = Translate(toStand) * RotateY(90.0) * Scale(scaleF, scaleF, scaleF) * Translate(-displacement)  *   points[i];
       }
 
       // internal part of the Plane
@@ -179,7 +180,7 @@ class Lamp: public Object {
     void idle( void )
     {
 	  if(autoOnOff!=0)
-		my_model_view= my_model_view*Translate(0.35, -0.02, 0.42)*RotateY(0.5)*Translate(-0.35, 0.02, -0.42);
+		my_model_view= my_model_view*Translate( toStand )*RotateY(0.5)*Translate( -toStand );
 	  else
 		glutPostRedisplay();
     }
@@ -204,7 +205,7 @@ class Lamp: public Object {
     void checkIfPicked( unsigned char pixel[4] ) {
       if ( pixel[0] == 0 && pixel[1] == 51 && pixel[2] == 0 ) { // Lamp
         printf("Lamp selected\n");
-		my_model_view= my_model_view*Translate(0.35, -0.02, 0.42)*RotateY(30)*Translate(-0.35, 0.02, -0.42);
+		my_model_view= my_model_view * Translate(toStand)*RotateY(30) * Translate(-toStand);
       }
     }
 };

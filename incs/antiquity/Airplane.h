@@ -34,7 +34,7 @@ class Airplane: public Object {
     void readVertices() {
       Vindex = 0;
       long nvertices, ntriangles;
-      p_ply ply = ply_open("incs/objects/airoplane.ply", NULL, 0, NULL);
+      p_ply ply = ply_open("incs/antiquity/objects/airoplane.ply", NULL, 0, NULL);
       if (!ply) return; // cant open
       if (!ply_read_header(ply)) return; // cant open
       nvertices =
