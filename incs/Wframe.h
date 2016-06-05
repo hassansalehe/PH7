@@ -13,12 +13,13 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef WINDOW_CLASS
-#define WINDOW_CLASS
+#ifndef WINDOW_FRAME_CLASS
+#define WINDOW_FRAME_CLASS
 
 #include "Object.h"
+#include "Window.h"
 
-class Window: public Object {
+class WindowFrame: public Object {
   private:
 
     mat4 initTransform;
@@ -65,7 +66,6 @@ class Window: public Object {
       //glutPostRedisplay();
       //glutTimerFunc(1, windowAOpenAnimation, p);
     }
-
     // Vertices of a unit cube centered at origin, sides aligned with axes
     point4 vertices[22] = {
 
@@ -165,17 +165,29 @@ class Window: public Object {
     // generate 12 triangles: 36 vertices and 36 colors
     void colorcube() {
 
+      // Constructing window frame
+      quad(0, 1, 5, 4);  // left face
+      quad(1, 2, 6, 5); // bottom face
+      quad(2, 3, 7, 6);  // right face
+      quad(0, 4, 7, 3); // top face
+
+      // middle faces
+      quad(4, 5, 9, 8);
+      quad(9, 5, 6, 10);
+      quad(10, 6, 7, 11);
+      quad(4, 8, 11, 7);
+
       window_left_start_index = vertexIndex;
       // Constructing the middle separetor
       quad( 12, 13, 14, 15 ); // midle separetor
 
       // Constructing the left part of the window
       int start = vertexIndex;
-      quad(8, 9, 13, 12);
+      //quad(8, 9, 13, 12);
       window_left_end = vertexIndex;
 
       // Constructing the right part of the window
-      quad(15, 14, 10, 11);
+      //quad(15, 14, 10, 11);
       window_right_end = vertexIndex;
 
       for(int i = start; i < vertexIndex; i++)
@@ -201,11 +213,15 @@ class Window: public Object {
 
   public:
 
-    Window(const point4 displacement, float angle) {
+    WindowFrame(const point4 displacement, float angle) {
       initTransform = Translate(displacement) * RotateY(angle);
+
+      // construct its window screens
+      Object* window = new Window(displacement, angle);
+      appendChild( window );
     }
 
-    Window(const point4 displacement, const vec3 scale) {
+    WindowFrame(const point4 displacement, const vec3 scale) {
 
       initTransform = Translate(displacement) * Scale(scale);
     }
@@ -238,28 +254,16 @@ class Window: public Object {
 
       shininess = 180;
       initializeDataBuffers( program );
+
+      // initialize children
+      for(Object * child : children) {
+        child->initialize( program );
+      }
     }
 
     void calculateModelViewMatrix() {
       model_view = parent_model_view;
     }
-
-    /**
-     * The general display function launched by the Glut
-     */
-    void display( GLuint program )
-    {
-      glEnable(GL_BLEND);
-      glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-      glBlendEquation(GL_FUNC_ADD);
-      glDepthMask(0); // donit modify depth buffer
-
-      Object::display( program );
-
-      glDisable(GL_BLEND);
-      glDepthMask(1); // you can modify depth buffer
-    }
-
 
     void idle( void )
     {
@@ -295,7 +299,7 @@ class Window: public Object {
     void checkIfPicked( unsigned char pixel[4] ) {
       // (0,255,255)
       if ( pixel[0] == 0 && pixel[1] == 255 && pixel[2] == 255 ) { // Wheel
-        printf("Window selected\n");
+        printf("WindowFrame selected\n");
       }
     }
 };

@@ -38,28 +38,25 @@ class Stand: public Object {
 
     // RGBA olors
     color4 vertex_colors[8] = {
-      color4( 0.0, 0.0, 0.0, 1.0 ),  // green
-      color4( 1.0, 0.0, 0.0, 1.0 ),  // red
-      color4( 1.0, 1.0, 0.0, 1.0 ),  // yellow
+      color4( 164/255.0, 211/255.0, 238/255.0, 1.0 ),  // green
+      color4( 99/255.0, 86/255.0, 136/255.0, 1.0 ),  // red
+      color4( 47/255.0, 79/255.0, 47/255.0, 1.0 ),  // yellow
       color4( 0.0, 1.0, 0.0, 1.0 ),  // green
       color4( 0.0, 0.0, 1.0, 1.0 ),  // blue
       color4( 1.0, 0.0, 1.0, 1.0 ),  // magenta
       color4( 1.0, 1.0, 1.0, 1.0 ),  // white
-      color4( 0.0, 1.0, 1.0, 1.0 ),/*   // cyan
-      color4( 0.0, 1.0, 0.0, 1.0 ),  // green
-      color4( 0.0, 1.0, 0.0, 1.0 ),  // green
-      color4( 0.0, 1.0, 0.0, 1.0 ),  // green
-      color4( 0.0, 1.0, 0.0, 1.0 ),*/  // green
+      color4( 0.0, 1.0, 1.0, 1.0 ),
     };
 
     void quad( int a, int b, int c, int d ) {
+
       // Initialize colors
-      colors[vertexIndex] = green; points[vertexIndex] = vertices[a]; vertexIndex++;
+      colors[vertexIndex] = vertex_colors[0]; points[vertexIndex] = vertices[a]; vertexIndex++;
       colors[vertexIndex] = green; points[vertexIndex] = vertices[b]; vertexIndex++;
-      colors[vertexIndex] = green; points[vertexIndex] = vertices[c]; vertexIndex++;
+      colors[vertexIndex] = vertex_colors[1]; points[vertexIndex] = vertices[c]; vertexIndex++;
       colors[vertexIndex] = green; points[vertexIndex] = vertices[a]; vertexIndex++;
-      colors[vertexIndex] = green; points[vertexIndex] = vertices[c]; vertexIndex++;
-      colors[vertexIndex] = green; points[vertexIndex] = vertices[d]; vertexIndex++;
+      colors[vertexIndex] = vertex_colors[2]; points[vertexIndex] = vertices[c]; vertexIndex++;
+      colors[vertexIndex] = vertex_colors[5]; points[vertexIndex] = vertices[d]; vertexIndex++;
     }
 
     // generate 12 triangles: 36 vertices and 36 colors
@@ -75,27 +72,32 @@ class Stand: public Object {
 
       const vec3 displacement(0.0, 0.0, 0.4);
       for(int i = start; i < end; i++) {
-        colors[vertexIndex] = green; points[vertexIndex] = Translate (displacement) * points[i]; vertexIndex++;
+        colors[vertexIndex] = colors[i];
+        points[vertexIndex++] = Translate (displacement) * points[i];
       }
 
       const vec3 displacement2(0.0, 0.0, 0.8);
       for(int i = start; i < end; i++) {
-        colors[vertexIndex] = green; points[vertexIndex] = Translate (displacement2) * points[i]; vertexIndex++;
+        colors[vertexIndex] = colors[i];
+        points[vertexIndex++] = Translate (displacement2) * points[i];
       }
 
       const vec3 displacement3(0.7, 0.0, 0.0);
       for(int i = start; i < end; i++) {
-        colors[vertexIndex] = green; points[vertexIndex] = Translate (displacement3) * points[i]; vertexIndex++;
+        colors[vertexIndex] = colors[i];
+        points[vertexIndex++] = Translate (displacement3) * points[i];
       }
 
       const vec3 displacement4(0.7, 0.0, 0.4);
       for(int i = start; i < end; i++) {
-        colors[vertexIndex] = green; points[vertexIndex] = Translate (displacement4) * points[i]; vertexIndex++;
+        colors[vertexIndex] = colors[i];
+        points[vertexIndex++] = Translate (displacement4) * points[i];
       }
 
       const vec3 displacement5(0.7, 0.0, 0.8);
       for(int i = start; i < end; i++) {
-        colors[vertexIndex] = green; points[vertexIndex] = Translate (displacement5) * points[i]; vertexIndex++;
+        colors[vertexIndex] = colors[i];
+        points[vertexIndex++] = Translate (displacement5) * points[i];
       }
 
       //quad( 3, 0, 4, 7 ); // floor
