@@ -4,7 +4,7 @@
 GLFLGS = -lm -lglut -lGLEW -lGL -lGLU
 
 # list of G++ compiler flags
-CXXFLGS = -g -O2 -Wall -std=c++11
+CXXFLGS = -g -O2 -Wall -std=c++11 -Wno-strict-aliasing -Wno-unused-result
 
 MODULES= src/Init.cpp src/Keyboard.cpp
 

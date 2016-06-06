@@ -47,7 +47,7 @@ public:
   GLuint HS_reflection_model = 300;
 
   GLuint ShadingModel;
-  GLuint HS_shading_model = 273;
+  GLuint HS_shading_model = 274;
 
   // model view matrices
   mat4 model_view        = Identity();
@@ -375,7 +375,7 @@ public:
       }
 
       // normalize the sum of neighbor normals
-      normals[i] = normalize( p );
+      //normals[i] = normalize( p );
     }
   }
 

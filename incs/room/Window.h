@@ -22,6 +22,7 @@ class Window: public Object {
   private:
 
     mat4 initTransform;
+    bool isOpen = false;
 
     // indices for individual rotation of parts of the window
     int handle_start_index = 0;
@@ -221,7 +222,7 @@ class Window: public Object {
 
       // set picking color
       isPicking = false;
-      pickingColor = color4(0.0, 1.0, 1.0, 1.0); // (0,255,255)
+      pickingColor = color4(0.0, 0.4, 0.4, 1.0); // (0,102,102)
 
       numVertices = 168; // (28 faces )(2 triangles/face)(3 vertices/triangle)
       points = new point4[numVertices];
@@ -249,15 +250,19 @@ class Window: public Object {
      */
     void display( GLuint program )
     {
-      glEnable(GL_BLEND);
-      glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-      glBlendEquation(GL_FUNC_ADD);
-      glDepthMask(0); // donit modify depth buffer
+      if( isOpen ) {
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glBlendEquation(GL_FUNC_ADD);
+        glDepthMask(0); // don't modify depth buffer
+      }
 
       Object::display( program );
 
-      glDisable(GL_BLEND);
-      glDepthMask(1); // you can modify depth buffer
+      if( isOpen ) {
+        glDisable(GL_BLEND);
+        glDepthMask(1); // you can modify depth buffer
+      }
     }
 
 
@@ -293,9 +298,9 @@ class Window: public Object {
     }
 
     void checkIfPicked( unsigned char pixel[4] ) {
-      // (0,255,255)
-      if ( pixel[0] == 0 && pixel[1] == 255 && pixel[2] == 255 ) { // Wheel
-        printf("Window selected\n");
+      // (0,102,102)
+      if ( pixel[0] == 0 && pixel[1] == 102 && pixel[2] == 102 ) { // Window
+        isOpen = !isOpen;
       }
     }
 };

@@ -181,9 +181,9 @@ class LeftDoor: public Object {
       //}
       if( amISelected ) {
         if( !isOpen ) // not open
-          rotationAngle += 1.0;
+          rotationAngle += 0.5;
         else
-          rotationAngle -= 1.0;
+          rotationAngle -= 0.5;
 
         if(rotationAngle > 135)
         {
