@@ -30,16 +30,16 @@ all: $(EXEC)
 $(EXEC): InitShader.o rply.o $(SRC)/ph7Main.cpp $(MODULES) $(HEADERS)
 	$(info ============================================== )
 	$(info PH7: Building the virtual museum ...)
-	g++ -o $(EXEC) $(INCLUDES) InitShader.o rply.o $(SRC)/ph7Main.cpp $(MODULES) $(CXXFLGS) $(GLFLGS)
+	g++ -o $(EXEC) $(INCLUDES) bin/InitShader.o bin/rply.o $(SRC)/ph7Main.cpp $(MODULES) $(CXXFLGS) $(GLFLGS)
 	$(info ============================================== )
 
 # compile the init shader, the InitShader code is used as is from Angel
 InitShader.o: $(LIBS)/Angel/InitShader.cpp
-	g++ -c -g -Wall $(LIBS)/Angel/InitShader.cpp $(INCLUDES) -o InitShader.o
+	g++ -c -g -Wall $(LIBS)/Angel/InitShader.cpp $(INCLUDES) -o bin/InitShader.o
 
 # compile the rply parser, its code is in libs/rply
 rply.o: $(LIBS)/rply/rply.c
-	gcc -c -g $(LIBS)/rply/rply.c $(INCLUDES) -o rply.o
+	gcc -c -g $(LIBS)/rply/rply.c $(INCLUDES) -o bin/rply.o
 
 # remove object files
 clean:

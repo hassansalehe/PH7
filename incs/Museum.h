@@ -172,7 +172,7 @@ public:
   void initialize() {
 
     // Load shaders and use the resulting shader program
-    program = InitShader( "MuseumVshader.glsl", "MuseumFshader.glsl" );
+    program = InitShader( "shaders/MuseumVshader.glsl", "shaders/MuseumFshader.glsl" );
 
     objectCount = 0;
     objects = new Object*[objectCount];
