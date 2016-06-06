@@ -420,6 +420,52 @@ public:
     }
   }
 
+  /**
+   * Prints the help information to the user.
+   * It also launches help methods of individual objects
+   */
+  void help() {
+    cout << "================================================================" << endl;
+    cout << "=                                                              =" << endl;
+    cout << "= Welcome to PH7: The Virtual museum developed only on OpenGL. =" << endl;
+    cout << "=                                                              =" << endl;
+    cout << "================================================================" << endl;
+    cout << "=                                                              =" << endl;
+    cout << "=         HOW TO INTERACT WITH THE MUSEUM                      =" << endl;
+    cout << "=                                                              =" << endl;
+    cout << "================================================================" << endl;
+    cout << "=   Keys         ==             Function                       =" << endl;
+    cout << "================================================================" << endl;
+    cout << "=  H or h        ==  To get this help message.                 =" << endl;
+    cout << "=  Mouse-click   ==  To pick an(any) object.                   =" << endl;
+    cout << "=  I or i        ==  To reset the museum                       =" << endl;
+    cout << "=  Z             ==  To zoom IN                                =" << endl;
+    cout << "=  z             ==  To zoom out                               =" << endl;
+    cout << "=  f             ==  To move forward                           =" << endl;
+    cout << "=  F             ==  To move backward                          =" << endl;
+    cout << "=  S or s        ==  To change shading                         =" << endl;
+    cout << "=  A or a        ==  To turn auto rotation on/off of antiques  =" << endl;
+    cout << "=                                                              =" << endl;
+    cout << "=  Left arrow    ==  To rotate Left                            =" << endl;
+    cout << "=  Right arrow   ==  To rotate Right                           =" << endl;
+    cout << "=  Up arrow      ==  To rotate up                              =" << endl;
+    cout << "=  Down arrow    ==  To rotate down                            =" << endl;
+    cout << "=  Click on door ==  To open / close the door                  =" << endl;
+    cout << "=  Q or q        ==  To close/quit the museum                  =" << endl;
+
+    Object * object;
+    objectQueue.push(root);
+
+    while(! objectQueue.empty() ) {
+      object = objectQueue.front();
+      objectQueue.pop();
+      object->help(); // call help of each object
+      object->pushChildrenToQueue( objectQueue );
+    }
+
+    cout << "================================================================" << endl;
+  }
+
 
   /**
    * destroys all dynamically created objects

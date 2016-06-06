@@ -172,7 +172,7 @@ class Part: public Object {
 
       // set picking color
       isPicking = false;
-      pickingColor = color4(0.2, 0.0, 0.0, 1.0); // (51,0,0)
+      pickingColor = color4(0.0, 0.0, 0.2, 1.0); // (0,0,51)
 
       // Create a vertex array object
       glGenVertexArrays( 1, &vao );
@@ -247,8 +247,10 @@ class Part: public Object {
 
 
     void checkIfPicked( unsigned char pixel[4] ) {
-      if ( pixel[0] == 51 && pixel[1] == 0 && pixel[2] == 0 ) { // part
+      if ( pixel[0] == 0 && pixel[1] == 0 && pixel[2] == 51 ) { // part
+#ifdef DEBUG
         printf("Part selected\n");
+#endif
 		my_model_view= my_model_view*Translate(0.35, 0.0, 0.07)*RotateY(30)*Translate(-0.35, 0.0, -0.07);
       }
     }

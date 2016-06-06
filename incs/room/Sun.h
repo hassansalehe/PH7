@@ -21,7 +21,7 @@ class Sun: public Object {
   private:
 
     // Sun properties
-    color4 position = color4( 2.0, 0.0, 0.0, 0.0 );
+    color4 position = color4( 0.0, 0.0, 2.0, 0.0 );
     color4 ambient = color4( 0.2, 0.2, 0.2, 1.0 );
     color4 diffuse = color4( 1.0, 1.0, 1.0, 1.0 );
     color4 specular = color4( 1.0, 1.0, 1.0, 1.0 );

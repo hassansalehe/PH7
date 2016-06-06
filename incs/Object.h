@@ -194,6 +194,11 @@ public:
 
   void changeShading() {
     HS_shading_model = (HS_shading_model == 273 ? 274: 273);
+    if(HS_shading_model == 273)
+      printf("Phong\n");
+    else
+        printf("Gouraud\n");
+
     glUniform1i(ShadingModel, HS_shading_model); // send to the shaders(GPU)
     glutPostRedisplay();
   }
@@ -201,6 +206,10 @@ public:
 
   void changeReflection() {
     HS_reflection_model = HS_reflection_model == 300? 301 : 300;
+        if(HS_reflection_model == 300)
+      printf("modified Phong refl\n");
+    else
+        printf("Phong refl\n");
     glUniform1i(ReflectionModel, HS_reflection_model);
     glutPostRedisplay();
   }
@@ -317,7 +326,7 @@ public:
 
        glutPostRedisplay();
   }
-  
+
   void toggleAuto(){
 	if(autoOnOff==0)
 	  autoOnOff=1;
@@ -368,6 +377,12 @@ public:
       // normalize the sum of neighbor normals
       normals[i] = normalize( p );
     }
+  }
+
+  /**
+   * A help function do describe each object.
+   */
+  virtual void help() {
   }
 
   virtual void checkIfPicked( unsigned char pixel[4] ) = 0;

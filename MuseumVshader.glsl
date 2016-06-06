@@ -52,9 +52,9 @@ void main()
     color = pickingColor;
     return;
   }
- 
 
-  if(ObjectID == 100) {
+
+  if(ObjectID < 300) {
     if ( HS_shading_model == PHONG_SHADING_MODEL ) {
       // Phong shading (done in a fragments shader):
       // 1. Find vertex normals

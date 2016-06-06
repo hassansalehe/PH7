@@ -5,6 +5,10 @@
 void KeyboardCallbacks(unsigned char key, int x, int y){
 
   switch( key ) {
+    case 'h': // help
+    case 'H':
+      museum.help();
+      break;
     case 'i':
     case 'I':
       museum.reset();
@@ -21,7 +25,7 @@ void KeyboardCallbacks(unsigned char key, int x, int y){
     case 'Z':
       museum.zoomIn(0.01);
       break;
-    case 'f': // for moving forward/  backwards
+    case 'f': // for moving forward / backwards
       museum.moveForward(0.004);
       break;
     case 'F':
@@ -32,13 +36,13 @@ void KeyboardCallbacks(unsigned char key, int x, int y){
     case 's':
       museum.changeShading();
       break;
-    case 'r':
+    case 'r': // gourand, modified phong, etc
     case 'R':
       museum.changeReflection();
       break;
     case 'a':
     case 'A':
-      museum.toggleAuto();
+      museum.toggleAuto(); // rotation of antiquities
       break;
 
   }
@@ -56,7 +60,6 @@ void KeyboardSpecialKeys( int key, int x, int y ) {
     case GLUT_KEY_RIGHT:
       if(1) { // check if nothing is rotating.
         museum.rotateLeft(-1.0);
-        printf("rotating\n");
       }
       break;
     case GLUT_KEY_UP:     /* Up directional key     /\ */
@@ -76,37 +79,30 @@ void KeyboardSpecialKeys( int key, int x, int y ) {
 void MouseClickCallback( int button, int state, int x, int y ) {
 
   if(state == GLUT_DOWN && button == GLUT_LEFT_BUTTON) {
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    // redraw the scene with defined colors to the faces of objects
 
-      //1. redraw the scene with defined colors to the faces of the
-      //   large cube.
+    // send some info to GPU that you are rendering for picking
+    // Assign colors to objects
+    museum.enablePicking();
+    museum.display();
 
-      // send some info to GPU that you are rendering for picking
-      // Assign colors to objects
-      // "originalRubiksCube".drawRubiksCube();
-      museum.enablePicking();
-      museum.display();
+    glFlush();
 
-      glFlush();
+    //picking process
+    y = glutGet( GLUT_WINDOW_HEIGHT ) - y;
 
-      //picking process
+    unsigned char pixel[4];
 
-      y = glutGet( GLUT_WINDOW_HEIGHT ) - y;
+    // read the current pixel's color from the back buffer
+    glReadPixels(x, y, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, pixel);
 
-      unsigned char pixel[4];
+    museum.broadcastSelectedPixel( pixel );
 
-      // read the current pixel's color from the back buffer
-      glReadPixels(x, y, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, pixel);
-
-      museum.broadcastSelectedPixel( pixel );
-
-      //else if(pixel[0] == 0 && pixel[1] == 0 && pixel[2] == 0)
-      //  printf("You clicked on edges. Please click on colored cubes.\n");
-
-      //needed to avoid display of the content of the back buffer when
-      //some portion of the window is obscured
-      museum.disablePicking();
-      glutPostRedisplay();
+    // needed to avoid display of the content of the back buffer when
+    // some portion of the window is obscured
+    museum.disablePicking();
+    glutPostRedisplay();
   }
 }

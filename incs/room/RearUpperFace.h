@@ -81,6 +81,18 @@ class Cube: public Object {
       triangle(0, 8, 7);
       triangle(9, 10, 11);
       triangle(9, 11, 12);
+/*+      triangle(3, 4, 1); // left triangle
++      triangle(0, 3, 1); // right triangle
++      triangle(4, 5, 1); // top triangle
++      triangle(5, 2, 1);
++      triangle(6, 2, 5);
++      triangle(6, 7, 2);
++      triangle(7, 0, 2);
++      triangle(0, 8, 3);
++      triangle(7, 8, 0);
++      triangle(11, 10, 9);
++      triangle(12, 11, 9);
+*/
     }
 
   public:
@@ -90,13 +102,13 @@ class Cube: public Object {
     void initialize(GLuint program) {
 
       // Object identifier
-      object_id = 100;
+      object_id = 151;
 
       // set picking color
       isPicking = false;
       pickingColor = color4(1.0, 0.0, 0.0, 1.0); // (255,0,0)
 
-      numVertices = 66; // (21 faces)(2 triangles/face)(3 vertices/triangle)
+      numVertices = 66; // (11 faces)(2 triangles/face)(3 vertices/triangle)
       points = new point4[numVertices];
       colors = new color4[numVertices];
       normals = new normal3[numVertices];
@@ -150,8 +162,10 @@ class Cube: public Object {
     }
 
     void checkIfPicked( unsigned char pixel[4] ) {
-      if ( pixel[0] == 255 && pixel[1] == 0 && pixel[2] == 0 ) { // Room
-        printf("Room selected\n");
+      if ( pixel[0] == 255 && pixel[1] == 0 && pixel[2] == 0 ) { // Rear upper
+#ifdef DEBUG
+        printf("Rear upper selected\n");
+#endif
       }
     }
 };

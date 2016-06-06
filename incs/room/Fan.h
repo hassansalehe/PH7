@@ -20,6 +20,8 @@
 
 class Fan: public Object {
   private:
+    bool isSelected = false;
+
     // Vertices of a unit cube centered at origin, sides aligned with axes
     point4 vertices[4] = {
         // interesting things
@@ -75,7 +77,7 @@ class Fan: public Object {
 
       // set picking color
       isPicking = false;
-      pickingColor = color4(1.0, 0.0, 0.0, 1.0); // (255,0,0)
+      pickingColor = color4(0.4, 0.0, 0.0, 1.0); // (102,0,0)
 
       numVertices = 18; // (3 faces)(2 triangles/face)(3 vertices/triangle)
       points = new point4[numVertices];
@@ -98,7 +100,9 @@ class Fan: public Object {
     }
 
     void idle( void ) {
-      my_model_view= my_model_view*Translate(0.0, 0.65, -0.8)*RotateZ(10)*Translate(0.0, -0.65, 0.8);
+      if(!isSelected) {
+        my_model_view= my_model_view*Translate(0.0, 0.65, -0.8)*RotateZ(10)*Translate(0.0, -0.65, 0.8);
+      }
       glutPostRedisplay();
     }
 //     void move(){
@@ -122,8 +126,11 @@ class Fan: public Object {
     }
 
     void checkIfPicked( unsigned char pixel[4] ) {
-      if ( pixel[0] == 255 && pixel[1] == 0 && pixel[2] == 0 ) { // Room
-        printf("Room selected\n");
+      if ( pixel[0] == 102 && pixel[1] == 0 && pixel[2] == 0 ) { // Fan
+        isSelected = !isSelected;
+#ifdef DEBUG
+        printf("Fan selected\n");
+#endif
       }
     }
 };
