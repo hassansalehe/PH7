@@ -44,6 +44,11 @@ void KeyboardCallbacks(unsigned char key, int x, int y){
     case 'A':
       museum.toggleAuto(); // rotation of antiquities
       break;
+    case 'p':
+    case 'P':
+      museum.changeProjection(); // toggle projection
+      break;
+
 
   }
 }

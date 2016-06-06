@@ -210,6 +210,23 @@ class Room: public Object {
                   );
 
     // For perspective projection
+    vec3 viewer_pos = vec3( 0.0, 0.0, 0.0 );
+
+   // calculate model view matrix depending on the projection mode
+    switch(projectionOption) {
+       case HS_PERSPECTIVE:
+          viewer_pos.z = 2.45;
+          model_view = ( Translate( -viewer_pos ) * scale * RotateX( Theta[Xaxis] ) * RotateY( Theta[Yaxis] ) * RotateZ( Theta[Zaxis] ) );
+          break;
+       case HS_ORTHOGRAPHIC:
+          model_view = ( scale * Translate( displacement ) * RotateX( Theta[Xaxis] ) * RotateY( Theta[Yaxis] ) /* * RotateZ( Theta[Zaxis] ) */);
+          model_view = ( scale * Translate( -viewer_pos ) * RotateX( Theta[Xaxis] ) * RotateY( Theta[Yaxis] ) * RotateZ( Theta[Zaxis] ) );
+          break;
+    }
+
+    // call the reshape because it re-calculates the projection matrix
+    reshape(glutGet( GLUT_WINDOW_WIDTH ), glutGet( GLUT_WINDOW_HEIGHT ) );
+
     // vec3 viewer_pos = vec3( 0.0, 0.0, 2.45 );
     // model_view = ( Translate( -viewer_pos ) * scale * Translate( displacement )
     //                * RotateX( Theta[Xaxis] ) * RotateY( Theta[Yaxis] )

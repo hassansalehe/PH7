@@ -60,6 +60,7 @@ class Sun: public Object {
     }
 
   public:
+    void getParentModelView( mat4 model_view ) {}
     /**
      * Initializes the vertices and colors of the empty room object.
      */
@@ -130,7 +131,17 @@ class Sun: public Object {
       glClearColor( 1.0, 1.0, 1.0, 1.0 );
     }
 
-    void calculateModelViewMatrix() {}
+    void calculateModelViewMatrix() {
+
+    //  Generate tha model-view matrix
+    mat4 scale = Scale( scaleFactor, scaleFactor, scaleFactor );
+    const vec3 displacement( Distance[Xaxis], Distance[Yaxis], Distance[Zaxis] );
+
+        model_view = ( scale * Translate( displacement ) *
+                   RotateX( Theta[Xaxis] ) * RotateY( Theta[Yaxis] )
+                   // * RotateZ( Theta[Zaxis] )
+                  );
+    }
 
     void display( GLuint program ) {
       Object::display( program );
@@ -153,25 +164,27 @@ class Sun: public Object {
 // 	}
     void rotateLeft(float delta) {
 
-      Theta[Yaxis] += delta;
-      if ( Theta[Yaxis] > 360.0 ) {
-          Theta[Yaxis] -= 360.0;
-      }
-      glutPostRedisplay();
+     // Theta[Yaxis] += delta;
+      //if ( Theta[Yaxis] > 360.0 ) {
+      //    Theta[Yaxis] -= 360.0;
+      //}
+      //glutPostRedisplay();
     }
 
     void rotateUp(float delta) {
 
-      Theta[Xaxis] += delta;
-      if ( Theta[Xaxis] > 360.0 ) {
-          Theta[Xaxis] -= 360.0;
-      }
-      glutPostRedisplay();
+      //Theta[Xaxis] += delta;
+      //if ( Theta[Xaxis] > 360.0 ) {
+      //    Theta[Xaxis] -= 360.0;
+     // }
+      //glutPostRedisplay();
     }
 
     void checkIfPicked( unsigned char pixel[4] ) {
 
     }
+    void zoomIn(float delta) {}
+    void zoomOut(float delta) {}
 };
 
 #endif // end sun

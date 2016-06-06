@@ -420,6 +420,14 @@ public:
     }
   }
 
+
+  /**
+   * For toggling projection(perspective vs orthoginal)
+   */
+  void changeProjection() {
+    root->changeProjection();
+  }
+
   /**
    * Prints the help information to the user.
    * It also launches help methods of individual objects
@@ -452,6 +460,7 @@ public:
     cout << "=  Down arrow    ==  To rotate down                            =" << endl;
     cout << "=  Click on door ==  To open / close the door                  =" << endl;
     cout << "=  Q or q        ==  To close/quit the museum                  =" << endl;
+    cout << "=  Click window  ==  To open/close window (blend)              =" << endl;
 
     Object * object;
     objectQueue.push(root);

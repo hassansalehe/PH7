@@ -45,7 +45,7 @@ void main()
     gl_FragColor = pickingColor;
     return;
   }
-  
+
 
   if(ObjectID == 100) {
     if ( HS_shading_model == PHONG_SHADING_MODEL ) {
@@ -108,7 +108,7 @@ void main()
   }
   else if( gl_FrontFacing || ObjectID != 100 || ObjectID != 200 )
     gl_FragColor = color;
-  
+
   else
     gl_FragColor = vec4(1.0, 0.8, 0.8, 0.0);
 //    gl_FragColor = vec4(0.556863, 0.137255, 0.137255, 1.0);

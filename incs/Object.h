@@ -88,6 +88,10 @@ public:
   int isPicking;
   color4 pickingColor;
 
+  // for projection opetions
+  enum HSprojectionOption {HS_PERSPECTIVE, HS_ORTHOGRAPHIC};
+  HSprojectionOption projectionOption = HS_PERSPECTIVE;
+
   void initializeDataBuffers( GLuint program ) {
 
     // Create a vertex array object
@@ -274,20 +278,20 @@ public:
 
     mat4  projection;
 
-    //switch(projectionOption) {
-    //   case HS_ORTHOGRAPHIC:
+    switch(projectionOption) {
+       case HS_ORTHOGRAPHIC:
 
-    if (w <= h)
-      projection = Ortho(-1.0, 1.0, -1.0 * (GLfloat) h / (GLfloat) w,
+         if (w <= h)
+           projection = Ortho(-1.0, 1.0, -1.0 * (GLfloat) h / (GLfloat) w,
                          1.0 * (GLfloat) h / (GLfloat) w, -1.0, 1.0 );
-    else  projection = Ortho(-1.0* (GLfloat) w / (GLfloat) h, 1.0 *
-        (GLfloat) w / (GLfloat) h, -1.0, 1.0, -1.0, 1.0);
-    //break;
-    //   case HS_PERSPECTIVE:
-    //      GLfloat aspect = GLfloat(w)/h;
-    //      projection = Perspective( 45.0, aspect, 1.0, -1.0 );
-    //      break;
-    //}
+         else  projection = Ortho(-1.0* (GLfloat) w / (GLfloat) h, 1.0 *
+                        (GLfloat) w / (GLfloat) h, -1.0, 1.0, -1.0, 1.0);
+         break;
+       case HS_PERSPECTIVE:
+          GLfloat aspect = GLfloat(w)/h;
+          projection = Perspective( 45.0, aspect, 1.0, -1.0 );
+          break;
+    }
 
     glUniformMatrix4fv( Projection, 1, GL_TRUE, projection );
   }
@@ -395,6 +399,20 @@ public:
     isPicking = false;
   }
 
+  /**
+   * For toggling projection
+   */
+  void changeProjection() {
+    if (projectionOption == HS_PERSPECTIVE)
+       projectionOption = HS_ORTHOGRAPHIC;
+    else
+       projectionOption = HS_PERSPECTIVE;
+  }
+
+  /**
+   * The identity function in mat.h gives warnings,
+   * decided to implement custom one.
+   */
   inline mat4 Identity()
   {
     mat4 c;
