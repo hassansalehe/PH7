@@ -55,5 +55,21 @@ Requirements for the project to build and run will be added here
 * - The environment and each object will be illuminated taking into account all the right sources
 reaching it.
 
+## Objects in the museum
+Objects of the museum
+
+1. Skull
+http://people.sc.fsu.edu/~jburkardt/data/ply/skull.png
+http://people.sc.fsu.edu/~jburkardt/data/ply/skull.ply
+
+2. Walkman
+http://people.sc.fsu.edu/~jburkardt/data/ply/walkman.png
+http://people.sc.fsu.edu/~jburkardt/data/ply/walkman.ply
+
+5. Lamp
+
+https://github.com/skuhl/opengl-examples/blob/master/models/FREE-MODELS.txt
+
 ## The links to the report and the presentation
-https://docs.google.com/a/ku.edu.tr/document/d/1eI5gN3N_0qzh5n-oWLVaPQohBeBDHjUSEEcnhIJghOI/edit?usp=sharing
+Report: https://docs.google.com/a/ku.edu.tr/document/d/1eI5gN3N_0qzh5n-oWLVaPQohBeBDHjUSEEcnhIJghOI/edit?usp=sharing
+Presentation: https://docs.google.com/a/ku.edu.tr/presentation/d/1M2Fya3p4xgdAkpSQU12BUDb3gPw3q-36wW7f5V5hPQA/edit?usp=sharing
