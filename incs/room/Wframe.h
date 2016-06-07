@@ -34,38 +34,6 @@ class WindowFrame: public Object {
 
     int window_right_end = 0;
 
-    /**
-     * Function for animating opening of the window
-     */
-    void windowAOpenAnimation() {
-
-      if(rotationAngle > 180.0)
-        return;
-
-      // centre of rotation of left window
-      const point4 fp( -0.18, 0.0, 0.0, 1.0 );
-
-      // left left
-      for(int i = window_left_start_index; i < window_left_end; i++) {
-        points[i] = Translate(fp) * RotateY(rotationAngle) * Translate(-fp) * points[i];
-      }
-
-      // handle
-      const point4 fp2( 0.18, 0.0, 0.0, 1.0 );
-      for(int i = handle_start_index; i < handle_end; i++) {
-        points[i] = Translate(fp2) * RotateY( -rotationAngle) * Translate(-fp2) * points[i];
-      }
-
-      // right window
-      for(int i = window_left_end; i < window_right_end; i++) {
-        points[i] = Translate(fp2) * RotateY( -rotationAngle ) * Translate(-fp2) * points[i];
-      }
-      rotationAngle += 5;
-
-
-      //glutPostRedisplay();
-      //glutTimerFunc(1, windowAOpenAnimation, p);
-    }
     // Vertices of a unit cube centered at origin, sides aligned with axes
     point4 vertices[22] = {
 

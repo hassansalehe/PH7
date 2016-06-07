@@ -16,11 +16,10 @@
 // read the face indices
 // put the vertices in vertex array
 // put the colors in color array
+// Scale the vertices, send them to the GPU
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-// Scale the vertices
-// send them to the GPU
 #ifndef WHEEL_CLASS
 #define WHEEL_CLASS
 
@@ -28,9 +27,8 @@
 #include "PLyParser.h"
 
 class Wheel: public Object {
-  private:
 
-    float max_v = 0.0;
+  private:
 
     /**
      * Reads vertices from Wheel.ply file
@@ -47,9 +45,9 @@ class Wheel: public Object {
       ply_set_read_cb(ply, "vertex", "z", vertex_cb, NULL, Z);
 
       ntriangles = ply_set_read_cb(ply, "face", "vertex_indices", face_cb, NULL, 0);
-      printf("%ld\n%ld\n", nvertices, ntriangles);
+      // printf("%ld\n%ld\n", nvertices, ntriangles);
 
-      numVertices = ntriangles * 3; //(180 faces)(2 triangles/face)(3 vertices/triangle)
+      numVertices = ntriangles * 3; // (3 vertices/triangle)
       points = new point4[numVertices];
       colors = new color4[numVertices];
 
@@ -84,44 +82,18 @@ class Wheel: public Object {
         max_x = MAX(max_x, c_points[i].x);
         max_y = MAX(max_y, c_points[i].y);
         max_z = MAX(max_z, c_points[i].z);
-
-
-        if(abs(c_points[i].x) > max_v )
-          max_v = abs(c_points[i].x);
-
-        if(abs(c_points[i].y) > max_v )
-          max_v = abs(c_points[i].y);
-
-        if(abs(c_points[i].z) > max_v )
-          max_v = abs(c_points[i].z);
-
       }
-
-      printf("min x %f, max x %f\n", min_x, max_x);
-      printf("min y %f, max y %f\n", min_y, max_y);
-      printf("min z %f, max z %f\n", min_z, max_z);
 
       // translate according to mid-point
       float mid_x = (min_x + max_x) / 2.0;
       float mid_y = (min_z + max_y) / 2.0;
       float mid_z = (min_z + max_z) / 2.0;
 
-
-      //Distance[Xaxis] = -2.0;
-      //Distance[Yaxis] = -0.3;
-      //Distance[Zaxis] = -0.4;
-
-      // scaleFactor = 0.2;
-      //Distance[Xaxis] = 0.38;
-      //Distance[Zaxis] = 0.2;
-
-
        const vec3 displacement(mid_x, mid_y,  mid_z);
        float scaleF = 0.0004 ; // manually calculated
       for(int i = 0; i < numVertices; i++)
       {
         points[i] = Translate(-0.35, 0.0, -0.36) * RotateZ(90.0) * Scale(scaleF, scaleF, scaleF) * Translate(-displacement)  *   points[i];
-
       }
 
       // internal part of the Wheel
@@ -131,7 +103,6 @@ class Wheel: public Object {
       for(int i = 500; i < 2000; i++) // inner part
         //khaki 	#F0E68C 	rgb(240,230,140)
         colors[i] = color4( 1.0, 1.0, 0.5, 1.0 );
-
 
       for(int i = 2000; i < 2500; i++) // thin metal handle
          //	Orange-Brown 	#F0F8FF 	rgb(240,248,255)
@@ -147,7 +118,6 @@ class Wheel: public Object {
       for(int i = 3500; i < 4000; i++)
          //	aliceblue 	#F0F8FF 	rgb(240,248,255)
         colors[i] =color4( 1.0, 1.0, 0.5, 1.0 );
-
 
       // reclaim memory
       delete c_colors;
@@ -210,7 +180,9 @@ class Wheel: public Object {
 
     void checkIfPicked( unsigned char pixel[4] ) {
       if ( pixel[0] == 51 && pixel[1] == 0 && pixel[2] == 0 ) { // Wheel
+#ifdef DEBUG
         printf("Wheel selected\n");
+#endif
 		my_model_view= my_model_view*Translate(-0.35, 0.0, -0.36)*RotateY(30)*Translate(0.35, 0.0, 0.36);
       }
     }

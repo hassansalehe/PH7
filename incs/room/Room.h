@@ -226,54 +226,15 @@ class Room: public Object {
 
     // call the reshape because it re-calculates the projection matrix
     reshape(glutGet( GLUT_WINDOW_WIDTH ), glutGet( GLUT_WINDOW_HEIGHT ) );
-
-    // vec3 viewer_pos = vec3( 0.0, 0.0, 2.45 );
-    // model_view = ( Translate( -viewer_pos ) * scale * Translate( displacement )
-    //                * RotateX( Theta[Xaxis] ) * RotateY( Theta[Yaxis] )
-    //                * RotateZ( Theta[Zaxis] ) );
   }
 
-//     void display( GLuint program )
-//     {
-//       glBindVertexArray( vao );
-//       glBindBuffer( GL_ARRAY_BUFFER, buffer );
-//       // set up vertex arrays
-//       //GLuint vPosition = glGetAttribLocation( program, "vPosition" );
-//       //glEnableVertexAttribArray( vPosition );
-//       //glVertexAttribPointer( vPosition, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0) );
-//
-//       //GLuint vColor = glGetAttribLocation( program, "vColor" );
-//      // glEnableVertexAttribArray( vColor );
-//      // glVertexAttribPointer( vColor, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(points_size) );
-//
-//       //  Generate tha model-view matrix
-//       const vec3 displacement( 0.0, 0.0, 0.0 );
-//       model_view = ( Scale(1.0, 1.0, 1.0) * Translate( displacement ) *
-//               RotateX( Theta[Xaxis] ) *
-//               RotateY( Theta[Yaxis] ) // *
-//              // RotateZ( Theta[Zaxis] )
-//                          );
-//
-//       glUniformMatrix4fv( ModelView, 1, GL_TRUE, model_view );
-//       glDrawArrays( GL_TRIANGLES, 0, numVertices );
-//
-//       glBindVertexArray( 0 );
-//       //glDisableVertexAttribArray(vPosition);
-//       //glDisableVertexAttribArray(vColor);
-//     }
 
     void idle( void )
     {
-      //Theta[Axis] += 0.1;
-
-      //if ( Theta[Axis] > 360.0 ) {
-      //    Theta[Axis] -= 360.0;
-      //}
-
       glutPostRedisplay();
     }
-//     void move(){
-// 	}
+
+
     void rotateLeft(float delta) {
 
       Theta[Yaxis] += delta;
@@ -294,7 +255,9 @@ class Room: public Object {
 
     void checkIfPicked( unsigned char pixel[4] ) {
       if ( pixel[0] == 255 && pixel[1] == 0 && pixel[2] == 0 ) { // Room
+#ifdef DEBUG
         printf("Room selected\n");
+#endif
       }
     }
 };

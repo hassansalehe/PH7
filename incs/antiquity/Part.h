@@ -28,9 +28,8 @@
 #include "PLyParser.h"
 
 class Part: public Object {
-  private:
 
-    float max_v = 0.0;
+  private:
 
     /**
      * Reads vertices from part.ply file
@@ -49,7 +48,7 @@ class Part: public Object {
       ntriangles = ply_set_read_cb(ply, "face", "vertex_indices", face_cb, NULL, 0);
       printf("%ld\n%ld\n", nvertices, ntriangles);
 
-      numVertices = ntriangles * 3; //(180 faces)(2 triangles/face)(3 vertices/triangle)
+      numVertices = ntriangles * 3; // (3 vertices/triangle)
       points = new point4[numVertices];
       colors = new color4[numVertices];
       normals = new normal3[numVertices];
@@ -59,9 +58,7 @@ class Part: public Object {
       r_vertexIndex = &vertexIndex;
 
       vertexIndex = 0;
-
       c_points = new point4[nvertices];
-      //c_colors = new color4[nvertices];
 
       if (!ply_read(ply)) return; // cant open
       ply_close(ply);
@@ -85,44 +82,18 @@ class Part: public Object {
         max_x = MAX(max_x, c_points[i].x);
         max_y = MAX(max_y, c_points[i].y);
         max_z = MAX(max_z, c_points[i].z);
-
-
-        if(abs(c_points[i].x) > max_v )
-          max_v = abs(c_points[i].x);
-
-        if(abs(c_points[i].y) > max_v )
-          max_v = abs(c_points[i].y);
-
-        if(abs(c_points[i].z) > max_v )
-          max_v = abs(c_points[i].z);
-
       }
-
-      printf("min x %f, max x %f\n", min_x, max_x);
-      printf("min y %f, max y %f\n", min_y, max_y);
-      printf("min z %f, max z %f\n", min_z, max_z);
 
       // translate according to mid-point
       float mid_x = (min_x + max_x) / 2.0;
       float mid_y = (min_z + max_y) / 2.0;
       float mid_z = (min_z + max_z) / 2.0;
 
-
-      //Distance[Xaxis] = -2.0;
-      //Distance[Yaxis] = -0.3;
-      //Distance[Zaxis] = -0.4;
-
-      // scaleFactor = 0.2;
-      //Distance[Xaxis] = 0.38;
-      //Distance[Zaxis] = 0.2;
-
-
        const vec3 displacement(mid_x, mid_y,  mid_z);
        float scaleF = 0.0004 ; // manually calculated
       for(int i = 0; i < numVertices; i++)
       {
         points[i] = Translate(0.35, 0.0, 0.07) * RotateZ(60.0) * Scale(scaleF, scaleF, scaleF) * Translate(-displacement)  *   points[i];
-
       }
 
       // internal part of the part
@@ -133,7 +104,6 @@ class Part: public Object {
         //khaki 	#F0E68C 	rgb(240,230,140)
         colors[i] = color4( 1.0, 0.0, 1.0, 1.0 );
 
-
       for(int i = 2000; i < 2500; i++) // thin metal handle
          //	Orange-Brown 	#F0F8FF 	rgb(240,248,255)
         colors[i] = color4( 0.0, 1.0, 1.0, 1.0 );
@@ -141,17 +111,6 @@ class Part: public Object {
       for(int i = 2500; i < 3000; i++) // inner thin metal handle
         colors[i] = color4( 1.0, 0.0, 1.0, 1.0 );
 
-//       for(int i = 3000; i < 3500; i++)
-//          //	aliceblue 	#F0F8FF 	rgb(240,248,255)
-//         colors[i] = color4(1.0, 0,84, 0.0);
-//
-//       for(int i = 3500; i < 4000; i++)
-//          //	aliceblue 	#F0F8FF 	rgb(240,248,255)
-//         colors[i] =color4(0.9, 0.8, 0.5);
-
-
-      // reclaim memory
-      //delete c_colors;
       delete c_points;
     }
 
@@ -256,4 +215,4 @@ class Part: public Object {
     }
 };
 
-#endif // end walkman
+#endif // end part

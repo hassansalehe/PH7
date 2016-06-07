@@ -35,39 +35,11 @@ class DoorFrame: public Object {
 
     int door_right_end = 0;
 
-    // centre of rotation of left door
-    const vec3 fp = vec3( -0.27, 0.0, 0.81 );
+    // centres of rotation:
+    const vec3 fp = vec3( -0.27, 0.0, 0.81 ); // left panel
+    const vec3 fp2 = vec3( 0.27, 0.0, 0.81 ); // right panel
 
-    const vec3 fp2 = vec3( 0.27, 0.0, 0.81 );
-
-
-    /**
-     * Function for animating opening of the door
-     */
-    void windowAOpenAnimation() {
-
-      if(rotationAngle > 180.0)
-        return;
-
-
-      // left left
-      for(int i = door_left_start_index; i < door_left_end; i++) {
-        points[i] = Translate(fp) * RotateY(rotationAngle) * Translate(-fp) * points[i];
-      }
-
-      // handle
-      for(int i = handle_start_index; i < handle_end; i++) {
-        points[i] = Translate(fp2) * RotateY( -rotationAngle) * Translate(-fp2) * points[i];
-      }
-
-      // right door
-      for(int i = door_left_end; i < door_right_end; i++) {
-        points[i] = Translate(fp2) * RotateY( -rotationAngle ) * Translate(-fp2) * points[i];
-      }
-    }
-
-
-    // Vertices of a unit cube centered at origin, sides aligned with axes
+    // Vertices of the door frame
     point4 vertices[22] = {
 
       // front door frame outer vertices
@@ -87,7 +59,6 @@ class DoorFrame: public Object {
       point4( -0.27, -0.37,  0.81, 1.0 ), // bottom left (J)
       point4(  0.27, -0.37,  0.81, 1.0 ), // bottom right (K)
       point4(  0.27,  0.37,  0.81, 1.0 ), // top right (L)
-
 
       // front door middle separetor vertices
       point4( -0.01,  0.37,  0.81, 1.0 ), // top left (M)
@@ -168,18 +139,13 @@ class DoorFrame: public Object {
       // Constructing the right part of the door
       door_right_end = vertexIndex;
 
+      // color the right part of the door.
       for(int i = start; i < vertexIndex; i++)
-      {
         colors[i] = color4 (92/255.0, 51/255.0, 23/255.0, 1.0); // bakers chocolate
-      }
-
-      // Construct the handle
-      handle_start_index = vertexIndex;
-      handle_end = vertexIndex;
-
     }
 
   public:
+
     /**
      * Initializes the vertices and colors of the empty door object.
      */
@@ -209,6 +175,8 @@ class DoorFrame: public Object {
 
       initializeDataBuffers( program );
 
+      // create instances of the door panels
+      // they are the cildren of the door frame
       Object * ldoor = new LeftDoor();
       Object * rdoor = new RightDoor();
       appendChild( ldoor );
@@ -224,13 +192,11 @@ class DoorFrame: public Object {
     }
 
 
+    /**
+     * Animate opening / closing of door
+     */
     void idle( void )
     {
-      //Theta[Axis] += 0.1;
-
-      //if ( Theta[Axis] > 360.0 ) {
-      //    Theta[Axis] -= 360.0;
-      //}
       if( amISelected ) {
         rotationAngle += 1.0;
         if(rotationAngle > 180)
@@ -242,6 +208,7 @@ class DoorFrame: public Object {
 
       glutPostRedisplay();
     }
+
     void rotateLeft(float delta) {
 
       Theta[Yaxis] += delta;
@@ -260,9 +227,12 @@ class DoorFrame: public Object {
       glutPostRedisplay();
     }
 
+    /**
+     * No picking for the frame itself
+     */
     void checkIfPicked( unsigned char pixel[4] ) {
 
    }
 };
 
-#endif // end door
+#endif // end door frame

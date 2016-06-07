@@ -27,7 +27,6 @@
 
 class Lamp: public Object {
   private:
-    float max_v = 0.0;
 
     const vec3 toStand = vec3(0.35, -0.01, 0.45);
 
@@ -44,9 +43,9 @@ class Lamp: public Object {
       ply_set_read_cb(ply, "vertex", "z", vertex_cb, NULL, Z);
 
       ntriangles = ply_set_read_cb(ply, "face", "vertex_indices", face_cb, NULL, 0);
-      printf("%ld\n%ld\n", nvertices, ntriangles);
+      // printf("%ld\n%ld\n", nvertices, ntriangles);
 
-      numVertices = ntriangles * 3; //(180 faces)(2 triangles/face)(3 vertices/triangle)
+      numVertices = ntriangles * 3; //(3 vertices/triangle)
       points = new point4[numVertices];
       colors = new color4[numVertices];
       normals = new normal3[numVertices];
@@ -82,37 +81,12 @@ class Lamp: public Object {
         max_x = MAX(max_x, c_points[i].x);
         max_y = MAX(max_y, c_points[i].y);
         max_z = MAX(max_z, c_points[i].z);
-
-
-        if(abs(c_points[i].x) > max_v )
-          max_v = abs(c_points[i].x);
-
-        if(abs(c_points[i].y) > max_v )
-          max_v = abs(c_points[i].y);
-
-        if(abs(c_points[i].z) > max_v )
-          max_v = abs(c_points[i].z);
-
       }
-
-      printf("min x %f, max x %f\n", min_x, max_x);
-      printf("min y %f, max y %f\n", min_y, max_y);
-      printf("min z %f, max z %f\n", min_z, max_z);
 
       // translate according to mid-point
       float mid_x = (min_x + max_x) / 2.0;
       float mid_y = (min_z + max_y) / 2.0;
       float mid_z = (min_z + max_z) / 2.0;
-
-
-      //Distance[Xaxis] = -2.0;
-      //Distance[Yaxis] = -0.3;
-      //Distance[Zaxis] = -0.4;
-
-      // scaleFactor = 0.2;
-      //Distance[Xaxis] = 0.38;
-      //Distance[Zaxis] = 0.2;
-
 
        const vec3 displacement(mid_x, mid_y,  mid_z);
        float scaleF = 0.0003 ; // manually calculated
@@ -145,12 +119,13 @@ class Lamp: public Object {
          //	aliceblue 	#F0F8FF 	rgb(240,248,255)
         colors[i] =color4( 1.0, 1.0, 0.0, 1.0 );
 
-
       // reclaim memory
       delete c_colors;
       delete c_points;
 
-      }
+    }
+
+
   public:
     void initialize(GLuint program) {
 
@@ -169,10 +144,8 @@ class Lamp: public Object {
       shininess = 20.0;
       initializeDataBuffers( program );
     }
-//     void move(){
-// 	  const vec3 displacement( Distance[Xaxis], Distance[Yaxis], Distance[Zaxis] );
-//       my_model_view=my_model_view*Translate(displacement*RotateY(10)*Translate(-displacement);
-// 	}
+
+
     void calculateModelViewMatrix() {
        model_view =parent_model_view*my_model_view;
     }
@@ -210,4 +183,4 @@ class Lamp: public Object {
     }
 };
 
-#endif // end walkman
+#endif // end lamp

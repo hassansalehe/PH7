@@ -136,18 +136,10 @@ class Roof: public Object {
 
     void idle( void )
     {
-      //Theta[Axis] += 0.1;
-
-      //if ( Theta[Axis] > 360.0 ) {
-      //    Theta[Axis] -= 360.0;
-      //}
-
       glutPostRedisplay();
     }
-//     void move(){
-// 	  const vec3 displacement( Distance[Xaxis], Distance[Yaxis], Distance[Zaxis] );
-//       my_model_view=my_model_view*Translate(displacement*RotateY(10)*Translate(-displacement);
-// 	}
+
+
     void rotateLeft(float delta) {
 
       Theta[Yaxis] += delta;

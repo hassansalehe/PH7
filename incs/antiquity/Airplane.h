@@ -9,20 +9,17 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 //
-// Implements the Airplane object
+// Implements the Airplane object. It performs the following.
 //
-// read the vertices
-// read the colors
-// read the face indices
-// put the vertices in vertex array
-// put the colors in color array
+// 1. reads the vertices, the colors and the face indices
+// 2. puts the vertices in vertex array
+// 3. puts the colors in color array
+// 4. Scales the vertices and sends them to the GPU
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-// Scale the vertices
-// send them to the GPU
-#ifndef Airplane_CLASS
-#define Airplane_CLASS
+#ifndef AIRPLANE_CLASS
+#define AIRPLANE_CLASS
 
 #include "Object.h"
 #include "PLyParser.h"
@@ -43,9 +40,10 @@ class Airplane: public Object {
       ply_set_read_cb(ply, "vertex", "z", vertex_cb, NULL, Z);
 
       ntriangles = ply_set_read_cb(ply, "face", "vertex_indices", face_cb, NULL, 0);
-      printf("%ld\n%ld\n", nvertices, ntriangles);
 
-      numVertices = ntriangles * 3; //(180 faces)(2 triangles/face)(3 vertices/triangle)
+      // cout << nvertices << " vertices, " << ntriangles << " triangles" << endl;
+
+      numVertices = ntriangles * 3; //( times 3 vertices per triangle)
       points = new point4[numVertices];
       colors = new color4[numVertices];
       normals = new normal3[numVertices];
@@ -59,7 +57,10 @@ class Airplane: public Object {
       c_points = new point4[nvertices];
       c_colors = new color4[nvertices];
 
-      if (!ply_read(ply)) return; // cant open
+      if (!ply_read(ply)) {
+        cerr << "Can't open airplane model file" << endl;
+        return; // cant open
+      }
       ply_close(ply);
 
       // scale the points
@@ -72,6 +73,8 @@ class Airplane: public Object {
       float min_z = c_points[0].z;
       float max_z = c_points[0].z;
 
+      // find the minimum and maximum for each type of
+      // vertex coordinates
       for(int i = 0; i < Vindex; i++)
       {
         min_x = MIN(min_x, c_points[i].x);
@@ -82,7 +85,6 @@ class Airplane: public Object {
         max_y = MAX(max_y, c_points[i].y);
         max_z = MAX(max_z, c_points[i].z);
 
-
         if(abs(c_points[i].x) > max_v )
           max_v = abs(c_points[i].x);
 
@@ -91,35 +93,20 @@ class Airplane: public Object {
 
         if(abs(c_points[i].z) > max_v )
           max_v = abs(c_points[i].z);
-
       }
-
-      printf("min x %f, max x %f\n", min_x, max_x);
-      printf("min y %f, max y %f\n", min_y, max_y);
-      printf("min z %f, max z %f\n", min_z, max_z);
 
       // translate according to mid-point
       float mid_x = (min_x + max_x) / 2.0;
       float mid_y = (min_z + max_y) / 2.0;
       float mid_z = (min_z + max_z) / 2.0;
 
-
-      //Distance[Xaxis] = -2.0;
-      //Distance[Yaxis] = -0.3;
-      //Distance[Zaxis] = -0.4;
-
-      // scaleFactor = 0.2;
-      //Distance[Xaxis] = 0.38;
-      //Distance[Zaxis] = 0.2;
-
-
-       const vec3 displacement(mid_x, mid_y,  mid_z);
-       float scaleF = 0.00014 ; // manually calculated
+      const vec3 displacement(mid_x, mid_y,  mid_z);
+      float scaleF = 0.00014 ; // manually calculated
+      const mat4 transform = Translate(-0.35, -0.02, 0.42) * RotateX(120.0)
+          * Scale(scaleF, scaleF, scaleF) * Translate(-displacement);
+      // perform transformation
       for(int i = 0; i < numVertices; i++)
-      {
-        points[i] = Translate(-0.35, -0.02, 0.42) * RotateX(120.0) * Scale(scaleF, scaleF, scaleF) * Translate(-displacement)  *   points[i];
-
-      }
+        points[i] = transform * points[i];
 
       // internal part of the Plane
       for(int i = 0; i < 500; i++) // inner part
@@ -145,12 +132,12 @@ class Airplane: public Object {
          //	aliceblue 	#F0F8FF 	rgb(240,248,255)
         colors[i] =color4(0.9, 0.8, 0.5);
 
-
       // reclaim memory
       delete c_colors;
       delete c_points;
+    }
 
-      }
+
   public:
     void initialize(GLuint program) {
 
@@ -170,10 +157,19 @@ class Airplane: public Object {
       initializeDataBuffers( program );
     }
 
+
+    /**
+     * Calculates final model view matrix using parent's and
+     * own model view matrices
+     */
     void calculateModelViewMatrix() {
        model_view =parent_model_view*my_model_view;
     }
 
+
+    /**
+     * Rotates the plan of auto-rotation is enabled.
+     */
     void idle( void )
     {
 	 if(autoOnOff!=0)
@@ -181,6 +177,7 @@ class Airplane: public Object {
 
       glutPostRedisplay();
     }
+
     void rotateLeft(float delta) {
 
       Theta[Yaxis] += delta;
@@ -198,17 +195,15 @@ class Airplane: public Object {
       }
       glutPostRedisplay();
     }
-//     void move(){
-// 	  const vec3 displacement( Distance[Xaxis], Distance[Yaxis], Distance[Zaxis] );
-//       my_model_view=my_model_view*Translate(displacement*RotateY(10)*Translate(-displacement);
-// 	}
 
     void checkIfPicked( unsigned char pixel[4] ) {
       if ( pixel[0] == 255 && pixel[1] == 255 && pixel[2] == 0 ) { // Airplane
+#ifdef DEBUG
         printf("Airplane selected\n");
+#endif
 		my_model_view= my_model_view*Translate(-0.35, -0.02, 0.42)*RotateY(30)*Translate(0.35, 0.02, -0.42);
       }
     }
 };
 
-#endif // end walkman
+#endif // end airplane

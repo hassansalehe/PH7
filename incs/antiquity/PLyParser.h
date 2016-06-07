@@ -18,13 +18,17 @@
 #define PLS_PARSER_HPP
 
 #include <stdio.h>
-#include "rply.h"
+
+// include rply which indeed perses the ply files
+#include "rply.h" // see libs/rply for license notice
 
 #include "Object.h"
 
 #define MIN(x,y) (x<y?x:y)
 #define MAX(x,y) (x>y?x:y)
 
+// define some temp variables to assist in reading
+// the vertices and color components
 static point4 * c_points;
 static color4 * c_colors;
 static int Vindex = 0;
@@ -38,7 +42,10 @@ static point4 point;
 static color4 color;
 
 
+// for specifying the vertex value read
 enum V_TYPE{X = 1, Y = 2, Z = 3};
+
+// for specifying the color component being read
 enum C_TYPE{RED = 702, GREEN = 800, BLUE = 900};
 
 
@@ -51,25 +58,20 @@ static int vertex_cb(p_ply_argument argument) {
   switch( axis ) {
     case X:
       point.x = ply_get_argument_value(argument);
-      //printf("X %g ", ply_get_argument_value(argument));
+      // printf("X %g ", ply_get_argument_value(argument));
       break;
     case Y:
       point.y = ply_get_argument_value(argument);
-      //printf("Y %g ", ply_get_argument_value(argument));
+      // printf("Y %g ", ply_get_argument_value(argument));
       break;
     case Z:
       point.z = ply_get_argument_value(argument);
-      //point.w = 0;
-      //point = normalize(point);
       point.w = 1;
       // save the point
       c_points[Vindex] = point;
       (Vindex)++;
-      //printf(" Z %g  \n", ply_get_argument_value(argument));
+      // printf(" Z %g  \n", ply_get_argument_value(argument));
       break;
-
-  //if (eol) printf("\n");
-  //else printf(" ");
   }
   return 1;
 }
@@ -79,17 +81,17 @@ static int vertex_cb(p_ply_argument argument) {
  * Called when each vertex color is read
  */
 static int color_cb(p_ply_argument argument) {
-  //long length, value_index;
+
   long color_type;
   ply_get_argument_user_data(argument, NULL, &color_type);
   switch (color_type) {
       case RED:
         color.x = ply_get_argument_value(argument) / 255.0;
-        //printf(" red %g ", ply_get_argument_value(argument));
+        // printf(" red %g ", ply_get_argument_value(argument));
         break;
       case GREEN:
         color.y = ply_get_argument_value(argument) / 255.0;
-        //printf(" green %g ", ply_get_argument_value(argument));
+        // printf(" green %g ", ply_get_argument_value(argument));
         break;
       case BLUE:
         color.z = ply_get_argument_value(argument) / 255.0;
@@ -98,8 +100,7 @@ static int color_cb(p_ply_argument argument) {
         // store color
         c_colors[Cindex] = color;
         (Cindex)++;
-
-        //printf(" blue%g\n", ply_get_argument_value(argument));
+        // printf(" blue%g\n", ply_get_argument_value(argument));
         break;
       default:
           break;

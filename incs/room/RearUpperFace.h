@@ -54,11 +54,7 @@ class Cube: public Object {
       color4( 0.0, 0.0, 1.0, 1.0 ),  // blue
       color4( 1.0, 0.0, 1.0, 1.0 ),  // magenta
       color4( 1.0, 1.0, 1.0, 1.0 ),  // white
-      color4( 0.0, 1.0, 1.0, 1.0 ),/*   // cyan
-      color4( 0.0, 1.0, 0.0, 1.0 ),  // green
-      color4( 0.0, 1.0, 0.0, 1.0 ),  // green
-      color4( 0.0, 1.0, 0.0, 1.0 ),  // green
-      color4( 0.0, 1.0, 0.0, 1.0 ),*/  // green
+      color4( 0.0, 1.0, 1.0, 1.0 ),
     };
 
     void triangle( int a, int b, int c) {
@@ -81,18 +77,6 @@ class Cube: public Object {
       triangle(0, 8, 7);
       triangle(9, 10, 11);
       triangle(9, 11, 12);
-/*+      triangle(3, 4, 1); // left triangle
-+      triangle(0, 3, 1); // right triangle
-+      triangle(4, 5, 1); // top triangle
-+      triangle(5, 2, 1);
-+      triangle(6, 2, 5);
-+      triangle(6, 7, 2);
-+      triangle(7, 0, 2);
-+      triangle(0, 8, 3);
-+      triangle(7, 8, 0);
-+      triangle(11, 10, 9);
-+      triangle(12, 11, 9);
-*/
     }
 
   public:

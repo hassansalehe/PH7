@@ -239,17 +239,6 @@ public:
 
 	root->rotateLeft( delta );
 	displayObjects();
-	/*
-    Object * object;
-    objectQueue.push(root);
-
-    while(! objectQueue.empty() ) {
-      object = objectQueue.front();
-      objectQueue.pop();
-      object->rotateLeft( delta ); // rotate
-      object->pushChildrenToQueue( objectQueue );
-    }
-    */
   }
 
 
@@ -328,22 +317,8 @@ public:
       object->pushChildrenToQueue( objectQueue );
     }
   }
-  /**
-   *Function for selecting and rotating object
-   */
-//   void move(){
-// 	Object * object;
-//     objectQueue.push(root);
-//
-//     while(! objectQueue.empty() ) {
-//       object = objectQueue.front();
-//       objectQueue.pop();
-// 	  int id= object->object_id;
-// 	  if (id==300)
-//       object->move();
-//       object->pushChildrenToQueue( objectQueue );
-//     }
-//   }
+
+
   /**
    * Function for reseting the museum to its initial
    * position and orientation

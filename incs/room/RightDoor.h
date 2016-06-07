@@ -197,11 +197,6 @@ class RightDoor: public Object {
 
     void idle( void )
     {
-      //Theta[Axis] += 0.1;
-
-      //if ( Theta[Axis] > 360.0 ) {
-      //    Theta[Axis] -= 360.0;
-      //}
       if( amISelected ) {
         if( !isOpen ) // not open
           rotationAngle += 0.5;
