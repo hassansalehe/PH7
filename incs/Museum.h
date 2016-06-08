@@ -96,7 +96,7 @@ private:
     room->appendChild( frontUpper );
     room->appendChild( rearUpper );
 
-    // windows
+    // side windows
     room->appendChild( rfwindow ); // right front WindowFrame
     room->appendChild( rrwindow ); // right rear WindowFrame
 
@@ -114,10 +114,10 @@ private:
     // children of stand
     stand->appendChild( skull );
     stand->appendChild( walkman );
-	stand->appendChild( part );
-	stand->appendChild( wheel );
-	stand->appendChild( airplane );
-	stand->appendChild( lamp );
+    stand->appendChild( part );
+    stand->appendChild( wheel );
+    stand->appendChild( airplane );
+    stand->appendChild( lamp );
 
     // set root to the room object
     root = room;

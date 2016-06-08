@@ -20,18 +20,17 @@ void KeyboardCallbacks(unsigned char key, int x, int y){
       exit( 0 );
         break;
     case 'z':
-      museum.zoomOut(0.01);
+      museum.zoomOut( 0.01 );
       break;
     case 'Z':
-      museum.zoomIn(0.01);
+      museum.zoomIn( 0.01 );
       break;
     case 'f': // for moving forward / backwards
       museum.moveForward(0.004);
       break;
     case 'F':
-      museum.moveForward(-0.004);
+      museum.moveForward( -0.004 );
       break;
-
     case 'S':
     case 's':
       museum.changeShading();
@@ -48,8 +47,6 @@ void KeyboardCallbacks(unsigned char key, int x, int y){
     case 'P':
       museum.changeProjection(); // toggle projection
       break;
-
-
   }
 }
 
@@ -58,21 +55,16 @@ void KeyboardSpecialKeys( int key, int x, int y ) {
   // rotating objects
   switch(key) {
     case GLUT_KEY_LEFT:
-      if(1) { // check if nothing is rotating.
-        museum.rotateLeft(1.0);
-      }
+      museum.rotateLeft( 1.0 ); // rotate left
       break;
     case GLUT_KEY_RIGHT:
-      if(1) { // check if nothing is rotating.
-        museum.rotateLeft(-1.0);
-      }
+      museum.rotateLeft( -1.0 ); // rotate right
       break;
     case GLUT_KEY_UP:     /* Up directional key     /\ */
-      museum.rotateUp(1.0);
+      museum.rotateUp( 1.0 );
       break;
-
     case GLUT_KEY_DOWN:   /* Down directional key  \/  */
-      museum.rotateUp(-1.0);
+      museum.rotateUp( -1.0 );
       break;
   }
 }
@@ -88,14 +80,14 @@ void MouseClickCallback( int button, int state, int x, int y ) {
 
     // redraw the scene with defined colors to the faces of objects
 
-    // send some info to GPU that you are rendering for picking
-    // Assign colors to objects
+    // 1. assign colors to objects
+    // 2. send some info to GPU that you are rendering for picking
     museum.enablePicking();
     museum.display();
 
     glFlush();
 
-    //picking process
+    // picking process
     y = glutGet( GLUT_WINDOW_HEIGHT ) - y;
 
     unsigned char pixel[4];
@@ -103,6 +95,7 @@ void MouseClickCallback( int button, int state, int x, int y ) {
     // read the current pixel's color from the back buffer
     glReadPixels(x, y, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, pixel);
 
+    // send the picked pixel to all scene objects
     museum.broadcastSelectedPixel( pixel );
 
     // needed to avoid display of the content of the back buffer when

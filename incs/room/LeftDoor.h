@@ -222,7 +222,9 @@ class LeftDoor: public Object {
 
       // (255,0,255)
       if ( pixel[0] == 255 && pixel[1] == 0 && pixel[2] == 255 ) { // Door
+#ifdef DEBUG
         printf("Door selected\n");
+#endif
         amISelected = true;
 
         if( isOpen ) // if the door is already open
