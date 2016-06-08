@@ -39,7 +39,7 @@ class LeftDoor: public Object {
 
     const vec3 fp2 = vec3( 0.27, 0.0, 0.81 );
 
-    // Vertices of a unit cube centered at origin, sides aligned with axes
+    // Vertices for the left door panel
     point4 vertices[16] = {
 
       // front door frame outer vertices
@@ -97,7 +97,7 @@ class LeftDoor: public Object {
       colors[vertexIndex] = vertex_colors[d]; points[vertexIndex] = vertices[d]; vertexIndex++;
     }
 
-    // generate 12 triangles: 36 vertices and 36 colors
+    // faces each with two triangles
     void colorcube() {
 
       // Constructing door frame
@@ -172,13 +172,11 @@ class LeftDoor: public Object {
     }
 
 
+    /**
+     * When idle and clicked change rotation angle
+     */
     void idle( void )
     {
-      //Theta[Axis] += 0.1;
-
-      //if ( Theta[Axis] > 360.0 ) {
-      //    Theta[Axis] -= 360.0;
-      //}
       if( amISelected ) {
         if( !isOpen ) // not open
           rotationAngle += 0.5;
@@ -200,23 +198,10 @@ class LeftDoor: public Object {
 
       glutPostRedisplay();
     }
-    void rotateLeft(float delta) {
 
-      Theta[Yaxis] += delta;
-      if ( Theta[Yaxis] > 360.0 ) {
-          Theta[Yaxis] -= 360.0;
-      }
-      glutPostRedisplay();
-    }
-
-    void rotateUp(float delta) {
-
-      Theta[Xaxis] += delta;
-      if ( Theta[Xaxis] > 360.0 ) {
-          Theta[Xaxis] -= 360.0;
-      }
-      glutPostRedisplay();
-    }
+    // no individual rotations
+    void rotateLeft(float delta) {}
+    void rotateUp(float delta) {}
 
     void checkIfPicked( unsigned char pixel[4] ) {
 

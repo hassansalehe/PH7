@@ -34,7 +34,7 @@ class WindowFrame: public Object {
 
     int window_right_end = 0;
 
-    // Vertices of a unit cube centered at origin, sides aligned with axes
+    // vertices for the window frame
     point4 vertices[22] = {
 
       // front window frame outer vertices
@@ -235,34 +235,12 @@ class WindowFrame: public Object {
 
     void idle( void )
     {
-      //Theta[Axis] += 0.1;
-
-      //if ( Theta[Axis] > 360.0 ) {
-      //    Theta[Axis] -= 360.0;
-      //}
-
       glutPostRedisplay();
     }
 
-
-    void rotateLeft(float delta) {
-
-      Theta[Yaxis] += delta;
-      if ( Theta[Yaxis] > 360.0 ) {
-          Theta[Yaxis] -= 360.0;
-      }
-      glutPostRedisplay();
-    }
-
-
-    void rotateUp(float delta) {
-
-      Theta[Xaxis] += delta;
-      if ( Theta[Xaxis] > 360.0 ) {
-          Theta[Xaxis] -= 360.0;
-      }
-      glutPostRedisplay();
-    }
+    // no individual rotations
+    void rotateLeft(float delta) {}
+    void rotateUp(float delta) {}
 
     void checkIfPicked( unsigned char pixel[4] ) {
       // (0,255,255)

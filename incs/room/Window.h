@@ -67,7 +67,7 @@ class Window: public Object {
       //glutTimerFunc(1, windowAOpenAnimation, p);
     }
 
-    // Vertices of a unit cube centered at origin, sides aligned with axes
+    // Vertices for the frame and the handle
     point4 vertices[22] = {
 
       // front window frame outer vertices
@@ -145,6 +145,9 @@ class Window: public Object {
       colors[vertexIndex] = vertex_colors[d]; points[vertexIndex] = vertices[d]; vertexIndex++;
     }
 
+    /**
+     * For the other side of the door frame
+     */
     void back(int a, int b, int c, int d, int start) {
       // creates triangles on the other part
       colors[vertexIndex] = vertex_colors[a]; points[vertexIndex] = RotateY(180) * points[start++]; vertexIndex++;
@@ -241,6 +244,7 @@ class Window: public Object {
       initializeDataBuffers( program );
     }
 
+    // uses the parent's model view matrix
     void calculateModelViewMatrix() {
       model_view = parent_model_view;
     }
@@ -266,36 +270,16 @@ class Window: public Object {
     }
 
 
+    // do nothing, just re display
     void idle( void )
     {
-      //Theta[Axis] += 0.1;
-
-      //if ( Theta[Axis] > 360.0 ) {
-      //    Theta[Axis] -= 360.0;
-      //}
-
       glutPostRedisplay();
     }
 
 
-    void rotateLeft(float delta) {
-
-      Theta[Yaxis] += delta;
-      if ( Theta[Yaxis] > 360.0 ) {
-          Theta[Yaxis] -= 360.0;
-      }
-      glutPostRedisplay();
-    }
-
-
-    void rotateUp(float delta) {
-
-      Theta[Xaxis] += delta;
-      if ( Theta[Xaxis] > 360.0 ) {
-          Theta[Xaxis] -= 360.0;
-      }
-      glutPostRedisplay();
-    }
+    // No individual rotations of the door frame itself
+    void rotateLeft(float delta) { }
+    void rotateUp(float delta) { }
 
     void checkIfPicked( unsigned char pixel[4] ) {
       // (0,102,102)

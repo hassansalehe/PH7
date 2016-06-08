@@ -20,25 +20,6 @@
 
 class Roof: public Object {
   private:
-    // Vertices of a unit cube centered at origin, sides aligned with axes
-    point4 vertices[6] = {
-      point4( -0.6,  0.45,  0.9, 1.0 ),
-      point4(  0.0,  0.8,  0.9, 1.0 ),
-      point4(  0.0,  0.8, -0.9, 1.0 ),
-      point4( -0.6,  0.45, -0.9, 1.0 ),
-      point4(  0.6,  0.45,  0.9, 1.0 ),
-      point4(  0.6,  0.45, -0.9, 1.0 ),
-    };
-
-    void quad( int a, int b, int c, int d ) {
-      // Initialize colors
-      colors[vertexIndex] = blue; points[vertexIndex] = vertices[a]; vertexIndex++;
-      colors[vertexIndex] = blue; points[vertexIndex] = vertices[b]; vertexIndex++;
-      colors[vertexIndex] = blue; points[vertexIndex] = vertices[c]; vertexIndex++;
-      colors[vertexIndex] = blue; points[vertexIndex] = vertices[a]; vertexIndex++;
-      colors[vertexIndex] = blue; points[vertexIndex] = vertices[c]; vertexIndex++;
-      colors[vertexIndex] = blue; points[vertexIndex] = vertices[d]; vertexIndex++;
-    }
 
     /**
      * Constructs one face(two triangles) of the roof sheet
@@ -85,7 +66,7 @@ class Roof: public Object {
       }
     }
 
-    // generate 240 triangles: 720 vertices and 720 colors
+    //(180 faces)(2 triangles/face)(3 vertices/triangle)
     void colorcube() {
 
       // Constructing the left roof
@@ -111,7 +92,7 @@ class Roof: public Object {
       // set picking color
       isPicking = false;
       pickingColor = color4(0.0, 1.0, 0.0, 1.0); // (0,255,0)
-
+virtual void rotateLeft( GLfloat delta ) = 0;
       numVertices = 1080; //(180 faces)(2 triangles/face)(3 vertices/triangle)
       points = new point4[numVertices];
       colors = new color4[numVertices];
@@ -140,23 +121,9 @@ class Roof: public Object {
     }
 
 
-    void rotateLeft(float delta) {
-
-      Theta[Yaxis] += delta;
-      if ( Theta[Yaxis] > 360.0 ) {
-          Theta[Yaxis] -= 360.0;
-      }
-      glutPostRedisplay();
-    }
-
-    void rotateUp(float delta) {
-
-      Theta[Xaxis] += delta;
-      if ( Theta[Xaxis] > 360.0 ) {
-          Theta[Xaxis] -= 360.0;
-      }
-      glutPostRedisplay();
-    }
+    // no individual rotations
+    void rotateLeft(float delta) {}
+    void rotateUp(float delta) {}
 
     void checkIfPicked( unsigned char pixel[4] ) {
       if ( pixel[0] == 0 && pixel[1] == 255 && pixel[2] == 0 ) { // Roof

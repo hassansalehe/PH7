@@ -21,7 +21,7 @@
 
 class Cube: public Object {
   private:
-    // Vertices of a unit cube centered at origin, sides aligned with axes
+    // Vertices of the rear-upper header
     point4 vertices[13] = {
         point4(  0.0,  0.8,  -0.8, 1.0 ), // A
         point4( -0.5,  0.5,  -0.8, 1.0 ),

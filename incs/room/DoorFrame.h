@@ -209,30 +209,14 @@ class DoorFrame: public Object {
       glutPostRedisplay();
     }
 
-    void rotateLeft(float delta) {
-
-      Theta[Yaxis] += delta;
-      if ( Theta[Yaxis] > 360.0 ) {
-          Theta[Yaxis] -= 360.0;
-      }
-      glutPostRedisplay();
-    }
-
-    void rotateUp(float delta) {
-
-      Theta[Xaxis] += delta;
-      if ( Theta[Xaxis] > 360.0 ) {
-          Theta[Xaxis] -= 360.0;
-      }
-      glutPostRedisplay();
-    }
+    // no individual rotations
+    void rotateLeft(float delta) {}
+    void rotateUp(float delta) {}
 
     /**
      * No picking for the frame itself
      */
-    void checkIfPicked( unsigned char pixel[4] ) {
-
-   }
+    void checkIfPicked( unsigned char pixel[4] ) { }
 };
 
 #endif // end door frame

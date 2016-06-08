@@ -9,7 +9,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 //
-// Implements the door of the museum
+// Implements the right panel of door of the museum
 //
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -39,7 +39,7 @@ class RightDoor: public Object {
 
     const vec3 fp2 = vec3( 0.27, 0.0, 0.81 );
 
-    // Vertices of a unit cube centered at origin, sides aligned with axes
+    // Vertices of a right panel of the door
     point4 vertices[22] = {
 
       // front door frame outer vertices
@@ -218,23 +218,10 @@ class RightDoor: public Object {
 
       glutPostRedisplay();
     }
-    void rotateLeft(float delta) {
 
-      Theta[Yaxis] += delta;
-      if ( Theta[Yaxis] > 360.0 ) {
-          Theta[Yaxis] -= 360.0;
-      }
-      glutPostRedisplay();
-    }
-
-    void rotateUp(float delta) {
-
-      Theta[Xaxis] += delta;
-      if ( Theta[Xaxis] > 360.0 ) {
-          Theta[Xaxis] -= 360.0;
-      }
-      glutPostRedisplay();
-    }
+    // no individual rotations
+    void rotateLeft(float delta) {}
+    void rotateUp(float delta) {}
 
     void checkIfPicked( unsigned char pixel[4] ) {
 

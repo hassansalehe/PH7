@@ -9,7 +9,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 //
-// Implements the cube of the museum
+// Implements the ventilating fan of the museum
 //
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -20,11 +20,12 @@
 
 class Fan: public Object {
   private:
+
+    // variable to start/ stop rotation
     bool isSelected = false;
 
-    // Vertices of a unit cube centered at origin, sides aligned with axes
+    // vertices of the wing fan
     point4 vertices[4] = {
-        // interesting things
         point4( -0.02, 0.65, -0.8, 1.0),
         point4(  0.02, 0.65, -0.8, 1.0),
         point4(  0.01, 0.74, -0.78, 1.0),
@@ -32,15 +33,11 @@ class Fan: public Object {
     };
 
     // RGBA olors
-    color4 vertex_colors[8] = {
+    color4 vertex_colors[4] = {
       color4( 1.0, 1.0, 1.0, 1.0 ),  // white
       color4( 0.0, 0.0, 0.0, 1.0 ),  // black
       color4( 1.0, 0.0, 0.0, 1.0 ),  // red
       color4( 1.0, 1.0, 0.0, 1.0 ),  // yellow
-      color4( 0.0, 1.0, 0.0, 1.0 ),  // green
-      color4( 0.0, 0.0, 1.0, 1.0 ),  // blue
-      color4( 1.0, 0.0, 1.0, 1.0 ),  // magenta
-      color4( 0.0, 1.0, 1.0, 1.0 ),
     };
 
     void triangle( int a, int b, int c) {
@@ -50,11 +47,13 @@ class Fan: public Object {
       colors[vertexIndex] = vertex_colors[c]; points[vertexIndex] = vertices[c]; vertexIndex++;
     }
 
-    // generate 12 triangles: 36 vertices and 36 colors
+    // generates faces of the fan using the vertices
     void colorcube() {
       triangle(0, 1, 2);
       triangle(0, 2, 3);
       int end = vertexIndex;
+
+      //  generate instances of the fan wing
       for(int i = 0; i < end; i++ ) {
         colors[vertexIndex] = vertex_colors[i];
         points[vertexIndex++] = Translate(0.0, 0.65, -0.8) * RotateZ(120) * Translate(0.0, -0.65, 0.8) * points[i];
@@ -72,8 +71,8 @@ class Fan: public Object {
      */
     void initialize(GLuint program) {
 
-      // Object identifier
-      object_id = 100;
+      // Object random identifier
+      object_id = 7100;
 
       // set picking color
       isPicking = false;
@@ -84,8 +83,8 @@ class Fan: public Object {
       colors = new color4[numVertices];
       normals = new normal3[numVertices];
 
-      // quad generates two triangles for each face and assigns colors
-      //    to the vertices
+      // quad generates two triangles for each face
+      //and assigns colors to the vertices
       vertexIndex = 0;
       colorcube();
 
@@ -95,10 +94,18 @@ class Fan: public Object {
       initializeDataBuffers( program );
     }
 
+    /**
+     * Calculate the model view matrix using
+     * the parent model view and own transformation
+     */
     void calculateModelViewMatrix() {
       model_view =parent_model_view*my_model_view;
     }
 
+
+    /**
+     * Rotate the fan when idle
+     */
     void idle( void ) {
       if(!isSelected) {
         my_model_view= my_model_view*Translate(0.0, 0.65, -0.8)*RotateZ(10)*Translate(0.0, -0.65, 0.8);
@@ -107,23 +114,9 @@ class Fan: public Object {
     }
 
 
-    void rotateLeft(float delta) {
-
-      Theta[Yaxis] += delta;
-      if ( Theta[Yaxis] > 360.0 ) {
-          Theta[Yaxis] -= 360.0;
-      }
-      glutPostRedisplay();
-    }
-
-    void rotateUp(float delta) {
-
-      Theta[Xaxis] += delta;
-      if ( Theta[Xaxis] > 360.0 ) {
-          Theta[Xaxis] -= 360.0;
-      }
-      glutPostRedisplay();
-    }
+    // empty, rotation depends on parent rotation
+    void rotateLeft(float delta) {  }
+    void rotateUp(float delta) {    }
 
     void checkIfPicked( unsigned char pixel[4] ) {
       if ( pixel[0] == 102 && pixel[1] == 0 && pixel[2] == 0 ) { // Fan
