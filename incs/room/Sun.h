@@ -27,15 +27,15 @@ class Sun: public Object {
     color4 specular = color4( 1.0, 1.0, 1.0, 1.0 );
 
     // sun  object vertices
-    point4 origin = point4(  0.0,  0.0,  0.0, 1.0 );
-    point4 point1 = point4(  1.0,  0.0,  0.0, 1.0 ); // x, z
-    point4 point2 = point4(  0.5,  0.0,  0.866, 1.0 ); // x, z
+    point4 origin = point4( 0.0,  0.0,  0.0,   1.0 );
+    point4 point1 = point4( 1.0,  0.0,  0.0,   1.0 ); // x, z
+    point4 point2 = point4( 0.5,  0.0,  0.866, 1.0 ); // x, z
 
     // Vertices of a unit cube centered at origin, sides aligned with axes
     point4 vertices[6] = {
-      point4(  0.0,  0.0,  0.0, 1.0 ),
-      point4(  0.0,  0.8,  0.9, 1.0 ),
-      point4(  0.0,  0.8, -0.9, 1.0 ),
+      point4(  0.0,  0.0,   0.0, 1.0 ),
+      point4(  0.0,  0.8,   0.9, 1.0 ),
+      point4(  0.0,  0.8,  -0.9, 1.0 ),
       point4( -0.6,  0.45, -0.9, 1.0 ),
       point4(  0.6,  0.45,  0.9, 1.0 ),
       point4(  0.6,  0.45, -0.9, 1.0 ),
@@ -78,7 +78,7 @@ class Sun: public Object {
       colors = new color4[numVertices];
 
       // quad generates two triangles for each face and assigns colors
-      //    to the vertices
+      // to the vertices
       vertexIndex = 0;
       colorcube();
 
@@ -155,25 +155,9 @@ class Sun: public Object {
 
       glutPostRedisplay();
     }
-//     void move(){
-// 	}
-    void rotateLeft(float delta) {
 
-     // Theta[Yaxis] += delta;
-      //if ( Theta[Yaxis] > 360.0 ) {
-      //    Theta[Yaxis] -= 360.0;
-      //}
-      //glutPostRedisplay();
-    }
-
-    void rotateUp(float delta) {
-
-      //Theta[Xaxis] += delta;
-      //if ( Theta[Xaxis] > 360.0 ) {
-      //    Theta[Xaxis] -= 360.0;
-     // }
-      //glutPostRedisplay();
-    }
+    void rotateLeft(float delta) { }
+    void rotateUp(float delta) { }
 
     void checkIfPicked( unsigned char pixel[4] ) {
 

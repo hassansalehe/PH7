@@ -107,10 +107,10 @@ class LeftDoor: public Object {
       quad(0, 4, 7, 3); // top face
 
       // middle faces
-      quad(4, 5, 9, 8);
-      quad(9, 5, 6, 10);
+      quad(4,  5, 9,  8);
+      quad(9,  5, 6, 10);
       quad(10, 6, 7, 11);
-      quad(4, 8, 11, 7);
+      quad(4,  8, 11, 7);
 
       door_left_start_index = vertexIndex;
       // Constructing the middle separetor
@@ -170,7 +170,6 @@ class LeftDoor: public Object {
         my_model_view = Translate(fp) * RotateY(rotationAngle) * Translate(-fp);
       model_view = parent_model_view * my_model_view ;
     }
-
 
     /**
      * When idle and clicked change rotation angle

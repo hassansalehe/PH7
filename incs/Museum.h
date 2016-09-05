@@ -9,7 +9,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 //
-// This header file holds all the museum objects in form of a tree.
+// Implements the museum class wich holds all the museum objects in form of a tree.
 // Moreover, it contains all necessary functions to manipulate these objects.
 // See Init.cpp for how the "Museum" class is used.
 //
@@ -18,7 +18,7 @@
 #ifndef MUSEUM_HPP
 #define MUSEUM_HPP
 
-// include queue
+// queue for rendering objects
 #include <queue>
 
 #include "Object.h"
@@ -40,7 +40,6 @@
 
 using namespace std;
 
-// create the museum class
 class Museum {
 
 private:
@@ -347,7 +346,7 @@ public:
 
 
   /**
-   * Broadkcasts the pixel picked
+   * Broadcasts the pixel picked on mouse click
    */
   void broadcastSelectedPixel(unsigned char pixel[4]) {
 
@@ -364,7 +363,8 @@ public:
 
 
   /**
-   * Launches the idle functions of each object
+   * Launches the idle functions of each object for appropriate
+   * actions once one of the objects is picked.
    */
   void enablePicking() {
 
@@ -452,7 +452,7 @@ public:
 
 
   /**
-   * destroys all dynamically created objects
+   * destroys all dynamically created objects (memory management)
    */
   void close() {
 

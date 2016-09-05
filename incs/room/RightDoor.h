@@ -68,29 +68,27 @@ class RightDoor: public Object {
       point4(  0.01,  0.375,  0.81, 1.0 ), // top right (P)
 
       // Vertices for the handle
-      point4( -0.015, 0.1,   0.82, 1.0 ), // top left (A')
-      point4( -0.015, 0.095, 0.82, 1.0 ), // bottom left (B')
-      point4(  0.0,   0.09, 0.815, 1.0 ), // bottom (C')
+      point4( -0.015, 0.1,   0.82,  1.0 ), // top left (A')
+      point4( -0.015, 0.095, 0.82,  1.0 ), // bottom left (B')
+      point4(  0.0,   0.09,  0.815, 1.0 ), // bottom (C')
 
-      point4(  0.05,  0.095,  0.82, 1.0 ), // bottom right (D')
-      point4(  0.05,  0.1,    0.82, 1.0 ), // top right (E')
-      point4(  0.0,    0.11, 0.815, 1.0 ), // top (F')
+      point4(  0.05,  0.095, 0.82,  1.0 ), // bottom right (D')
+      point4(  0.05,  0.1,   0.82,  1.0 ), // top right (E')
+      point4(  0.0,   0.11,  0.815, 1.0 ), // top (F')
     };
 
     // RGBA olors
     color4 vertex_colors[22] = {
       color4( 205/255.0, 170/255.0, 125/255.0, 1.0 ),
-      black, //color4( 205/255.0, 170/255.0, 125/255.0, 1.0 ), // burly wood 3
-      black, //color4( 205/255.0, 170/255.0, 125/255.0, 1.0 ), // burly wood 3
       color4( 205/255.0, 170/255.0, 125/255.0, 1.0 ),
-      color4( 133/255.0, 94/255.0, 66/255.0, 1.0 ), // dark wood
-      color4( 133/255.0, 99/255.0, 99/255.0, 1.0 ), // light wood
-      color4( 133/255.0, 99/255.0, 99/255.0, 1.0 ),
-      color4( 133/255.0, 94/255.0, 66/255.0, 1.0 ), // dark wood
-      color4( 133/255.0, 94/255.0, 66/255.0, 1.0 ), // dark wood
-      color4( 133/255.0, 99/255.0, 99/255.0, 1.0 ),
-      color4( 133/255.0, 99/255.0, 99/255.0, 1.0 ),
-      color4( 133/255.0, 94/255.0, 66/255.0, 1.0 ), // dark wood
+      color4( 133/255.0,  94/255.0,  66/255.0, 1.0 ), // dark wood
+      color4( 133/255.0,  99/255.0,  99/255.0, 1.0 ), // light wood
+      color4( 133/255.0,  99/255.0,  99/255.0, 1.0 ),
+      color4( 133/255.0,  94/255.0,  66/255.0, 1.0 ), // dark wood
+      color4( 133/255.0,  94/255.0,  66/255.0, 1.0 ), // dark wood
+      color4( 133/255.0,  99/255.0,  99/255.0, 1.0 ),
+      color4( 133/255.0,  99/255.0,  99/255.0, 1.0 ),
+      color4( 133/255.0,  94/255.0,  66/255.0, 1.0 ), // dark wood
       color4( 205/255.0, 170/255.0, 125/255.0, 1.0 ),
       color4( 205/255.0, 170/255.0, 125/255.0, 1.0 ),
       black,
@@ -103,7 +101,6 @@ class RightDoor: public Object {
       color4( 230/255.0, 232/255.0, 250/255.0, 1.0), // silver
       color4( 230/255.0, 232/255.0, 250/255.0, 1.0), // silver
       color4( 192/255.0, 192/255.0, 192/255.0, 1.0), // silver grey
-
     };
 
     void quad( int a, int b, int c, int d ) {
@@ -126,10 +123,10 @@ class RightDoor: public Object {
       quad(0, 4, 7, 3); // top face
 
       // middle faces
-      quad(4, 5, 9, 8);
-      quad(9, 5, 6, 10);
-      quad(10, 6, 7, 11);
-      quad(4, 8, 11, 7);
+      quad(4,  5,  9,  8);
+      quad(9,  5,  6, 10);
+      quad(10, 6,  7, 11);
+      quad(4,  8, 11,  7);
 
       door_left_start_index = vertexIndex;
       // Constructing the middle separetor
@@ -150,11 +147,10 @@ class RightDoor: public Object {
 
       // Construct the handle
       handle_start_index = vertexIndex;
-      quad(16,17, 19, 20);
+      quad(16, 17, 19, 20);
       quad(17, 18, 19, 17);
       quad(16, 20, 21, 16);
       handle_end = vertexIndex;
-
     }
 
   public:
@@ -176,7 +172,7 @@ class RightDoor: public Object {
       normals = new normal3[numVertices];
 
       // quad generates two triangles for each face and assigns colors
-      //    to the vertices
+      // to the vertices
       vertexIndex = 0;
       colorcube();
 
@@ -190,8 +186,8 @@ class RightDoor: public Object {
 
     void calculateModelViewMatrix() {
       if(amISelected )
-        my_model_view = Translate(fp2) * RotateY( -rotationAngle) * Translate(-fp2);
-      model_view = parent_model_view * my_model_view ;
+        my_model_view = Translate(fp2) * RotateY( -rotationAngle ) * Translate(-fp2);
+      model_view = parent_model_view * my_model_view;
     }
 
 

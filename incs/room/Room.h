@@ -82,11 +82,7 @@ class Room: public Object {
       color4( 0.0, 0.0, 1.0, 1.0 ),  // blue
       color4( 1.0, 0.0, 1.0, 1.0 ),  // magenta
       color4( 1.0, 1.0, 1.0, 1.0 ),  // white
-      color4( 0.0, 1.0, 1.0, 1.0 ),/*   // cyan
-      color4( 0.0, 1.0, 0.0, 1.0 ),  // green
-      color4( 0.0, 1.0, 0.0, 1.0 ),  // green
-      color4( 0.0, 1.0, 0.0, 1.0 ),  // green
-      color4( 0.0, 1.0, 0.0, 1.0 ),*/  // green
+      color4( 0.0, 1.0, 1.0, 1.0 ),
     };
 
     void quad( int a, int b, int c, int d ) {
@@ -103,10 +99,10 @@ class Room: public Object {
     void colorcube() {
 
       // Constructing front wall
-      quad(1, 0, 8, 9);  // left face
-      quad(4, 8, 11, 7); // bottom face
-      quad(10, 11, 3, 2);  // right face
-      quad(9, 5, 6, 10); // top face
+      quad(1,   0,  8,  9);  // left face
+      quad(4,   8, 11,  7); // bottom face
+      quad(10, 11,  3,  2);  // right face
+      quad(9,   5,  6, 10); // top face
 
       // Constructing the rear wall
       quad( 12, 13, 14, 15 ); // upper face, A
@@ -188,7 +184,7 @@ class Room: public Object {
       normals = new normal3[numVertices];
 
       // quad generates two triangles for each face and assigns colors
-      //    to the vertices
+      // to the vertices
       vertexIndex = 0;
       colorcube();
 
@@ -229,8 +225,7 @@ class Room: public Object {
   }
 
 
-    void idle( void )
-    {
+    void idle( void ) {
       glutPostRedisplay();
     }
 

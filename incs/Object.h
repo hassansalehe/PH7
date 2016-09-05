@@ -425,15 +425,9 @@ public:
    * The destructor to claim memory from dynamically allocated memory
    */
   virtual ~Object() {
-
-    if(points)
-      delete points;
-
-    if(colors)
-      delete colors;
-
-    if(normals)
-      delete normals;
+    if(points) delete points;
+    if(colors) delete colors;
+    if(normals) delete normals;
   }
 
 };

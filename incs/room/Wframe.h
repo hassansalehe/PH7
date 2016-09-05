@@ -63,12 +63,12 @@ class WindowFrame: public Object {
       point4(  0.005,  0.18,  0.01, 1.0 ), // top right (P)
 
       // Vertices for the handle
-      point4( -0.015, 0.1,   0.02, 1.0 ), // top left (A')
-      point4( -0.015, 0.095, 0.02, 1.0 ), // bottom left (B')
-      point4(  0.0,   0.09, 0.015, 1.0 ), // bottom (C')
+      point4( -0.015, 0.1,   0.02,  1.0 ), // top left (A')
+      point4( -0.015, 0.095, 0.02,  1.0 ), // bottom left (B')
+      point4(  0.0,   0.09,  0.015, 1.0 ), // bottom (C')
 
-      point4(  0.05,  0.095, 0.02, 1.0 ), // bottom right (D')
-      point4(  0.05,  0.1,   0.02, 1.0 ), // top right (E')
+      point4(  0.05,  0.095, 0.02,  1.0 ), // bottom right (D')
+      point4(  0.05,  0.1,   0.02,  1.0 ), // top right (E')
       point4(  0.0,   0.11,  0.015, 1.0 ), // top (F')
     };
 
@@ -78,14 +78,14 @@ class WindowFrame: public Object {
       black, //color4( 205/255.0, 170/255.0, 125/255.0, 1.0 ), // burly wood 3
       black, //color4( 205/255.0, 170/255.0, 125/255.0, 1.0 ), // burly wood 3
       color4( 205/255.0, 170/255.0, 125/255.0, 1.0 ),
-      color4( 133/255.0, 94/255.0, 66/255.0, 1.0 ), // dark wood
-      color4( 133/255.0, 99/255.0, 99/255.0, 1.0 ), // light wood
-      color4( 133/255.0, 99/255.0, 99/255.0, 1.0 ),
-      color4( 133/255.0, 94/255.0, 66/255.0, 1.0 ), // dark wood
-      color4( 133/255.0, 94/255.0, 66/255.0, 1.0 ), // dark wood
-      color4( 133/255.0, 99/255.0, 99/255.0, 1.0 ),
-      color4( 133/255.0, 99/255.0, 99/255.0, 1.0 ),
-      color4( 133/255.0, 94/255.0, 66/255.0, 1.0 ), // dark wood
+      color4( 133/255.0,  94/255.0,  66/255.0, 1.0 ), // dark wood
+      color4( 133/255.0,  99/255.0,  99/255.0, 1.0 ), // light wood
+      color4( 133/255.0,  99/255.0,  99/255.0, 1.0 ),
+      color4( 133/255.0,  94/255.0,  66/255.0, 1.0 ), // dark wood
+      color4( 133/255.0,  94/255.0,  66/255.0, 1.0 ), // dark wood
+      color4( 133/255.0,  99/255.0,  99/255.0, 1.0 ),
+      color4( 133/255.0,  99/255.0,  99/255.0, 1.0 ),
+      color4( 133/255.0,  94/255.0,  66/255.0, 1.0 ), // dark wood
       color4( 205/255.0, 170/255.0, 125/255.0, 1.0 ),
       color4( 205/255.0, 170/255.0, 125/255.0, 1.0 ),
       black,
@@ -140,10 +140,10 @@ class WindowFrame: public Object {
       quad(0, 4, 7, 3); // top face
 
       // middle faces
-      quad(4, 5, 9, 8);
-      quad(9, 5, 6, 10);
+      quad(4,  5, 9,  8);
+      quad(9,  5, 6, 10);
       quad(10, 6, 7, 11);
-      quad(4, 8, 11, 7);
+      quad(4,  8, 11, 7);
 
       window_left_start_index = vertexIndex;
       // Constructing the middle separetor
@@ -245,7 +245,9 @@ class WindowFrame: public Object {
     void checkIfPicked( unsigned char pixel[4] ) {
       // (0,255,255)
       if ( pixel[0] == 0 && pixel[1] == 255 && pixel[2] == 255 ) { // Wheel
+#ifdef DEBUG
         printf("WindowFrame selected\n");
+#endif
       }
     }
 };

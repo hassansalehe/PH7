@@ -23,27 +23,22 @@ class Cube: public Object {
   private:
     // Vertices of the rear-upper header
     point4 vertices[13] = {
-        point4(  0.0,  0.8,  -0.8, 1.0 ), // A
-        point4( -0.5,  0.5,  -0.8, 1.0 ),
-        point4(  0.5,  0.5,  -0.8, 1.0 ),
-        point4( -0.0866,  0.7, -0.8, 1.0 ),
-        point4( -0.0866,  0.6, -0.8, 1.0 ),
-        point4(  0.0,     0.55,   -0.8, 1.0 ),
-        point4(  0.0866,  0.6, -0.8, 1.0 ),
-        point4(  0.0866,  0.7, -0.8, 1.0 ),
-        point4(  0.0,  0.75, -0.8, 1.0 ),
+        point4(  0.0,    0.8,  -0.8, 1.0 ), // A
+        point4( -0.5,    0.5,  -0.8, 1.0 ),
+        point4(  0.5,    0.5,  -0.8, 1.0 ),
+        point4( -0.0866, 0.7,  -0.8, 1.0 ),
+        point4( -0.0866, 0.6,  -0.8, 1.0 ),
+        point4(  0.0,    0.55, -0.8, 1.0 ),
+        point4(  0.0866, 0.6,  -0.8, 1.0 ),
+        point4(  0.0866, 0.7,  -0.8, 1.0 ),
+        point4(  0.0,    0.75, -0.8, 1.0 ),
 
         // interesting things
         point4( -0.02, 0.65, -0.8, 1.0),
         point4(  0.02, 0.65, -0.8, 1.0),
         point4(  0.0,  0.75, -0.78, 1.0),
         point4(  0.0,  0.75, -0.82, 1.0),
-//         point4(  0.25, 0.65, -0.8, 1.0 ),
-//         point4(  0.1,  0.65, -0.8, 1.0 ), // G
-//         point4( -0.15,  0.65, -0.8, 1.0 ), // H
-//         point4( -0.166,  0.6, -0.8, 1.0 ), // I
     };
-
 
     // RGBA olors
     color4 vertex_colors[8] = {
@@ -117,16 +112,9 @@ class Cube: public Object {
     }
 
     void idle( void ) {
-      //Theta[Axis] += 0.1;
-
-      //if ( Theta[Axis] > 360.0 ) {
-      //    Theta[Axis] -= 360.0;
-      //}
-
       glutPostRedisplay();
     }
-//     void move(){
-// 	}
+
     void rotateLeft(float delta) {
 
       Theta[Yaxis] += delta;

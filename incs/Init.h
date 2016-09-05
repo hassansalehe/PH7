@@ -30,10 +30,10 @@ void displayMuseum();
 // stub for glutIdleFunc
 void idleRedisplay();
 
-// stub for reshaping the museum after window change
+// stub for reshaping the museum once window resizes
 void reshapeMuseum(int w, int h);
 
 // for calling before the museum terminates
-void ClosingMuseum ();
+void onClosingMuseum ();
 
 #endif

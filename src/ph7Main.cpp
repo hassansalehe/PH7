@@ -14,7 +14,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-// Include the Angel's file
+// include the Angel's file which implements a number of utility functions
 #include "Angel.h"
 
 // include the initialization function
@@ -28,36 +28,36 @@
  */
 int main( int argc, char **argv )
 {
-    // initialize glut
-    glutInit( &argc, argv );
-    glutInitDisplayMode( GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH );
+  // initialize glut
+  glutInit( &argc, argv );
+  glutInitDisplayMode( GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH );
 
-    // initialize the GUI window size
-    glutInitWindowSize( glutGet( GLUT_SCREEN_WIDTH ), glutGet( GLUT_SCREEN_HEIGHT ) );
+  // initialize the GUI window size
+  glutInitWindowSize( glutGet( GLUT_SCREEN_WIDTH ), glutGet( GLUT_SCREEN_HEIGHT ) );
 
-    // position the full screen window at the center
-    glutInitWindowPosition( glutGet( GLUT_SCREEN_WIDTH ) / 2, glutGet( GLUT_SCREEN_HEIGHT ) / 2 );
+  // position the full screen window at the center
+  glutInitWindowPosition( glutGet( GLUT_SCREEN_WIDTH ) / 2, glutGet( GLUT_SCREEN_HEIGHT ) / 2 );
 
-    // create GUI window
-    glutCreateWindow("PH7: A Virtual Museum on OpenGL and Glut");
+  // create GUI window
+  glutCreateWindow("PH7: A Virtual Museum on OpenGL and Glut");
 
-    glewExperimental = GL_TRUE;
-    glewInit();
+  glewExperimental = GL_TRUE;
+  glewInit();
 
-    // initialize OpenGL
-    PH7initialize();
+  // initialize OpenGL
+  PH7initialize();
 
-    // Register keyboard and mouse event functions
-    glutKeyboardFunc( KeyboardCallbacks );
-    glutSpecialFunc( KeyboardSpecialKeys );
-    glutReshapeFunc( reshapeMuseum );
-    glutMouseFunc( MouseClickCallback );
-    glutIdleFunc( idleRedisplay );
-    glutDisplayFunc( displayMuseum );
+  // Register keyboard and mouse event functions
+  glutKeyboardFunc( KeyboardCallbacks );
+  glutSpecialFunc( KeyboardSpecialKeys );
+  glutReshapeFunc( reshapeMuseum );
+  glutMouseFunc( MouseClickCallback );
+  glutIdleFunc( idleRedisplay );
+  glutDisplayFunc( displayMuseum );
 
-    glutCloseFunc( ClosingMuseum );
+  glutCloseFunc( onClosingMuseum );
 
-    // loop indefinitely
-    glutMainLoop();
-    return 0;
+  // loop indefinitely
+  glutMainLoop();
+  return 0;
 }

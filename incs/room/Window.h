@@ -96,12 +96,12 @@ class Window: public Object {
       point4(  0.005,  0.18,  0.01, 1.0 ), // top right (P)
 
       // Vertices for the handle
-      point4( -0.015, 0.1,   0.02, 1.0 ), // top left (A')
-      point4( -0.015, 0.095, 0.02, 1.0 ), // bottom left (B')
-      point4(  0.0,   0.09, 0.015, 1.0 ), // bottom (C')
+      point4( -0.015, 0.1,   0.02,  1.0 ), // top left (A')
+      point4( -0.015, 0.095, 0.02,  1.0 ), // bottom left (B')
+      point4(  0.0,   0.09,  0.015, 1.0 ), // bottom (C')
 
-      point4(  0.05,  0.095, 0.02, 1.0 ), // bottom right (D')
-      point4(  0.05,  0.1,   0.02, 1.0 ), // top right (E')
+      point4(  0.05,  0.095, 0.02,  1.0 ), // bottom right (D')
+      point4(  0.05,  0.1,   0.02,  1.0 ), // top right (E')
       point4(  0.0,   0.11,  0.015, 1.0 ), // top (F')
     };
 
@@ -111,14 +111,14 @@ class Window: public Object {
       black, //color4( 205/255.0, 170/255.0, 125/255.0, 1.0 ), // burly wood 3
       black, //color4( 205/255.0, 170/255.0, 125/255.0, 1.0 ), // burly wood 3
       color4( 205/255.0, 170/255.0, 125/255.0, 1.0 ),
-      color4( 133/255.0, 94/255.0, 66/255.0, 1.0 ), // dark wood
-      color4( 133/255.0, 99/255.0, 99/255.0, 1.0 ), // light wood
-      color4( 133/255.0, 99/255.0, 99/255.0, 1.0 ),
-      color4( 133/255.0, 94/255.0, 66/255.0, 1.0 ), // dark wood
-      color4( 133/255.0, 94/255.0, 66/255.0, 1.0 ), // dark wood
-      color4( 133/255.0, 99/255.0, 99/255.0, 1.0 ),
-      color4( 133/255.0, 99/255.0, 99/255.0, 1.0 ),
-      color4( 133/255.0, 94/255.0, 66/255.0, 1.0 ), // dark wood
+      color4( 133/255.0,  94/255.0,  66/255.0, 1.0 ), // dark wood
+      color4( 133/255.0,  99/255.0,  99/255.0, 1.0 ), // light wood
+      color4( 133/255.0,  99/255.0,  99/255.0, 1.0 ),
+      color4( 133/255.0,  94/255.0,  66/255.0, 1.0 ), // dark wood
+      color4( 133/255.0,  94/255.0,  66/255.0, 1.0 ), // dark wood
+      color4( 133/255.0,  99/255.0,  99/255.0, 1.0 ),
+      color4( 133/255.0,  99/255.0,  99/255.0, 1.0 ),
+      color4( 133/255.0,  94/255.0,  66/255.0, 1.0 ), // dark wood
       color4( 205/255.0, 170/255.0, 125/255.0, 1.0 ),
       color4( 205/255.0, 170/255.0, 125/255.0, 1.0 ),
       black,
@@ -189,7 +189,7 @@ class Window: public Object {
 
       // Construct the handle
       handle_start_index = vertexIndex;
-      front(16,17, 19, 20);
+      front(16, 17, 19, 20);
       front(17, 18, 19, 17);
       front(16, 20, 21, 16);
       handle_end = vertexIndex;
