@@ -1,1 +1,17 @@
-A first meeting with Pirah for the project directions and milestones.
+## Planned additions to the museum
+* Modelling room
+* There will be lights in the room pointing to the objects.
+* Modelling a building of the museum.
+* Inside the room there will be figures/objects(glut's) at every fixed distance next to the walls of the room.
+* Windows for the room.
+* Manipulating the objects.
+* Holding objects
+* Wandering the room
+* Collision detection
+* Modelling the door to the museum
+* - Modelling external environment(nice garden)
+* - Modelling the sun
+* - There will be texts on top of the objects that shortly describe them.
+* - At the center of the room we may have objects also.
+* - The environment and each object will be illuminated taking into account all the right sources
+reaching it.
