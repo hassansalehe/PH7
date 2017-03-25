@@ -36,7 +36,7 @@ Run the following to launch the museum
 ```
 
 ### How to interact with the museum
-The following help message from the museum lists important interaction keyboard keys once the museum once launches.
+The following help message from the museum lists important keyboard keys to interact with the museum once it launches.
 ```
 ================================================================
 =                                                              =
@@ -70,8 +70,7 @@ The following help message from the museum lists important interaction keyboard 
 ```
 
 ### The file structure of the project
-If you would like to contribute to this project or you want
-to customize it for your personal use, the file structure
+If you would like to contribute to or customize this project for your personal use, the file structure
 is as below.
 
 * <home>
