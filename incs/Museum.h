@@ -187,6 +187,10 @@ public:
       0.80784313725490196078,
       0.98039215686274509804, 1.0
     );
+
+   // tell user to retrieve help message
+   cout << "Type 'h' or 'H' for full information ";
+   cout << "on how to interact with the museum" << endl;
   }
 
   /**

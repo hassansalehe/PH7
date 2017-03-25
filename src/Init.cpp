@@ -19,7 +19,6 @@ Museum museum;
 
 void PH7initialize() {
   museum.initialize();
-  museum.help();
 }
 
 void displayMuseum() {
