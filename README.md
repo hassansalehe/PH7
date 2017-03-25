@@ -73,7 +73,7 @@ The following help message from the museum lists important keyboard keys to inte
 If you would like to contribute to or customize this project for your personal use, the file structure
 is as below.
 
-* <home>
+* PH7
   - **README.md**        This file you are currently reading.
   - **Makefile**         The Main make file of the project.
   - **LICENSE.md**       The MIT License file
