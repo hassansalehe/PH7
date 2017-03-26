@@ -1,7 +1,13 @@
 ### Introduction
-This is the main repository for the project PH7. PH7 is a virtual museum based on OpenGL and GLut.
+This is the main repository for the project PH7. PH7 is a virtual museum based on OpenGL and GLut. This project was a course term project which we later converted it to open source.
 
-PH7 models a room with windows, a door, walls, a roof and a ventilating
+The virtual museum is a room in which different objects are placed in presence of various light sources. The user can see objects from different directions. Other features include:
+1. Zoom in/out
+2. rotation of objects on different axis
+3. movement : forward, backward, left and right
+4. look : up, down, left, and right
+
+PH7 models the room with windows, a door, walls, a roof and a ventilating
 fan. Inside the room are antiquities placed on stands.The models of these antiquities are taken from [Burkardt](http://people.sc.fsu.edu/~jburkardt/). [These models are](http://people.sc.fsu.edu/~jburkardt/data/ply/ply.html):
  * Aeroplane
  * [Human skull](http://people.sc.fsu.edu/~jburkardt/data/ply/skull.png)
@@ -9,6 +15,11 @@ fan. Inside the room are antiquities placed on stands.The models of these antiqu
  * Torch
  * [Walkman](http://people.sc.fsu.edu/~jburkardt/data/ply/walkman.png)
  * Wheel
+
+![Screenshot](docs/screenshots/glimpses.png "Glimpses of the virtual museum")
+
+For further information please refer to the project
+[ report](docs/PH7_project_report.pdf) and [ presentation](docs/PH7_presentation.pdf).
 
 ### Prerequisites
 * This project has been successfully tested on **Ubuntu 16.04 LTS**.
@@ -97,11 +108,6 @@ is as below.
   - **libs**              The directory for any libraries and third-part source files.
 
 [comment]: <> (https://github.com/skuhl/opengl-examples/blob/master/models/FREE-MODELS.txt)
-
-### The links to the report and presentation about the museum
-[The report](https://docs.google.com/a/ku.edu.tr/document/d/1eI5gN3N_0qzh5n-oWLVaPQohBeBDHjUSEEcnhIJghOI/edit?usp=sharing)
-
-[The presentation](https://docs.google.com/a/ku.edu.tr/presentation/d/1M2Fya3p4xgdAkpSQU12BUDb3gPw3q-36wW7f5V5hPQA/edit?usp=sharing)
 
 ### The main contributors in this project are:
    1. Hassan Salehe Matar
