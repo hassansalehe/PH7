@@ -1,17 +1,17 @@
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 //
 //                   COMP 510, Computer Graphics, Spring 2016
 //                              Final project
 //                PH7: A virtual Museum Based on OpenGL and Glut
 //
-//                            (c) 2016 - Hassan & Pirah.
+//                            (c) 2016,2017,2018 - Hassan & Pirah.
 //            Copying without the authors consent is strictly prohibited.
 //
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 //
 // Implements the window of the museum
 //
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 
 #ifndef WINDOW_FRAME_CLASS
 #define WINDOW_FRAME_CLASS
@@ -123,9 +123,7 @@ class WindowFrame: public Object {
     }
 
     void quad( int a, int b, int c, int d ) {
-
       int start = vertexIndex;
-
       front( a, b, c, d );
       back( a, b, c, d, start );
     }
@@ -158,8 +156,7 @@ class WindowFrame: public Object {
       //quad(15, 14, 10, 11);
       window_right_end = vertexIndex;
 
-      for(int i = start; i < vertexIndex; i++)
-      {
+      for (int i = start; i < vertexIndex; i++) {
         colors[i] = color4 (92/255.0, 51/255.0, 23/255.0, 1.0); // bakers chocolate
       }
 
@@ -171,8 +168,7 @@ class WindowFrame: public Object {
       handle_end = vertexIndex;
 
       // apply transformations
-      for(int i = 0; i < vertexIndex; i++)
-      {
+      for (int i = 0; i < vertexIndex; i++) {
         points[i] =
         //Translate(displacement) * RotateY(angle)
         initTransform * points[i];
@@ -190,7 +186,6 @@ class WindowFrame: public Object {
     }
 
     WindowFrame(const point4 displacement, const vec3 scale) {
-
       initTransform = Translate(displacement) * Scale(scale);
     }
 
@@ -224,7 +219,7 @@ class WindowFrame: public Object {
       initializeDataBuffers( program );
 
       // initialize children
-      for(Object * child : children) {
+      for (Object * child : children) {
         child->initialize( program );
       }
     }
@@ -233,8 +228,7 @@ class WindowFrame: public Object {
       model_view = parent_model_view;
     }
 
-    void idle( void )
-    {
+    void idle( void ) {
       glutPostRedisplay();
     }
 

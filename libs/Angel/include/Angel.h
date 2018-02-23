@@ -68,7 +68,7 @@ const GLfloat  DegreesToRadians = M_PI / 180.0;
 #include "mat.h"
 //#include "CheckError.h"
 
-// #define Print(x)  do { std::cerr << #x " = " << (x) << std::endl; } while(0)
+// #define Print(x)  do { std::cerr << #x " = " << (x) << std::endl; } while (0)
 
 //  Globally use our namespace in our example programs.
 using namespace Angel;

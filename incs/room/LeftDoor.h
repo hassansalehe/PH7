@@ -1,17 +1,17 @@
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 //
 //                   COMP 510, Computer Graphics, Spring 2016
 //                              Final project
 //                PH7: A virtual Museum Based on OpenGL and Glut
 //
-//                            (c) 2016 - Hassan & Pirah.
+//                            (c) 2016,2017,2018 - Hassan & Pirah.
 //            Copying without the authors consent is strictly prohibited.
 //
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 //
 // Implements the door of the museum
 //
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 
 #ifndef LEFT_DOOR_CLASS
 #define LEFT_DOOR_CLASS
@@ -30,13 +30,11 @@ class LeftDoor: public Object {
     int handle_end = 0;
 
     int door_left_start_index = 0;
-    int door_left_end = 0;
-
+    int door_left_end  = 0;
     int door_right_end = 0;
 
     // centre of rotation of left door
-    const vec3 fp = vec3( -0.27, 0.0, 0.81 );
-
+    const vec3 fp  = vec3( -0.27, 0.0, 0.81 );
     const vec3 fp2 = vec3( 0.27, 0.0, 0.81 );
 
     // Vertices for the left door panel
@@ -125,8 +123,7 @@ class LeftDoor: public Object {
       //quad(15, 14, 10, 11);
       door_right_end = vertexIndex;
 
-      for(int i = start; i < vertexIndex; i++)
-      {
+      for (int i = start; i < vertexIndex; i++) {
         colors[i] = color4 (92/255.0, 51/255.0, 23/255.0, 1.0); // bakers chocolate
       }
 
@@ -166,32 +163,28 @@ class LeftDoor: public Object {
     }
 
     void calculateModelViewMatrix() {
-      if(amISelected )
+      if (amISelected ) {
         my_model_view = Translate(fp) * RotateY(rotationAngle) * Translate(-fp);
+      }
       model_view = parent_model_view * my_model_view ;
     }
 
     /**
      * When idle and clicked change rotation angle
      */
-    void idle( void )
-    {
-      if( amISelected ) {
-        if( !isOpen ) // not open
-          rotationAngle += 0.5;
-        else
-          rotationAngle -= 0.5;
+    void idle( void ) {
+      if ( amISelected ) {
+        if ( !isOpen ) rotationAngle += 0.5;
+        else           rotationAngle -= 0.5;
 
-        if(rotationAngle > 135)
-        {
-          amISelected = false;
+        if (rotationAngle > 135) {
+          amISelected   = false;
           rotationAngle = 0.0;
-          isOpen = true;
-        }
-        else if (rotationAngle < 0) {
+          isOpen        = true;
+        } else if (rotationAngle < 0) {
           rotationAngle = 0.0;
-          amISelected = false;
-          isOpen = false;
+          amISelected   = false;
+          isOpen        = false;
         }
       }
 
@@ -211,10 +204,11 @@ class LeftDoor: public Object {
 #endif
         amISelected = true;
 
-        if( isOpen ) // if the door is already open
+        if ( isOpen ) { // if the door is already open
           rotationAngle = 135;
-        else
+        } else {
           rotationAngle = 0;
+        }
       }
    }
 };

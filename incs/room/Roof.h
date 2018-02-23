@@ -1,17 +1,17 @@
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 //
 //                   COMP 510, Computer Graphics, Spring 2016
 //                              Final project
 //                PH7: A virtual Museum Based on OpenGL and Glut
 //
-//                            (c) 2016 - Hassan & Pirah.
+//                            (c) 2016,2017,2018 - Hassan & Pirah.
 //            Copying without the authors consent is strictly prohibited.
 //
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 //
 // Implements the roof of the museum
 //
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 
 #ifndef ROOF_CLASS
 #define ROOF_CLASS
@@ -44,9 +44,9 @@ class Roof: public Object {
       point4 fourth; // fourth vertex
 
       int num = 0;
-      for(num = 0; num < 60; num++)
+      for (num = 0; num < 60; num++)
       {
-        if( num % 2 ) { // is odd
+        if ( num % 2 ) { // is odd
           third = upper - point4(0.0, 0.0, d, 0.0);
           fourth = lower - point4(0.0, 0.0, d, 0.0);
 
@@ -115,8 +115,7 @@ class Roof: public Object {
     }
 
 
-    void idle( void )
-    {
+    void idle( void ) {
       glutPostRedisplay();
     }
 

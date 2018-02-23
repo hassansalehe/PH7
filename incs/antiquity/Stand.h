@@ -1,17 +1,17 @@
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 //
 //                   COMP 510, Computer Graphics, Spring 2016
 //                              Final project
 //                PH7: A virtual Museum Based on OpenGL and Glut
 //
-//                            (c) 2016 - Hassan & Pirah.
+//                            (c) 2016,2017,2018 - Hassan & Pirah.
 //            Copying without the authors consent is strictly prohibited.
 //
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 //
 // Implements the Stand of the museum
 //
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 
 #ifndef STAND_CLASS
 #define STAND_CLASS
@@ -45,12 +45,23 @@ class Stand: public Object {
     void quad( int a, int b, int c, int d ) {
 
       // Initialize colors
-      colors[vertexIndex] = vertex_colors[0]; points[vertexIndex] = vertices[a]; vertexIndex++;
-      colors[vertexIndex] = green; points[vertexIndex] = vertices[b]; vertexIndex++;
-      colors[vertexIndex] = vertex_colors[1]; points[vertexIndex] = vertices[c]; vertexIndex++;
-      colors[vertexIndex] = green; points[vertexIndex] = vertices[a]; vertexIndex++;
-      colors[vertexIndex] = vertex_colors[2]; points[vertexIndex] = vertices[c]; vertexIndex++;
-      colors[vertexIndex] = vertex_colors[5]; points[vertexIndex] = vertices[d]; vertexIndex++;
+      colors[vertexIndex] = vertex_colors[0];
+      points[vertexIndex] = vertices[a]; vertexIndex++;
+
+      colors[vertexIndex] = green;
+      points[vertexIndex] = vertices[b]; vertexIndex++;
+
+      colors[vertexIndex] = vertex_colors[1];
+      points[vertexIndex] = vertices[c]; vertexIndex++;
+
+      colors[vertexIndex] = green;
+      points[vertexIndex] = vertices[a]; vertexIndex++;
+
+      colors[vertexIndex] = vertex_colors[2];
+      points[vertexIndex] = vertices[c]; vertexIndex++;
+
+      colors[vertexIndex] = vertex_colors[5];
+      points[vertexIndex] = vertices[d]; vertexIndex++;
     }
 
     // generate 12 triangles: 36 vertices and 36 colors
@@ -67,35 +78,35 @@ class Stand: public Object {
 
       // generate second instance of the first stand
       const vec3 displacement(0.0, 0.0, 0.4);
-      for(int i = start; i < end; i++) {
+      for (int i = start; i < end; i++) {
         colors[vertexIndex] = colors[i];
         points[vertexIndex++] = Translate (displacement) * points[i];
       }
 
       // generate third instance of the first stand
       const vec3 displacement2(0.0, 0.0, 0.8);
-      for(int i = start; i < end; i++) {
+      for (int i = start; i < end; i++) {
         colors[vertexIndex] = colors[i];
         points[vertexIndex++] = Translate (displacement2) * points[i];
       }
 
       // generate fourth instance of the first stand
       const vec3 displacement3(0.7, 0.0, 0.0);
-      for(int i = start; i < end; i++) {
+      for (int i = start; i < end; i++) {
         colors[vertexIndex] = colors[i];
         points[vertexIndex++] = Translate (displacement3) * points[i];
       }
 
       // generate fifth instance of the first stand
       const vec3 displacement4(0.7, 0.0, 0.4);
-      for(int i = start; i < end; i++) {
+      for (int i = start; i < end; i++) {
         colors[vertexIndex] = colors[i];
         points[vertexIndex++] = Translate (displacement4) * points[i];
       }
 
       // generate sixth instance of the first stand
       const vec3 displacement5(0.7, 0.0, 0.8);
-      for(int i = start; i < end; i++) {
+      for (int i = start; i < end; i++) {
         colors[vertexIndex] = colors[i];
         points[vertexIndex++] = Translate (displacement5) * points[i];
       }
@@ -106,31 +117,21 @@ class Stand: public Object {
      * Initializes the vertices and colors of the empty Stand object.
      */
     void initialize(GLuint program) {
-
-      // Object identifier
-      object_id = 210;
-
-      // set picking color
-      isPicking = false;
+      object_id    = 210;   // Object identifier
+      isPicking    = false; // set picking color
       pickingColor = color4(0.0, 0.0, 1.0, 1.0); // (0,0,255)
-
-      numVertices = 180; //(30 faces)(2 triangles/face)(3 vertices/triangle)
-      points = new point4[numVertices];
-      colors = new color4[numVertices];
-      normals = new normal3[numVertices];
+      numVertices  = 180; //(30 faces)(2 triangles/face)(3 vertices/triangle)
+      points       = new point4[numVertices];
+      colors       = new color4[numVertices];
+      normals      = new normal3[numVertices];
 
       // quad generates two triangles for each face and assigns colors
       //    to the vertices
-      vertexIndex = 0;
+      vertexIndex  = 0;
       colorcube();
-
-      // calculate normals
-      calculateNormals();
-
+      calculateNormals(); // calculate normals
       initializeDataBuffers( program );
     }
-
-
 
     void calculateModelViewMatrix() {
       // use parent's model view
@@ -141,8 +142,7 @@ class Stand: public Object {
     /**
 	 * The idle function of the Stand.
 	 */
-    void idle( void )
-    {
+    void idle( void ) {
       glutPostRedisplay();
     }
 

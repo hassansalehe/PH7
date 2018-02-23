@@ -4,7 +4,7 @@
 //                              Final project
 //                PH7: A virtual Museum Based on OpenGL and Glut
 //
-//                            (c) 2016 - Hassan & Pirah.
+//                            (c) 2016,2017,2018 - Hassan & Pirah.
 //            Copying without the authors consent is strictly prohibited.
 //
 //            For copyright notices of the RPLY library refer to libs/rply/LICENSE

@@ -1,19 +1,20 @@
-///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
 //
 //                   COMP 510, Computer Graphics, Spring 2016
 //                              Final project
 //                PH7: A virtual Museum Based on OpenGL and Glut
 //
-//                            (c) 2016 - Hassan & Pirah.
-//            Copying without the authors consent is strictly prohibited.
+//                          (c) 2016,2017,2018 - Hassan & Pirah.
+//          Copying without the authors consent is strictly prohibited.
 //
-///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
 //
-// Implements the museum class wich holds all the museum objects in form of a tree.
-// Moreover, it contains all necessary functions to manipulate these objects.
-// See Init.cpp for how the "Museum" class is used.
+// Implements the museum class wich holds all the museum objects in
+// form of a tree. Moreover, it contains all necessary functions to
+// manipulate these objects. See Init.cpp for how the "Museum" class
+// is used.
 //
-///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
 
 #ifndef MUSEUM_HPP
 #define MUSEUM_HPP
@@ -38,20 +39,18 @@
 
 #include "RearUpperFace.h"
 
-using namespace std;
-
 class Museum {
 
 private:
-  Object ** objects;  // pointer to hold objects
-  GLuint objectCount; // total number of objects
-  GLuint program;     // pointer to program
+  Object **objects;     // pointer to hold objects
+  GLuint   objectCount; // total number of objects
+  GLuint   program;     // pointer to program
 
   // queue to process the object tree
-  queue<Object*> objectQueue;
+  std::queue<Object *> objectQueue;
 
   // the top object in the tree
-  Object* root;
+  Object *root;
 
 
   /**
@@ -61,33 +60,33 @@ private:
   void constructObjectTree() {
 
     // Create objects
-    Object * room       = new Room();
-    Object * roof       = new Roof();
-    Object * doorframe  = new DoorFrame();
-    Object * frontUpper  = new Header();
-    Object * rearUpper  = new Cube();
+    Object *room       = new Room();
+    Object *roof       = new Roof();
+    Object *doorframe  = new DoorFrame();
+    Object *frontUpper = new Header();
+    Object *rearUpper  = new Cube();
 
     // right windows
-    Object * rfwindow  = new WindowFrame(point4(0.5, 0.1, 0.35, 1.0), 90);
-    Object * rrwindow  = new WindowFrame(point4(0.5, 0.1, -0.35, 1.0), 90);
+    Object *rfwindow  = new WindowFrame(point4(0.5, 0.1, 0.35, 1.0), 90);
+    Object *rrwindow  = new WindowFrame(point4(0.5, 0.1, -0.35, 1.0), 90);
 
     // left windows
-    Object * lfwindow  = new WindowFrame(point4(-0.5, 0.1, 0.35, 1.0), -90);
-    Object * lrwindow  = new WindowFrame(point4(-0.5, 0.1, -0.35, 1.0), -90);
+    Object *lfwindow  = new WindowFrame(point4(-0.5, 0.1, 0.35, 1.0), -90);
+    Object *lrwindow  = new WindowFrame(point4(-0.5, 0.1, -0.35, 1.0), -90);
 
     // rear windows
-    Object * reRightwindow  = new WindowFrame(point4( 0.3,  0.33, -0.8, 1.0), vec3(0.4, 0.35, 1.0));
-    Object * reMiddlewindow  = new WindowFrame(point4(0.0,  0.33, -0.8, 1.0), vec3(0.4, 0.35, 1.0));
-    Object * reLeftwindow  = new WindowFrame(point4( -0.3,  0.33, -0.8, 1.0), vec3(0.4, 0.35, 1.0));
+    Object *reRightwindow  = new WindowFrame(point4( 0.3,  0.33, -0.8, 1.0), vec3(0.4, 0.35, 1.0));
+    Object *reMiddlewindow = new WindowFrame(point4(0.0,  0.33, -0.8, 1.0), vec3(0.4, 0.35, 1.0));
+    Object *reLeftwindow   = new WindowFrame(point4( -0.3,  0.33, -0.8, 1.0), vec3(0.4, 0.35, 1.0));
 
-    Object * stand   = new Stand();
-    Object * sun     = new  Sun();
-    Object * skull   = new Skull();
-    Object * walkman = new Walkman();
-    Object * part = new Part();
-    Object * wheel = new Wheel();
-    Object * airplane = new Airplane();
-    Object * lamp = new Lamp();
+    Object *stand    = new Stand();
+    Object *sun      = new  Sun();
+    Object *skull    = new Skull();
+    Object *walkman  = new Walkman();
+    Object *part     = new Part();
+    Object *wheel    = new Wheel();
+    Object *airplane = new Airplane();
+    Object *lamp     = new Lamp();
 
     // Construct tree
     room->appendChild( roof );
@@ -131,8 +130,8 @@ private:
     // put the root in the queue
     objectQueue.push(root);
 
-    while(! objectQueue.empty() ) {
-      Object * object = objectQueue.front();
+    while ( !objectQueue.empty() ) {
+      Object *object = objectQueue.front();
       objectQueue.pop();
       object->initialize( program );
       object->pushChildrenToQueue( objectQueue );
@@ -145,18 +144,15 @@ private:
    */
   void displayObjects() {
 
-    Object * object;
-
     // put the root in the queue
     objectQueue.push(root);
 
-    while(! objectQueue.empty() ) {
-      object = objectQueue.front();
+    while ( !objectQueue.empty() ) {
+      Object *object = objectQueue.front();
       objectQueue.pop();
 
       object->display( program ); // display
       object->sendModeViewToChildren();
-
       object->pushChildrenToQueue( objectQueue );
     }
   }
@@ -171,10 +167,11 @@ public:
   void initialize() {
 
     // Load shaders and use the resulting shader program
-    program = InitShader( "shaders/MuseumVshader.glsl", "shaders/MuseumFshader.glsl" );
+    program = InitShader( "shaders/MuseumVshader.glsl",
+                          "shaders/MuseumFshader.glsl" );
 
     objectCount = 0;
-    objects = new Object*[objectCount];
+    objects     = new Object*[objectCount];
 
     constructObjectTree();
     initializeTreeNodes();
@@ -183,14 +180,15 @@ public:
     // set sky blue
     // Set the state variable "clear color" to clear buffer
     glClearColor(
-      0.52941176470588235294,
-      0.80784313725490196078,
-      0.98039215686274509804, 1.0
+        0.52941176470588235294,
+        0.80784313725490196078,
+        0.98039215686274509804,
+        1.0
     );
 
    // tell user to retrieve help message
-   cout << "Type 'h' or 'H' for full information ";
-   cout << "on how to interact with the museum" << endl;
+   std::cout << "Type 'h' or 'H' for full information ";
+   std::cout << "on how to interact with the museum" << std::endl;
   }
 
   /**
@@ -206,11 +204,10 @@ public:
    */
   void idle() {
 
-    Object * object;
     objectQueue.push(root);
 
-    while(! objectQueue.empty() ) {
-      object = objectQueue.front();
+    while ( !objectQueue.empty() ) {
+      Object *object = objectQueue.front();
       objectQueue.pop();
       object->idle(); // call idle of each object
       object->pushChildrenToQueue( objectQueue );
@@ -223,11 +220,10 @@ public:
    */
   void reshape(int w, int h) {
 
-    Object * object;
     objectQueue.push(root);
 
-    while(! objectQueue.empty() ) {
-      object = objectQueue.front();
+    while ( !objectQueue.empty() ) {
+      Object *object = objectQueue.front();
       objectQueue.pop();
       object->reshape( w, h ); // reshape
       object->pushChildrenToQueue( objectQueue );
@@ -239,9 +235,8 @@ public:
    * objects.
    */
   void rotateLeft(GLfloat delta) {
-
-	root->rotateLeft( delta );
-	displayObjects();
+    root->rotateLeft( delta );
+    displayObjects();
   }
 
 
@@ -250,11 +245,11 @@ public:
    * objects.
    */
   void rotateUp(GLfloat delta) {
-    Object * object;
+
     objectQueue.push(root);
 
-    while(! objectQueue.empty() ) {
-      object = objectQueue.front();
+    while ( !objectQueue.empty() ) {
+      Object *object = objectQueue.front();
       objectQueue.pop();
       object->rotateUp( delta ); // rotate
       object->pushChildrenToQueue( objectQueue );
@@ -264,11 +259,10 @@ public:
 
   void zoomOut(GLfloat delta) {
 
-    Object * object;
     objectQueue.push(root);
 
-    while(! objectQueue.empty() ) {
-      object = objectQueue.front();
+    while ( !objectQueue.empty() ) {
+      Object *object = objectQueue.front();
       objectQueue.pop();
       object->zoomOut( delta ); // zoom
       object->pushChildrenToQueue( objectQueue );
@@ -278,11 +272,10 @@ public:
 
   void zoomIn(GLfloat delta) {
 
-    Object * object;
     objectQueue.push(root);
 
-    while(! objectQueue.empty() ) {
-      object = objectQueue.front();
+    while ( !objectQueue.empty() ) {
+      Object *object = objectQueue.front();
       objectQueue.pop();
       object->zoomIn( delta ); // zoom
       object->pushChildrenToQueue( objectQueue );
@@ -295,11 +288,10 @@ public:
    */
   void moveForward(GLfloat delta) {
 
-    Object * object;
     objectQueue.push(root);
 
-    while(! objectQueue.empty() ) {
-      object = objectQueue.front();
+    while ( !objectQueue.empty() ) {
+      Object *object = objectQueue.front();
       objectQueue.pop();
       object->moveForward( delta ); // move
       object->pushChildrenToQueue( objectQueue );
@@ -310,11 +302,10 @@ public:
    */
   void toggleAuto() {
 
-    Object * object;
     objectQueue.push(root);
 
-    while(! objectQueue.empty() ) {
-      object = objectQueue.front();
+    while ( !objectQueue.empty() ) {
+      Object *object = objectQueue.front();
       objectQueue.pop();
       object->toggleAuto(); // auto rotate
       object->pushChildrenToQueue( objectQueue );
@@ -328,11 +319,10 @@ public:
    */
   void reset() {
 
-    Object * object;
     objectQueue.push(root);
 
-    while(! objectQueue.empty() ) {
-      object = objectQueue.front();
+    while ( !objectQueue.empty() ) {
+      Object *object = objectQueue.front();
       objectQueue.pop(); // reset
       object->reset();
       object->pushChildrenToQueue( objectQueue );
@@ -354,11 +344,10 @@ public:
    */
   void broadcastSelectedPixel(unsigned char pixel[4]) {
 
-    Object * object;
     objectQueue.push(root);
 
-    while(! objectQueue.empty() ) {
-      object = objectQueue.front();
+    while ( !objectQueue.empty() ) {
+      Object *object = objectQueue.front();
       objectQueue.pop();
       object->checkIfPicked( pixel ); // check if picking
       object->pushChildrenToQueue( objectQueue );
@@ -372,11 +361,10 @@ public:
    */
   void enablePicking() {
 
-    Object * object;
     objectQueue.push(root);
 
-    while(! objectQueue.empty() ) {
-      object = objectQueue.front();
+    while ( !objectQueue.empty() ) {
+      Object *object = objectQueue.front();
       objectQueue.pop();
       object->enablePicking(); // enable picking
       object->pushChildrenToQueue( objectQueue );
@@ -388,11 +376,10 @@ public:
    */
   void disablePicking() {
 
-    Object * object;
     objectQueue.push(root);
 
-    while(! objectQueue.empty() ) {
-      object = objectQueue.front();
+    while ( !objectQueue.empty() ) {
+      Object *object = objectQueue.front();
       objectQueue.pop();
       object->disablePicking(); // disable picking
       object->pushChildrenToQueue( objectQueue );
@@ -441,11 +428,10 @@ public:
     cout << "=  Q or q        ==  To close/quit the museum                  =" << endl;
     cout << "=  Click window  ==  To open/close window (blend)              =" << endl;
 
-    Object * object;
     objectQueue.push(root);
 
-    while(! objectQueue.empty() ) {
-      object = objectQueue.front();
+    while ( !objectQueue.empty() ) {
+      Object *object = objectQueue.front();
       objectQueue.pop();
       object->help(); // call help of each object
       object->pushChildrenToQueue( objectQueue );
@@ -460,11 +446,10 @@ public:
    */
   void close() {
 
-    Object * object;
     objectQueue.push(root);
 
-    while(! objectQueue.empty() ) {
-      object = objectQueue.front();
+    while ( !objectQueue.empty() ) {
+      Object *object = objectQueue.front();
       objectQueue.pop();
       object->disablePicking(); // disable picking
       object->pushChildrenToQueue( objectQueue );

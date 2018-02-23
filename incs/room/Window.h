@@ -1,17 +1,17 @@
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 //
 //                   COMP 510, Computer Graphics, Spring 2016
 //                              Final project
 //                PH7: A virtual Museum Based on OpenGL and Glut
 //
-//                            (c) 2016 - Hassan & Pirah.
+//                            (c) 2016,2017,2018 - Hassan & Pirah.
 //            Copying without the authors consent is strictly prohibited.
 //
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 //
 // Implements the window of the museum
 //
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 
 #ifndef WINDOW_CLASS
 #define WINDOW_CLASS
@@ -39,25 +39,24 @@ class Window: public Object {
      */
     void windowAOpenAnimation() {
 
-      if(rotationAngle > 180.0)
-        return;
+      if (rotationAngle > 180.0) return;
 
       // centre of rotation of left window
       const point4 fp( -0.18, 0.0, 0.0, 1.0 );
 
       // left left
-      for(int i = window_left_start_index; i < window_left_end; i++) {
+      for (int i = window_left_start_index; i < window_left_end; i++) {
         points[i] = Translate(fp) * RotateY(rotationAngle) * Translate(-fp) * points[i];
       }
 
       // handle
       const point4 fp2( 0.18, 0.0, 0.0, 1.0 );
-      for(int i = handle_start_index; i < handle_end; i++) {
+      for (int i = handle_start_index; i < handle_end; i++) {
         points[i] = Translate(fp2) * RotateY( -rotationAngle) * Translate(-fp2) * points[i];
       }
 
       // right window
-      for(int i = window_left_end; i < window_right_end; i++) {
+      for (int i = window_left_end; i < window_right_end; i++) {
         points[i] = Translate(fp2) * RotateY( -rotationAngle ) * Translate(-fp2) * points[i];
       }
       rotationAngle += 5;
@@ -159,9 +158,7 @@ class Window: public Object {
     }
 
     void quad( int a, int b, int c, int d ) {
-
       int start = vertexIndex;
-
       front( a, b, c, d );
       back( a, b, c, d, start );
     }
@@ -182,8 +179,7 @@ class Window: public Object {
       quad(15, 14, 10, 11);
       window_right_end = vertexIndex;
 
-      for(int i = start; i < vertexIndex; i++)
-      {
+      for (int i = start; i < vertexIndex; i++) {
         colors[i] = color4 (92/255.0, 51/255.0, 23/255.0, 1.0); // bakers chocolate
       }
 
@@ -195,8 +191,7 @@ class Window: public Object {
       handle_end = vertexIndex;
 
       // apply transformations
-      for(int i = 0; i < vertexIndex; i++)
-      {
+      for (int i = 0; i < vertexIndex; i++) {
         points[i] =
         //Translate(displacement) * RotateY(angle)
         initTransform * points[i];
@@ -210,7 +205,6 @@ class Window: public Object {
     }
 
     Window(const point4 displacement, const vec3 scale) {
-
       initTransform = Translate(displacement) * Scale(scale);
     }
 
@@ -252,9 +246,8 @@ class Window: public Object {
     /**
      * The general display function launched by the Glut
      */
-    void display( GLuint program )
-    {
-      if( isOpen ) {
+    void display( GLuint program ) {
+      if ( isOpen ) {
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glBlendEquation(GL_FUNC_ADD);
@@ -263,7 +256,7 @@ class Window: public Object {
 
       Object::display( program );
 
-      if( isOpen ) {
+      if ( isOpen ) {
         glDisable(GL_BLEND);
         glDepthMask(1); // you can modify depth buffer
       }
@@ -271,8 +264,7 @@ class Window: public Object {
 
 
     // do nothing, just re display
-    void idle( void )
-    {
+    void idle( void ) {
       glutPostRedisplay();
     }
 

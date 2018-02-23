@@ -1,17 +1,17 @@
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 //
 //                   COMP 510, Computer Graphics, Spring 2016
 //                              Final project
 //                PH7: A virtual Museum Based on OpenGL and Glut
 //
-//                            (c) 2016 - Hassan & Pirah.
+//                            (c) 2016,2017,2018 - Hassan & Pirah.
 //            Copying without the authors consent is strictly prohibited.
 //
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 //
 // Implements the ventilating fan of the museum
 //
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 
 #ifndef FAN_CLASS
 #define FAN_CLASS
@@ -54,12 +54,12 @@ class Fan: public Object {
       int end = vertexIndex;
 
       //  generate instances of the fan wing
-      for(int i = 0; i < end; i++ ) {
+      for (int i = 0; i < end; i++ ) {
         colors[vertexIndex] = vertex_colors[i];
         points[vertexIndex++] = Translate(0.0, 0.65, -0.8) * RotateZ(120) * Translate(0.0, -0.65, 0.8) * points[i];
       }
 
-      for(int i = 0; i < end; i++ ) {
+      for (int i = 0; i < end; i++ ) {
         colors[vertexIndex] = vertex_colors[i];
         points[vertexIndex++] = Translate(0.0, 0.65, -0.8) * RotateZ(240) * Translate(0.0, -0.65, 0.8) * points[i];
       }
@@ -99,7 +99,7 @@ class Fan: public Object {
      * the parent model view and own transformation
      */
     void calculateModelViewMatrix() {
-      model_view =parent_model_view*my_model_view;
+      model_view = parent_model_view * my_model_view;
     }
 
 
@@ -107,8 +107,11 @@ class Fan: public Object {
      * Rotate the fan when idle
      */
     void idle( void ) {
-      if(!isSelected) {
-        my_model_view= my_model_view*Translate(0.0, 0.65, -0.8)*RotateZ(10)*Translate(0.0, -0.65, 0.8);
+      if (!isSelected) {
+        my_model_view = my_model_view
+                        * Translate(0.0, 0.65, -0.8)
+                        * RotateZ(10)
+                        * Translate(0.0, -0.65, 0.8);
       }
       glutPostRedisplay();
     }

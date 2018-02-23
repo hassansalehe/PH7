@@ -1,18 +1,18 @@
-///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
 //
 //                   COMP 510, Computer Graphics, Spring 2016
 //                              Final project
 //                PH7: A virtual Museum Based on OpenGL and Glut
 //
-//                            (c) 2016 - Hassan & Pirah.
+//                            (c) 2016,017,2018 - Hassan & Pirah.
 //            Copying without the authors consent is strictly prohibited.
 //
-///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
 //
 //
 //
 //
-///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
 #include "Keyboard.h"
 
 #define hsLog printf
@@ -62,6 +62,8 @@ void KeyboardCallbacks(unsigned char key, int x, int y){
     case 'P':
       museum.changeProjection(); // toggle projection
       break;
+    default:
+      ;
   }
 }
 
@@ -81,6 +83,8 @@ void KeyboardSpecialKeys( int key, int x, int y ) {
     case GLUT_KEY_DOWN:   /* Down directional key  \/  */
       museum.rotateUp( -1.0 );
       break;
+    default:
+      ;
   }
 }
 
@@ -90,7 +94,7 @@ void KeyboardSpecialKeys( int key, int x, int y ) {
  */
 void MouseClickCallback( int button, int state, int x, int y ) {
 
-  if(state == GLUT_DOWN && button == GLUT_LEFT_BUTTON) {
+  if (state == GLUT_DOWN && button == GLUT_LEFT_BUTTON) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // redraw the scene with defined colors to the faces of objects
@@ -104,7 +108,6 @@ void MouseClickCallback( int button, int state, int x, int y ) {
 
     // picking process
     y = glutGet( GLUT_WINDOW_HEIGHT ) - y;
-
     unsigned char pixel[4];
 
     // read the current pixel's color from the back buffer

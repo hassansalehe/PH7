@@ -1,17 +1,17 @@
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 //
 //                   COMP 510, Computer Graphics, Spring 2016
 //                              Final project
 //                PH7: A virtual Museum Based on OpenGL and Glut
 //
-//                            (c) 2016 - Hassan & Pirah.
+//                            (c) 2016,2017,2018 - Hassan & Pirah.
 //            Copying without the authors consent is strictly prohibited.
 //
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 //
 // Implements the right panel of door of the museum
 //
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 
 #ifndef RIGHT_DOOR_CLASS
 #define RIGHT_DOOR_CLASS
@@ -140,8 +140,7 @@ class RightDoor: public Object {
       quad(15, 14, 10, 11);
       door_right_end = vertexIndex;
 
-      for(int i = start; i < vertexIndex; i++)
-      {
+      for (int i = start; i < vertexIndex; i++) {
         colors[i] = color4 (92/255.0, 51/255.0, 23/255.0, 1.0); // bakers chocolate
       }
 
@@ -175,37 +174,34 @@ class RightDoor: public Object {
       // to the vertices
       vertexIndex = 0;
       colorcube();
-
       // compute normals
       calculateNormals();
-
       shininess = 120;
-
       initializeDataBuffers( program );
     }
 
     void calculateModelViewMatrix() {
-      if(amISelected )
+      if (amISelected ) {
         my_model_view = Translate(fp2) * RotateY( -rotationAngle ) * Translate(-fp2);
+      }
       model_view = parent_model_view * my_model_view;
     }
 
 
     void idle( void )
     {
-      if( amISelected ) {
-        if( !isOpen ) // not open
+      if ( amISelected ) {
+        if ( !isOpen ) {// not open
           rotationAngle += 0.5;
-        else
+        } else {
           rotationAngle -= 0.5;
+        }
 
-        if(rotationAngle > 135)
-        {
+        if (rotationAngle > 135) {
           amISelected = false;
           rotationAngle = 0.0;
           isOpen = true;
-        }
-        else if (rotationAngle < 0) {
+        } else if (rotationAngle < 0) {
           rotationAngle = 0.0;
           amISelected = false;
           isOpen = false;
@@ -228,10 +224,11 @@ class RightDoor: public Object {
 #endif
         amISelected = true;
 
-        if( isOpen ) // if the door is already open
+        if ( isOpen ) {// if the door is already open
           rotationAngle = 135;
-        else
+        } else {
           rotationAngle = 0;
+        }
       }
    }
 };

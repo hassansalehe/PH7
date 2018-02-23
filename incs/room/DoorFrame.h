@@ -1,17 +1,17 @@
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 //
 //                   COMP 510, Computer Graphics, Spring 2016
 //                              Final project
 //                PH7: A virtual Museum Based on OpenGL and Glut
 //
-//                            (c) 2016 - Hassan & Pirah.
+//                            (c) 2016,2017,2018 - Hassan & Pirah.
 //            Copying without the authors consent is strictly prohibited.
 //
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 //
 // Implements the door of the museum
 //
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 
 #ifndef DOOR_FRAME_CLASS
 #define DOOR_FRAME_CLASS
@@ -133,15 +133,16 @@ class DoorFrame: public Object {
       door_left_start_index = vertexIndex;
 
       // Constructing the left part of the door
-      int start = vertexIndex;
-      door_left_end = vertexIndex;
+      int start      = vertexIndex;
+      door_left_end  = vertexIndex;
 
       // Constructing the right part of the door
       door_right_end = vertexIndex;
 
       // color the right part of the door.
-      for(int i = start; i < vertexIndex; i++)
-        colors[i] = color4 (92/255.0, 51/255.0, 23/255.0, 1.0); // bakers chocolate
+      for (int i = start; i < vertexIndex; i++) { // bakers chocolate
+        colors[i] = color4 (92/255.0, 51/255.0, 23/255.0, 1.0);
+      }
     }
 
   public:
@@ -186,8 +187,9 @@ class DoorFrame: public Object {
     }
 
     void calculateModelViewMatrix() {
-      if(amISelected )
+      if (amISelected ) {
         my_model_view = Translate(fp) * RotateY(rotationAngle) * Translate(-fp);
+      }
       model_view = parent_model_view * my_model_view ;
     }
 
@@ -195,12 +197,10 @@ class DoorFrame: public Object {
     /**
      * Animate opening / closing of door
      */
-    void idle( void )
-    {
-      if( amISelected ) {
+    void idle( void ) {
+      if ( amISelected ) {
         rotationAngle += 1.0;
-        if(rotationAngle > 180)
-        {
+        if (rotationAngle > 180) {
           amISelected = false;
           rotationAngle = 0.0;
         }

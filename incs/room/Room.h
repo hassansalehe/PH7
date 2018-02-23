@@ -1,17 +1,17 @@
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 //
 //                   COMP 510, Computer Graphics, Spring 2016
 //                              Final project
 //                PH7: A virtual Museum Based on OpenGL and Glut
 //
-//                            (c) 2016 - Hassan & Pirah.
+//                            (c) 2016,2017,2018 - Hassan & Pirah.
 //            Copying without the authors consent is strictly prohibited.
 //
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 //
 // Implements the room of the museum
 //
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 
 #ifndef ROOM_CLASS
 #define ROOM_CLASS
@@ -152,8 +152,7 @@ class Room: public Object {
 
       // Constructing the right wall
       // It is the reflected rotation of the left wall.
-      for(; start < end; start++)
-      {
+      for (; start < end; start++) {
         colors[vertexIndex] = earth;
         points[vertexIndex] = RotateY(180.0) * points[start];
         vertexIndex++;
@@ -224,37 +223,35 @@ class Room: public Object {
     reshape(glutGet( GLUT_WINDOW_WIDTH ), glutGet( GLUT_WINDOW_HEIGHT ) );
   }
 
+  void idle( void ) {
+    glutPostRedisplay();
+  }
 
-    void idle( void ) {
-      glutPostRedisplay();
-    }
-
-
-    void rotateLeft(float delta) {
+  void rotateLeft(float delta) {
 
       Theta[Yaxis] += delta;
       if ( Theta[Yaxis] > 360.0 ) {
           Theta[Yaxis] -= 360.0;
       }
       glutPostRedisplay();
-    }
+  }
 
-    void rotateUp(float delta) {
+  void rotateUp(float delta) {
 
       Theta[Xaxis] += delta;
       if ( Theta[Xaxis] > 360.0 ) {
           Theta[Xaxis] -= 360.0;
       }
       glutPostRedisplay();
-    }
+  }
 
-    void checkIfPicked( unsigned char pixel[4] ) {
+  void checkIfPicked( unsigned char pixel[4] ) {
       if ( pixel[0] == 255 && pixel[1] == 0 && pixel[2] == 0 ) { // Room
 #ifdef DEBUG
         printf("Room selected\n");
 #endif
       }
-    }
+  }
 };
 
 #endif // end room

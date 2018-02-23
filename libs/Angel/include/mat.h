@@ -584,7 +584,7 @@ mat4 transpose( const mat4& A ) {
 //////////////////////////////////////////////////////////////////////////////
 
 #define Error( str ) do { std::cerr << "[" __FILE__ ":" << __LINE__ << "] " \
-				    << str << std::endl; } while(0)
+				    << str << std::endl; } while (0)
 
 inline
 vec4 mvmult( const mat4& a, const vec4& b )
@@ -593,9 +593,9 @@ vec4 mvmult( const mat4& a, const vec4& b )
 
     vec4 c;
     int i, j;
-    for(i=0; i<4; i++) {
+    for (i=0; i<4; i++) {
 	c[i] =0.0;
-	for(j=0;j<4;j++) c[i]+=a[i][j]*b[j];
+	for (j=0;j<4;j++) c[i]+=a[i][j]*b[j];
     }
     return c;
 }
@@ -817,7 +817,7 @@ inline
 void printm(const mat4 a)
 {
     Error( "replace with matrix insertion operator" );
-    for(int i=0; i<4; i++) printf("%f %f %f %f \n", a[i][0], a[i][1], a[i][2], a[i][3]);
+    for (int i=0; i<4; i++) printf("%f %f %f %f \n", a[i][0], a[i][1], a[i][2], a[i][3]);
     printf("\n");
 }
 
@@ -826,8 +826,8 @@ mat4 identity()
 {
     Error( "replace with either a matrix constructor or identity method" );
     mat4 c;
-    for(int i=0; i<4; i++) for(int j=0; j<4; j++) c[i][j]=0.0;
-    for(int i=0; i<4; i++) c[i][i] = 1.0;
+    for (int i=0; i<4; i++) for (int j=0; j<4; j++) c[i][j]=0.0;
+    for (int i=0; i<4; i++) c[i][i] = 1.0;
     return c;
 }
 

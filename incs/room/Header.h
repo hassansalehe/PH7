@@ -1,17 +1,17 @@
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 //
 //                   COMP 510, Computer Graphics, Spring 2016
 //                              Final project
 //                PH7: A virtual Museum Based on OpenGL and Glut
 //
-//                            (c) 2016 - Hassan & Pirah.
+//                            (c) 2016,2017,2018 - Hassan & Pirah.
 //            Copying without the authors consent is strictly prohibited.
 //
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 //
 // Implements the (top, front) header of the museum
 //
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 
 #ifndef HEADER_CLASS
 #define HEADER_CLASS
@@ -49,13 +49,16 @@ class Header: public Object {
 	  unsigned char * data;
 	  // Open the file
 	  FILE * file = fopen("libs/logo.bmp","rb");
-	  if (!file)
-		printf("Image could not be opened\n");
-	  if ( fread(header, 1, 54, file)!=54 ) // If not 54 bytes read : problem
+	  if (!file) {
+		  printf("Image could not be opened\n");
+    }
+	  if ( fread(header, 1, 54, file)!=54 ) {// If not 54 bytes read : problem
 		  printf("Not a correct BMP file\n");
+    }
 
-	  if ( header[0]!='B' || header[1]!='M' )
-		printf("Not a correct BMP file\n");
+	  if ( header[0]!='B' || header[1]!='M' ) {
+		  printf("Not a correct BMP file\n");
+    }
 
 	  dataPos    = *(int*)&(header[0x0A]);
 	  imageSize  = *(int*)&(header[0x22]);
@@ -183,20 +186,16 @@ class Header: public Object {
    /**
      * The general display function launched by the Glut
      */
-    void display( GLuint program )
-    {
+    void display( GLuint program ) {
       int TextureFlag = glGetUniformLocation(program, "texture");
-	glUniform1i( TextureFlag, 1 );
-
+      glUniform1i( TextureFlag, 1 );
       Object::display( program );
-
-     TextureFlag = glGetUniformLocation(program, "texture");
-     glUniform1i( TextureFlag, 0 );
+      TextureFlag = glGetUniformLocation(program, "texture");
+      glUniform1i( TextureFlag, 0 );
     }
 
 
-    void idle( void )
-    {
+    void idle( void ) {
       glutPostRedisplay();
     }
 

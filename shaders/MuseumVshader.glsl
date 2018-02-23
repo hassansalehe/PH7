@@ -42,33 +42,35 @@ const int MODIFIED_PHONG_REFLECTION_MODEL = 300;
 const int PHONG_REFLECTION_MODEL = 301;
 uniform int HS_reflection_model;
 
-void main()
-{
+void main() {
 
   //////////////////////////////
   gl_Position = Projection * ModelView * vPosition;
 
-  if( PickingEnabled ) {
+  if (PickingEnabled) {
     color = pickingColor;
     return;
   }
 
-
-  if(ObjectID < 300) {
-    if ( HS_shading_model == PHONG_SHADING_MODEL ) {
+  if (ObjectID < 300) {
+    if (HS_shading_model == PHONG_SHADING_MODEL) {
       // Phong shading (done in a fragments shader):
       // 1. Find vertex normals
       // 2. Interpolate vertex normals across polygons
       // 3. Apply modified Phong model at each fragment to find shades
-      fN = ( ModelView * vec4(vNormal, 0.0)).xyz; // normal direction in camera coordinates
-      fV = ( ModelView * vPosition ).xyz; //viewer direction in camera coordinates
+
+      // normal direction in camera coordinates:
+      fN = ( ModelView * vec4(vNormal, 0.0) ).xyz;
+
+      //viewer direction in camera coordinates:
+      fV = ( ModelView * vPosition ).xyz;
 
       fL = sunPosition.xyz; // sun direction
-      if( sunPosition.w != 0.0 )
+      if ( sunPosition.w != 0.0 ) {
         fL = sunPosition.xyz - fV;  //fixed light source
+      }
       color = vColor;
-    }
-    else if ( HS_shading_model == GOURAUD_SHADING_MODEL ) {
+    } else if (HS_shading_model == GOURAUD_SHADING_MODEL) {
 
       vec4 AmbientProduct  = sunAmbient * vColor;
       vec4 DiffuseProduct  = sunDiffuse * vColor;
@@ -88,12 +90,11 @@ void main()
       float Ks = 0.0;
       // applying the modified phong model
 
-      if( HS_reflection_model == MODIFIED_PHONG_REFLECTION_MODEL ) {
+      if (HS_reflection_model == MODIFIED_PHONG_REFLECTION_MODEL) {
         // this is the modified phong model
         vec3 H = normalize( L + V ); // halfway vector
         Ks = pow(max(dot(N, H), 0.0), Shininess);
-      }
-      else if( HS_reflection_model == PHONG_REFLECTION_MODEL ) {
+      } else if (HS_reflection_model == PHONG_REFLECTION_MODEL) {
         vec3 R = normalize( - reflect(L, N) );
         Ks = pow(max(dot(R, V), 0.0), Shininess);
       }
@@ -101,13 +102,15 @@ void main()
       // Compute terms in the illumination equation
       vec4 ambient = AmbientProduct;
 
-      float Kd = max( dot(L, N), 0.0 ); //set diffuse to 0 if light is behind the surface point
+      //set diffuse to 0 if light is behind the surface point:
+      float Kd = max( dot(L, N), 0.0 );
       vec4  diffuse = Kd*DiffuseProduct;
 
       vec4  specular = Ks * SpecularProduct;
 
-      //ignore also specular component if light is behind the surface point
-      if( dot(L, N) < 0.0 ) {
+      // ignore also specular component if light is
+      // behind the surface point
+      if ( dot(L, N) < 0.0 ) {
         specular = vec4(0.0, 0.0, 0.0, 1.0);
       }
 
@@ -115,9 +118,10 @@ void main()
       color.a = 1.0;
     }
   }
-   if(texture==1){
-   UV=vTexture;
-  }
-  else
+
+  if (texture == 1) {
+    UV = vTexture;
+  } else {
     color = vColor;
+  }
 }

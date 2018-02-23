@@ -6,10 +6,8 @@ uniform int ObjectID;
 // Interpolated values from the vertex shaders
 in vec2 UV;
 
-
 // Values that stay constant for the whole mesh.
 uniform sampler2D myTextureSampler;
-
 
 // for object picking
 uniform bool PickingEnabled;
@@ -38,17 +36,15 @@ const int PHONG_SHADING_MODEL = 273;
 const int GOURAUD_SHADING_MODEL = 274;
 uniform int HS_shading_model;
 
-void main()
-{
+void main() {
 
-  if( PickingEnabled ) {
+  if ( PickingEnabled) {
     gl_FragColor = pickingColor;
     return;
   }
 
-
-  if(ObjectID == 100) {
-    if ( HS_shading_model == PHONG_SHADING_MODEL ) {
+  if (ObjectID == 100) {
+    if (HS_shading_model == PHONG_SHADING_MODEL) {
       vec4 material_ambient = color; // vec4( 1.0, 0.0, 1.0, 1.0 );
       vec4 material_diffuse = color; //vec4( 1.0, 0.8, 0.0, 1.0 );
       vec4 material_specular = color; // vec4( 1.0, 0.0, 1.0, 1.0 );
@@ -74,12 +70,11 @@ void main()
 
       float Ks = 0.0;
       // applying the modified phong model
-      if( HS_reflection_model == MODIFIED_PHONG_REFLECTION_MODEL ) {
+      if (HS_reflection_model == MODIFIED_PHONG_REFLECTION_MODEL) {
         // this is the modified phong model
         vec3 H = normalize( L + V ); // halfway
         Ks = pow(max(dot(N, H), 0.0), Shininess);
-      }
-      else if( HS_reflection_model == PHONG_REFLECTION_MODEL ) {
+      } else if (HS_reflection_model == PHONG_REFLECTION_MODEL) {
         vec3 R = normalize( - reflect(L, N) );
         Ks = pow(max(dot(R, V), 0.0), Shininess);
       }
@@ -87,7 +82,7 @@ void main()
       specular = Ks*specular;
 
       // discard the specular highlight if the light's behind the vertex
-      if( dot(L, N) < 0.0 ) {
+      if (dot(L, N) < 0.0) {
         specular = vec4(0.0, 0.0, 0.0, 1.0);
       }
 
@@ -96,8 +91,7 @@ void main()
       outColor =  outColor + ambient + diffuse + specular;
       outColor.a = 1.0;
       gl_FragColor = outColor;
-    }
-    else if ( HS_shading_model == GOURAUD_SHADING_MODEL ) {
+    } else if (HS_shading_model == GOURAUD_SHADING_MODEL) {
       // If Gouraud (smooth) shading (done in a vertex shader):
       // 1. Find average normal at each vertex (vertex normals)
       // 2. Apply (modified) Phong model at each vertex
@@ -105,15 +99,14 @@ void main()
 
       gl_FragColor = color;
     }
-  }
-  else if( gl_FrontFacing || ObjectID != 100 || ObjectID != 200 )
+  } else if (gl_FrontFacing || ObjectID != 100 || ObjectID != 200) {
     gl_FragColor = color;
-
-  else
+  } else {
     gl_FragColor = vec4(1.0, 0.8, 0.8, 0.0);
 //    gl_FragColor = vec4(0.556863, 0.137255, 0.137255, 1.0);
-  if(texture==1){
-	gl_FragColor= texture2D( myTextureSampler, UV );
+  }
+
+  if (texture == 1) {
+	  gl_FragColor= texture2D( myTextureSampler, UV );
 	}
 }
-

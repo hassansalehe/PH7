@@ -1,17 +1,17 @@
-///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
 //
 //                   COMP 510, Computer Graphics, Spring 2016
 //                              Final project
 //                PH7: A virtual Museum Based on OpenGL and Glut
 //
-//                            (c) 2016 - Hassan & Pirah.
+//                            (c) 2016,2917,2918 - Hassan & Pirah.
 //            Copying without the authors consent is strictly prohibited.
 //
-///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
 //
 //   This is file implements the initialization function of the program.
 //
-///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
 
 #include "Init.h"
 
@@ -22,11 +22,8 @@ void PH7initialize() {
 }
 
 void displayMuseum() {
-
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
   museum.display();
-
   glutSwapBuffers();
 }
 
@@ -41,4 +38,3 @@ void reshapeMuseum(int w, int h) {
 void onClosingMuseum () {
   museum.close();
 }
-

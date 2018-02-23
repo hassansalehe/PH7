@@ -1,16 +1,16 @@
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 //
 //                   COMP 510, Computer Graphics, Spring 2016
 //                              Final project
 //                PH7: A virtual Museum Based on OpenGL and Glut
 //
-//                            (c) 2016 - Hassan & Pirah.
+//                            (c) 2016,2017,2018 - Hassan & Pirah.
 //            Copying without the authors consent is strictly prohibited.
 //
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 //
 //
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 
 #ifndef SUN_CLASS_H
 #define SUN_CLASS_H
@@ -47,7 +47,7 @@ class Sun: public Object {
 	  color4 sky = color4( 0.52941176470588235294, 0.80784313725490196078, 0.98039215686274509804, 1.0);
 	  //color4 suncolor = color4(252.0/255, 212.0/255, 64.0/255);
 	  float angle = 0.0;
-	  for(int i = 0; i < 6; i++) {
+	  for (int i = 0; i < 6; i++) {
 	    colors[vertexIndex] = yellow; // suncolor
 	    points[vertexIndex] =  Translate(displacement2) * RotateX( -45 ) * Scale(0.15, 0.15, 0.15) * RotateY(angle) * origin; vertexIndex++;
         colors[vertexIndex] = sky;
@@ -56,7 +56,7 @@ class Sun: public Object {
         points[vertexIndex] =  Translate(displacement2) * RotateX( -45 ) * Scale(0.2, 0.2, 0.2) * RotateY(angle) * point2; vertexIndex++;
 
         angle += 60.0;
-	  }
+      }
     }
 
   public:
@@ -133,14 +133,14 @@ class Sun: public Object {
 
     void calculateModelViewMatrix() {
 
-    //  Generate tha model-view matrix
-    mat4 scale = Scale( scaleFactor, scaleFactor, scaleFactor );
-    const vec3 displacement( Distance[Xaxis], Distance[Yaxis], Distance[Zaxis] );
+      //  Generate tha model-view matrix
+      mat4 scale = Scale( scaleFactor, scaleFactor, scaleFactor );
+      const vec3 displacement( Distance[Xaxis], Distance[Yaxis], Distance[Zaxis] );
 
-        model_view = ( scale * Translate( displacement ) *
-                   RotateX( Theta[Xaxis] ) * RotateY( Theta[Yaxis] )
-                   // * RotateZ( Theta[Zaxis] )
-                  );
+      model_view = ( scale * Translate( displacement ) *
+                     RotateX( Theta[Xaxis] ) * RotateY( Theta[Yaxis] )
+                     // * RotateZ( Theta[Zaxis] )
+                    );
     }
 
     void display( GLuint program ) {
@@ -150,18 +150,13 @@ class Sun: public Object {
     /**
      * The idle function for the sun
      */
-    void idle( void )
-    {
-
+    void idle( void ) {
       glutPostRedisplay();
     }
 
     void rotateLeft(float delta) { }
     void rotateUp(float delta) { }
-
-    void checkIfPicked( unsigned char pixel[4] ) {
-
-    }
+    void checkIfPicked( unsigned char pixel[4] ) { }
     void zoomIn(float delta) {}
     void zoomOut(float delta) {}
 };

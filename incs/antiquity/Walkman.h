@@ -1,13 +1,13 @@
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 //
 //                   COMP 510, Computer Graphics, Spring 2016
 //                              Final project
 //                PH7: A virtual Museum Based on OpenGL and Glut
 //
-//                            (c) 2016 - Hassan & Pirah.
+//                            (c) 2016,2017,2018 - Hassan & Pirah.
 //            Copying without the authors consent is strictly prohibited.
 //
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 //
 // Implements the Walkman object
 //
@@ -18,7 +18,7 @@
 // put the colors in color array
 // Scale the vertices, send them to the GPU
 //
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 
 #ifndef WALKMAN_CLASS
 #define WALKMAN_CLASS
@@ -37,7 +37,8 @@ class Walkman: public Object {
 
       Vindex = 0;
       long nvertices, ntriangles;
-      p_ply ply = ply_open("incs/antiquity/objects/walkman.ply", NULL, 0, NULL);
+      p_ply ply = ply_open(
+          "incs/antiquity/objects/walkman.ply", NULL, 0, NULL);
       if (!ply) return; // cant open
       if (!ply_read_header(ply)) return; // cant open
       nvertices =
@@ -45,19 +46,19 @@ class Walkman: public Object {
       ply_set_read_cb(ply, "vertex", "y", vertex_cb, NULL, Y);
       ply_set_read_cb(ply, "vertex", "z", vertex_cb, NULL, Z);
 
-      ntriangles = ply_set_read_cb(ply, "face", "vertex_indices", face_cb, NULL, 0);
+      ntriangles = ply_set_read_cb(
+          ply, "face", "vertex_indices", face_cb, NULL, 0);
       //printf("%ld\n%ld\n", nvertices, ntriangles);
 
       numVertices = ntriangles * 3; // (3 vertices/triangle)
-      points = new point4[numVertices];
-      colors = new color4[numVertices];
-      normals = new normal3[numVertices];
+      points      = new point4[numVertices];
+      colors      = new color4[numVertices];
+      normals     = new normal3[numVertices];
 
-      r_points = points;
-      r_colors = colors;
+      r_points      = points;
+      r_colors      = colors;
       r_vertexIndex = &vertexIndex;
-
-      vertexIndex = 0;
+      vertexIndex   = 0;
 
       c_points = new point4[nvertices];
       c_colors = new color4[nvertices];
@@ -75,8 +76,7 @@ class Walkman: public Object {
       float min_z = c_points[0].z;
       float max_z = c_points[0].z;
 
-      for(int i = 0; i < Vindex; i++)
-      {
+      for (int i = 0; i < Vindex; i++) {
         min_x = MIN(min_x, c_points[i].x);
         min_y = MIN(min_y, c_points[i].y);
         min_z = MIN(min_z, c_points[i].z);
@@ -93,67 +93,79 @@ class Walkman: public Object {
 
        const vec3 displacement(mid_x, mid_y,  mid_z);
        float scaleF = 0.0004 ; // manually calculated
-      for(int i = 0; i < numVertices; i++)
-      {
-        points[i] = Translate(0.35, 0.0, -0.36) * RotateY(-90.0) * Scale(scaleF, scaleF, scaleF) * Translate(-displacement)  *   points[i];
+      for (int i = 0; i < numVertices; i++) {
+        points[i] = Translate(0.35, 0.0, -0.36)
+                    * RotateY(-90.0)
+                    * Scale(scaleF, scaleF, scaleF)
+                    * Translate(-displacement)
+                    * points[i];
       }
 
       // internal part of the walkman
-      for(int i = 0; i < 1000; i++) // inner part
+      for (int i = 0; i < 1000; i++) {// inner part
         colors[i] = color4(0.5, 0.5, 0.5); // gray
-
-      for(int i = 1000; i < 2000; i++) // inner part
+      }
+      for (int i = 1000; i < 2000; i++) {// inner part
         //khaki 	#F0E68C 	rgb(240,230,140)
         colors[i] = color4(0.9375, 0.8984375, 0.546875);
-
-      for(int i = 2000; i < 2500; i++) // thin metal handle
+      }
+      for (int i = 2000; i < 2500; i++) {// thin metal handle
          //	aliceblue 	#F0F8FF 	rgb(240,248,255)
         colors[i] = color4(0.9375, 0.96875, 1.0);
+      }
 
-      for(int i = 2500; i < 3500; i++) // inner thin metal handle
+      for (int i = 2500; i < 3500; i++) {// inner thin metal handle
         colors[i] = black;
+      }
 
-      for(int i = 3500; i < 3600; i++)
+      for (int i = 3500; i < 3600; i++) {
          //	aliceblue 	#F0F8FF 	rgb(240,248,255)
         colors[i] = red;
+      }
 
-      for(int i = 3600; i < 3700; i++)
+      for (int i = 3600; i < 3700; i++) {
          //	aliceblue 	#F0F8FF 	rgb(240,248,255)
         colors[i] = green;
+      }
 
-      for(int i = 3700; i < 3870; i++) // other part of earphone
+      for (int i = 3700; i < 3870; i++) {// other part of earphone
         //	aliceblue 	#F0F8FF 	rgb(240,248,255)
         colors[i] = black;
+      }
 
-      for(int i = 3870; i < 3978; i++) // other part of earphone
+      for (int i = 3870; i < 3978; i++) {// other part of earphone
         //	aliceblue 	#F0F8FF 	rgb(240,248,255)
         colors[i] = red;
+      }
 
-      for(int i = 3978; i < 4080; i++) // other part of earphone
+      for (int i = 3978; i < 4080; i++) {// other part of earphone
          //	aliceblue 	#F0F8FF 	rgb(240,248,255)
         colors[i] = green;
-
-      for(int i = 4080; i < 4650; i++) // other part of earphone
+      }
+      for (int i = 4080; i < 4650; i++) {// other part of earphone
          //	aliceblue 	#F0F8FF 	rgb(240,248,255)
         colors[i] = black;
+      }
 
-      for(int i = 4650; i < 7800; i++) // buttons
+      for (int i = 4650; i < 7800; i++) {// buttons
          //	aliceblue 	#F0F8FF 	rgb(240,248,255)
         colors[i] = color4(1.0, 0.75, 0.00);
-
-      for(int i = 7800; i < 9700; i++) // buttons
+      }
+      for (int i = 7800; i < 9700; i++) {// buttons
          //	aliceblue 	#F0F8FF 	rgb(240,248,255)
         colors[i] = color4(0.75, 0.75, 0.75); // silver front
-
-      for(int i = 9700; i < 9970; i++) // other part of the wman
+      }
+      for (int i = 9700; i < 9970; i++) {// other part of the wman
         colors[i] = color4(0.5, 0.5, 0.5);
+      }
 
-      for(int i = 9970; i < 12000; i++) // buttons
+      for (int i = 9970; i < 12000; i++) {// buttons
         colors[i] = color4(0.75, 0.75, 0.75); // silver front
-
+      }
       // internal part of the walkman
-      for(int i = 12000; i < numVertices; i++) // inner part
+      for (int i = 12000; i < numVertices; i++) {// inner part
         colors[i] = color4(0.5, 0.5, 0.5); // gray
+      }
 
       // reclaim memory
       delete c_colors;
@@ -190,7 +202,7 @@ class Walkman: public Object {
 
     void idle( void )
     {
-	  if(autoOnOff!=0)
+	  if (autoOnOff!=0)
       my_model_view= my_model_view*Translate(0.35, 0.0, -0.36)*RotateY(0.5)*Translate(-0.35, 0.0, 0.36);
 
       glutPostRedisplay();
